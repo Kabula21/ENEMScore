@@ -1,0 +1,46 @@
+﻿@page "/"
+
+<PageTitle>ENEMScore</PageTitle>
+@using MudBlazor
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.Home" />
+        Bem Vindo ao ENEMScore!
+    </h1>
+  
+    <p class="font-normal text-left">
+        <i>Estamos aqui para ajudar você a alcançar seus objetivos no <strong>ENEM</strong>. <br> Explore nossos recursos e encontre o curso ideal para sua pontuação.</i>
+    </p>
+    <h3 class="text-3xl mt-6 flex items-center justify-left">
+        Para começar: clique no menu superior esquerdo!
+        <MudIcon Icon="@Icons.Material.Outlined.Menu" Class="ml-2" />
+    </h3>
+</MudItem>
+
+<MudGrid>
+    <MudItem class="items-center mx-auto mt-0">
+        @if (_isDarkMode)
+
+        {
+            <MudImage Src="/img/logo-enemscore.png" Alt="Bem Vindo ao ENEMScore" Class="mx-auto" />
+        }
+        else
+        {
+            <MudImage Src="/img/logo-white.png" Alt="Bem Vindo ao ENEMScore" Class="mx-auto" />
+        }
+    </MudItem>
+</MudGrid>
+
+@code {
+    private bool _isDarkMode = true;
+
+    private void ToggleTheme()
+    {
+
+        _isDarkMode = !_isDarkMode;
+
+    }
+
+
+}

@@ -1,0 +1,96 @@
+@page "/Redacao"
+
+
+<PageTitle>Teste Sua Redação</PageTitle>
+
+    <MudItem xs="12" md="8" class="items-left">
+        <h1>
+            <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
+            Redação!
+        </h1>
+
+    <p class="font-normal text-left ml-8">
+            <i>Avalie como está a sua redação e receba uma nota como teste!</i> <strong>Confira as Regras!</strong>
+             <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Primary" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
+        <MudPopover Open="@_open" Fixed="true" Class="px-4 pt-4">
+        <div class="d-flex flex-column">
+        <MudText>
+            • Para o cálculo da nota do <strong>ENEM</strong>, é usada uma régua de correção.<br>
+            • Essa régua varia de <strong>100</strong> em <strong>100</strong> pontos, tendo o <strong>500</strong> como ponto central.<br>
+            • Cada questão da prova é posicionada nessa régua, de acordo com seu grau de dificuldade.<br>
+            • As perguntas medianas ficam perto do <strong>500</strong>, as mais fáceis ficam abaixo e as mais difíceis, acima.
+        </MudText>
+        <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Close</MudButton>
+        </div>
+        </MudPopover>
+        </p>
+        <br>       
+        </MudItem>
+        <br>
+<MudGrid>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">TÍTULO 1</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudLink Href="https://www.google.com" Target="_blank">
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                    </MudLink>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">TÍTULO 2</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudLink Href="https://www.google.com" Target="_blank">
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                    </MudLink>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+            </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">TÍTULO 3</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudLink Href="https://www.google.com" Target="_blank">
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                    </MudLink>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<br>
+
+<MudTextField T="string" Label="Escreva aqui o seu texto" Variant="Variant.Outlined" Text="@sampleText" Lines="25" Style="height: 500px; width: auto" />
+<MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary">Avalie</MudButton>
+@code{
+    private bool _open;
+
+    private void ToggleOpen() => _open = !_open;
+
+    string sampleText = "";
+   
+}

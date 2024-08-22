@@ -1,0 +1,130 @@
+﻿@page "/Pesquisa"
+
+<PageTitle>Pesquisa de Cursos</PageTitle>
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.FindInPage" />
+        Pesquise pela sua Pontuação!
+    </h1>
+
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos pela sua pontuação!</i>
+    </p>
+</MudItem>
+
+<MudTable Items="filteredRows" Filter="FilterFunc" Hover="hover" Striped="striped" FixedHeader="@fixedheader">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">
+            Utilize o campo de pesquisa
+            <MudIcon Icon="@Icons.Material.Outlined.Search"></MudIcon>
+        </MudText>
+
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Digite seus pontos" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"
+                      Style="width: 100%; max-width: 200px; margin-left: auto; margin-right: 0;"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh Style="background-color: #3498db; color: white;">Ordem</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Curso</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Universidade</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Local</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Média</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Ordem">@context.Split()[0]</MudTd>
+        <MudTd DataLabel="Curso">@context.Split()[1]</MudTd>
+        <MudTd DataLabel="Universidade">@context.Split()[2]</MudTd>
+        <MudTd DataLabel="Local">@context.Split()[3]</MudTd>
+        <MudTd DataLabel="Média">@context.Split()[4]</MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private string searchString1 = "";
+
+    private bool hover = true;
+
+    private bool striped = true;
+
+    private bool fixedheader = true;
+
+
+
+    private string[] rows = {
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 600 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 300 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 900 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 200 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 100 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 400 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 000 800",
+        @"6 Design Universidade Socorro 200 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 100 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+    
+    };
+
+
+
+    private IEnumerable<string> filteredRows => rows.Where(FilterFunc);
+
+
+
+    private bool FilterFunc(string item)
+
+    {
+
+        if (string.IsNullOrWhiteSpace(searchString1))
+
+            return true;
+
+
+
+        // Converte o valor de busca e a string do item para minúsculas para a comparação
+
+        var lowerSearchString = searchString1.ToLower();
+
+        return item.ToLower().Contains(lowerSearchString);
+
+    }
+}

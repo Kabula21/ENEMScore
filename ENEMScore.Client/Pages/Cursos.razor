@@ -1,0 +1,145 @@
+﻿@page "/Cursos"
+
+<PageTitle>Cursos e Pontuações</PageTitle>
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
+        Cursos e Pontuações!
+    </h1>
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos e suas pontuações!</i>
+    </p>
+</MudItem>
+
+
+
+<MudTable Items="rows" Filter="new Func<string, bool>(FilterFunc)" Hover="hover" Striped="striped" FixedHeader="@fixedheader">
+    <HeaderContent>
+        <MudTh Style="background-color: #3498db; color: white;">Ordem</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Curso</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Universidade</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Local</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Pontos em 2022</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Pontos em 2023</MudTh>
+        <MudTh Style="background-color: #3498db; color: white;">Pesos</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Ordem">@context.Split()[0]</MudTd>
+        <MudTd DataLabel="Curso">@context.Split()[1]</MudTd>
+        <MudTd DataLabel="Universidade">@context.Split()[2]</MudTd>
+        <MudTd DataLabel="Local">@context.Split()[3]</MudTd>
+        <MudTd DataLabel="Pontos em 2022">@context.Split()[4]</MudTd>
+        <MudTd DataLabel="Pontos em 2023">@context.Split()[5]</MudTd>
+        <MudTd DataLabel="Pesos">
+            <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium"></MudButton>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+
+
+@code {
+    private bool hover = true;
+
+    private bool striped = true;
+
+    bool fixedheader = true;
+
+    string[] rows = {
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+        @"1 Direito Universidade Aracaju 500 800",
+        @"2 Medicina Universidade Lagarto 500 800",
+        @"3 Jornalismo Universidade Itabaiana 500 800",
+        @"4 Enfermagem Universidade Socorro 500 800",
+        @"5 Enfermagem Universidade Socorro 500 800",
+        @"6 Design Universidade Socorro 500 800",
+    };
+    private bool FilterFunc(string item)
+
+    {   
+        return true;
+
+    }
+
+
+
+    private Dictionary<string, bool> popoverStates = new();
+
+    private void ToggleOpen(string rowKey)
+
+    {
+
+        if (popoverStates.ContainsKey(rowKey))
+
+        {
+
+            popoverStates[rowKey] = !popoverStates[rowKey];
+
+        }
+
+        else
+
+        {
+
+            popoverStates[rowKey] = true;
+
+        }
+
+    }
+    private bool GetPopoverState(string rowKey)
+
+    {
+
+        return popoverStates.ContainsKey(rowKey) && popoverStates[rowKey];
+
+    }
+
+
+
+}
