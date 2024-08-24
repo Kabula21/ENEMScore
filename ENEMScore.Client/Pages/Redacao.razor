@@ -1,82 +1,104 @@
 @page "/Redacao"
-
+@inject NavigationManager Navigation
 
 <PageTitle>Teste Sua Redação</PageTitle>
 
-    <MudItem xs="12" md="8" class="items-left">
-        <h1>
-            <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
-            Redação!
-        </h1>
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
+        Editor de Redação!
+    </h1>
 
     <p class="font-normal text-left ml-8">
-            <i>Avalie como está a sua redação e receba uma nota como teste!</i> <strong>Confira as Regras!</strong>
-             <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Primary" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
+        <i>Avalie como está a sua redação e receba uma nota!</i>
+        <MudTooltip Text="Veja as Regras">
+            <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Primary" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
+        </MudTooltip>
+
         <MudPopover Open="@_open" Fixed="true" Class="px-4 pt-4">
-        <div class="d-flex flex-column">
-        <MudText>
-            • Para o cálculo da nota do <strong>ENEM</strong>, é usada uma régua de correção.<br>
-            • Essa régua varia de <strong>100</strong> em <strong>100</strong> pontos, tendo o <strong>500</strong> como ponto central.<br>
-            • Cada questão da prova é posicionada nessa régua, de acordo com seu grau de dificuldade.<br>
-            • As perguntas medianas ficam perto do <strong>500</strong>, as mais fáceis ficam abaixo e as mais difíceis, acima.
-        </MudText>
-        <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Close</MudButton>
-        </div>
+            <div class="d-flex flex-column">
+                <MudText>
+                    <h3>Sobre o Texto</h3>
+                    • Domínio da escrita formal em língua portuguesa.<br>
+                    • Compreensão do tema e aplicação das áreas de conhecimento.<br>
+                    • Capacidade de interpretação das informações e organização dos argumentos.<br>
+                    • Domínio dos mecanismos linguísticos de argumentação.
+                    <h3>Cálculo da Nota</h3>
+                    • Para o cálculo da nota do <strong>ENEM</strong>, é usada uma régua de correção.<br>
+                    • Essa régua varia de <strong>100</strong> em <strong>100</strong> pontos, tendo o <strong>500</strong> como ponto central.<br>
+                    • Cada questão da prova é posicionada nessa régua, de acordo com seu grau de dificuldade.<br>
+                    • As perguntas medianas ficam perto do <strong>500</strong>, as mais fáceis ficam abaixo e as mais difíceis, acima.<br><br>
+                </MudText>
+
+                <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Color="Color.Default">Fechar</MudButton>
+            </div>
         </MudPopover>
-        </p>
-        <br>       
-        </MudItem>
-        <br>
+    </p>
+</MudItem>
+
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 16px;">
+    <p class="font-normal text-left">
+        <i>Clique e escolha um tema!</i> <MudIcon Icon="@Icons.Material.Filled.ArrowDownward"></MudIcon>
+    </p>
+    <MudTooltip Text="Atualizar">
+        <MudButton StartIcon="@Icons.Material.Filled.Refresh" OnClick="@RefreshPage">
+            Atualizar Temas
+        </MudButton>
+    </MudTooltip>
+</div>
+
 <MudGrid>
     <MudItem xs="12" sm="6" md="4" lg="4">
-        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+        <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[0])'
+                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #37474F;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">TÍTULO 1</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[0]</MudText>
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                     </MudLink>
                 </CardHeaderActions>
             </MudCardHeader>
             <MudCardContent>
-                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
             </MudCardContent>
         </MudCard>
     </MudItem>
     <MudItem xs="12" sm="6" md="4" lg="4">
-        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+        <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[1])'
+                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #4E342E;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">TÍTULO 2</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[1]</MudText>
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                     </MudLink>
                 </CardHeaderActions>
             </MudCardHeader>
             <MudCardContent>
-                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
             </MudCardContent>
-
         </MudCard>
     </MudItem>
     <MudItem xs="12" sm="6" md="4" lg="4">
-        <MudCard style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto;">
+        <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[2])'
+                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #004D40;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">TÍTULO 3</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[2]</MudText>
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Default" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                     </MudLink>
                 </CardHeaderActions>
             </MudCardHeader>
             <MudCardContent>
-                <MudText>Para mais informações sobre o tema utilize o google!</MudText>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
             </MudCardContent>
         </MudCard>
     </MudItem>
@@ -85,12 +107,163 @@
 <br>
 
 <MudTextField T="string" Label="Escreva aqui o seu texto" Variant="Variant.Outlined" Text="@sampleText" Lines="25" Style="height: 500px; width: auto" />
-<MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary">Avalie</MudButton>
-@code{
+
+<MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" OnClick="@ToggleOpen2">
+    Avaliar
+    <MudPopover Open="@_open2" Fixed="true"
+                Style="position: fixed; top: 0%; left: 0%; width: 90vw; max-width: 600px; height: 200vw; max-height: 200px; padding: 16px; box-sizing: border-box;">
+        <MudText>
+            <h2>Redação Enviada com Sucesso!</h2>
+            <p>
+                Sua redação foi enviada para a professora para correção.
+                Em breve, você receberá um feedback detalhado com sugestões de melhorias e sua pontuação.
+                Fique de olho na sua área de correções para acompanhar o progresso.
+            </p>
+        </MudText>
+        <MudButton OnClick="@ToggleOpen2" Class="ml-80 mr-n3 mb-1" Color="Color.Default">Fechar</MudButton>
+    </MudPopover>
+</MudButton>
+
+@code {
     private bool _open;
 
-    private void ToggleOpen() => _open = !_open;
+    private bool _open2;
 
-    string sampleText = "";
-   
+    private string sampleText = "";
+
+    private string[] cardTitles = new string[3];
+
+
+
+    private string[] themes = new string[]
+
+    {
+        "Desigualdade Social no Brasil",
+        "Violência Urbana e Segurança Pública",
+        "Educação e Tecnologia na Era Digital",
+        "Impactos das Mídias Sociais na Comunicação",
+        "A Crise Hídrica e o Futuro da Água no Brasil",
+        "Políticas Públicas de Saúde e Acesso à Saúde",
+        "Mobilidade Urbana e Transporte Público",
+        "Sustentabilidade e Consumo Consciente",
+        "Juventude e Desemprego",
+        "Direitos Humanos e Igualdade de Gênero",
+        "A Influência da Publicidade nas Decisões de Consumo",
+        "Desafios do Sistema Penitenciário Brasileiro",
+        "Inclusão e Diversidade nas Escolas",
+        "A Cultura do Cancelamento e a Liberdade de Expressão",
+        "Questões Ambientais e Mudanças Climáticas",
+        "O Papel da Família na Formação do Caráter dos Jovens",
+        "Tecnologia e Privacidade: Limites e Possibilidades",
+        "A Relevância das Atividades Extracurriculares na Educação",
+        "Preconceito e Discriminação no Mercado de Trabalho",
+        "O Impacto do Teletrabalho na Vida Profissional e Pessoal",
+        "Envelhecimento da População e Políticas Públicas",
+        "A Importância da Leitura na Formação do Cidadão",
+        "O Papel das ONGs na Assistência Social",
+        "A Influência dos Influenciadores Digitais nas Novas Gerações",
+        "Globalização e Suas Consequências Locais",
+        "Segurança Alimentar e Agricultura Sustentável",
+        "O Desafio da Mobilidade Sustentável nas Cidades",
+        "Saúde Mental e o Estigma em Relação às Doenças Psíquicas",
+        "A Problemática do Lixo e Reciclagem nas Áreas Urbanas",
+        "Empreendedorismo Jovem e Inovação",
+        "Cultura e Identidade Nacional em um Mundo Globalizado",
+        "A Eficácia das Políticas de Segurança Pública",
+        "O Impacto das Novas Tecnologias na Educação",
+        "Direitos dos Animais e Bem-Estar Animal",
+        "A Questão da Habitação e o Crescimento das Favelas",
+        "A Importância da Ética na Sociedade Contemporânea",
+        "O Papel da Arte na Formação da Consciência Social",
+        "Crise Econômica e Desigualdade Social",
+        "O Impacto do Aquecimento Global no Brasil",
+        "A Convivência Intergeracional e Seus Desafios",
+        "A Cultura da Violência no Brasil",
+        "A Importância da Participação Social e Política dos Jovens",
+        "O Impacto da Pandemia de COVID-19 na Saúde Mental",
+        "Tecnologia e Saúde: Inovações e Desafios",
+        "A Importância do Voluntariado na Sociedade Atual",
+        "O Papel do Estado no Combate à Pobreza",
+        "Direitos Indígenas e Preservação Cultural",
+        "O Uso de Drogas e Seus Impactos Sociais",
+        "A Questão da Mobilidade Urbana nas Grandes Cidades",
+        "A Eficiência Energética e a Sustentabilidade",
+        "A Evolução do Papel da Mulher na Sociedade",
+        "Cultura Digital e Seus Desafios",
+        "A Relação entre Ciência e Religião na Sociedade Atual",
+        "Os Desafios do Sistema Educacional Brasileiro",
+        "O Problema da Evasão Escolar no Brasil",
+        "A Preservação dos Biomas Brasileiros",
+        "A Contribuição das Mídias Digitais na Educação",
+        "O Futuro do Trabalho na Era da Automação",
+        "O Desafio da Inclusão Digital no Brasil",
+        "A Importância do Lazer na Qualidade de Vida"
+
+    };
+
+
+
+    protected override void OnInitialized()
+
+    {
+
+        GenerateRandomThemes();
+
+    }
+
+
+
+    private void GenerateRandomThemes()
+
+    {
+
+        Random random = new Random();
+
+        cardTitles[0] = themes[random.Next(themes.Length)];
+
+        cardTitles[1] = themes[random.Next(themes.Length)];
+
+        cardTitles[2] = themes[random.Next(themes.Length)];
+
+    }
+
+
+
+    private void RefreshPage()
+
+    {
+
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+
+    }
+
+
+
+    private void UpdateTextFieldTitle(string cardTitle)
+
+    {
+
+        sampleText = cardTitle;
+
+    }
+
+
+
+    private void ToggleOpen()
+
+    {
+
+        _open = !_open;
+
+    }
+
+
+
+    private void ToggleOpen2()
+
+    {
+
+        _open2 = !_open2;
+
+    }
 }
