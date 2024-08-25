@@ -10,7 +10,7 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 
         <MudText Class="ml-5 h-px items-center">
-            <img src="/img/logo-white-horizontal.png" alt="logo horizontal" />
+            <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
         </MudText>
 
         <MudSpacer />
@@ -18,7 +18,7 @@
         <span>@DarkLightModeButtonText</span>
     </MudAppBar>
 
-    <MudDrawer Color="Color.Tertiary" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
+    <MudDrawer Color="Color.Default" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
         <NavMenu />
     </MudDrawer>
     <MudMainContent Class="mt-16 pa-4">
@@ -76,6 +76,8 @@
     private readonly PaletteLight _lightPalette = new()
 
         {
+            Primary = "#0060b8",
+            Secondary = "78d6ae",
 
             Black = "#110e2d",
 
@@ -118,7 +120,7 @@
 
             ActionDisabledBackground = "#605f6d4d",
 
-            TextPrimary = "#b2b0bf",
+            TextPrimary = "#d9d9d9",
 
             TextSecondary = "#92929f",
 
@@ -126,7 +128,7 @@
 
             DrawerIcon = "#5c5c5e",
 
-            DrawerText = "#5c5c5e",
+            DrawerText = "#d9d9d9",
 
             GrayLight = "#2a2833",
 
@@ -148,7 +150,7 @@
 
             OverlayLight = "#1e1e2d80",
 
-            Tertiary = "#1a1a27"
+            Tertiary = "#ffffff"
 
         };
 
