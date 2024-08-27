@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IDarkModeService DarkModeService
 
 <PageTitle>ENEMScore</PageTitle>
 @using MudBlazor
@@ -8,7 +9,7 @@
         <MudIcon Icon="@Icons.Material.Outlined.Home" />
         Bem Vindo ao ENEMScore!
     </h1>
-  
+
     <p class="font-normal text-left">
         <i>Estamos aqui para ajudar você a alcançar seus objetivos no <strong>ENEM</strong>. <br> Explore nossos recursos e encontre o curso ideal para sua pontuação.</i>
     </p>
@@ -16,14 +17,16 @@
         Para começar: clique no menu superior esquerdo!
         <MudIcon Icon="@Icons.Material.Outlined.Menu" Class="ml-2" />
     </h3>
+
 </MudItem>
 
 <MudGrid>
     <MudItem class="items-center mx-auto mt-0">
-        @if (_isDarkMode)
+        @if (DarkModeService.isDarkMode)
 
         {
-            <MudImage Src="/img/logo-enemscore.png"
+    
+            <MudImage Src="/img/logo-white.png"
                       Alt="Bem Vindo ao ENEMScore"
                       Class="responsive-image"
                       Style="margin-top: 200px; height: 200px" />
@@ -32,7 +35,7 @@
         else
 
         {
-            <MudImage Src="/img/logo-white.png"
+            <MudImage Src="/img/logo-enemscore.png"
                       Alt="Bem Vindo ao ENEMScore"
                       Class="responsive-image"
                       Style="margin-top: 200px; height: 200px" />
@@ -47,20 +50,14 @@
     }
 </style>
 
-
 @code {
-    private bool _isDarkMode = true;
-
-    private void ToggleTheme()
+    protected override void OnInitialized()
     {
-
-        _isDarkMode = !_isDarkMode;
-
-        StateHasChanged();
-
-
-
+        DarkModeService.OnChange += StateHasChanged;
     }
 
-
+    public void Dispose()
+    {
+        DarkModeService.OnChange -= StateHasChanged;
+    }
 }

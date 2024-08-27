@@ -1,4 +1,6 @@
 using ENEMScore.Client.Pages;
+using ENEMScore.Client.Services.Interfaces;
+using ENEMScore.Client.Services;
 using ENEMScore.Components;
 using MudBlazor.Services;
 
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
+builder.Services.AddScoped<IDarkModeService, DarkModeService>();
 builder.Services.AddHttpClient();
 
 // Add services to the container.

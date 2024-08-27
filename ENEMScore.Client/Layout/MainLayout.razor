@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
+@inject IDarkModeService DarkModeService
+
+<MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -10,11 +12,13 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 
         <MudText Class="ml-5 h-px items-center">
-            <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
+            <a href="/">
+                <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
+            </a>
         </MudText>
 
         <MudSpacer />
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode" />
         <span>@DarkLightModeButtonText</span>
     </MudAppBar>
 
@@ -33,139 +37,81 @@
 </div>
 
 @code {
-    private bool _drawerOpen = false;
-    private bool _isDarkMode = false;
-
-    private MudTheme? _theme = null;
+    private bool _drawerOpen { get; set; } = false;
+    private MudTheme? _theme { get; set; } = null;
 
     protected override void OnInitialized()
     {
+        // Inscrição no evento OnChange para garantir que o layout seja atualizado quando o tema mudar
+        DarkModeService.OnChange += StateHasChanged;
 
-        base.OnInitialized();
         _theme = new MudTheme
-
             {
-
                 PaletteLight = _lightPalette,
-
                 PaletteDark = _darkPalette,
-
                 LayoutProperties = new LayoutProperties()
-
             };
     }
 
-
+    public void Dispose()
+    {
+        // Cancelar a inscrição do evento para evitar vazamentos de memória
+        DarkModeService.OnChange -= StateHasChanged;
+    }
 
     private void DrawerToggle()
     {
-
         _drawerOpen = !_drawerOpen;
     }
 
-
-    private void DarkModeToggle()
-    {
-
-        _isDarkMode = !_isDarkMode;
-
-    }
-
-
-
     private readonly PaletteLight _lightPalette = new()
-
         {
             Primary = "#0060b8",
-            Secondary = "78d6ae",
-
+            Secondary = "#02693d",
             Black = "#110e2d",
-
             AppbarText = "#424242",
-
             AppbarBackground = "rgba(255,255,255,0.8)",
-
             DrawerBackground = "#ffffff",
-
             GrayLight = "#e8e8e8",
-
             GrayLighter = "#f9f9f9",
-
             Tertiary = "E0E0E0"
-
         };
-
 
     private readonly PaletteDark _darkPalette = new()
-
         {
-
-            Primary = "#7e6fff",
-
+            Primary = "#002c54",
             Surface = "#1e1e2d",
-
             Background = "#1a1a27",
-
             BackgroundGray = "#151521",
-
             AppbarText = "#92929f",
-
             AppbarBackground = "rgba(26,26,39,0.8)",
-
             DrawerBackground = "#1a1a27",
-
             ActionDefault = "#74718e",
-
             ActionDisabled = "#9999994d",
-
             ActionDisabledBackground = "#605f6d4d",
-
             TextPrimary = "#d9d9d9",
-
             TextSecondary = "#92929f",
-
             TextDisabled = "#ffffff33",
-
             DrawerIcon = "#5c5c5e",
-
             DrawerText = "#d9d9d9",
-
             GrayLight = "#2a2833",
-
             GrayLighter = "#1e1e2d",
-
             Info = "#4a86ff",
-
             Success = "#3dcb6c",
-
             Warning = "#ffb545",
-
             Error = "#ff3f5f",
-
             LinesDefault = "#33323e",
-
             TableLines = "#33323e",
-
             Divider = "#292838",
-
             OverlayLight = "#1e1e2d80",
-
             Tertiary = "#ffffff"
-
         };
 
-
-    public string DarkLightModeButtonIcon => _isDarkMode switch
-
+    public string DarkLightModeButtonIcon => DarkModeService.isDarkMode switch
     {
-
-
         true => Icons.Material.Rounded.AutoMode,
-
         false => Icons.Material.Outlined.DarkMode,
-
     };
 
-
-    public string DarkLightModeButtonText => _isDarkMode ? "Tema Claro" : "Tema Escuro";
+    public string DarkLightModeButtonText => DarkModeService.isDarkMode ? "Tema Claro" : "Tema Escuro";
 }
