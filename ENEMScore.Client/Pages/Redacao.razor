@@ -3,6 +3,7 @@
 
 <PageTitle>Teste Sua Redação</PageTitle>
 
+
 <MudItem xs="12" md="8" class="items-left">
     <h1>
         <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
@@ -12,7 +13,7 @@
     <p class="font-normal text-left ml-8">
         <i>Avalie como está a sua redação e receba uma nota!</i>
         <MudTooltip Text="Veja as Regras">
-            <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Primary" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
+            <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Info" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
         </MudTooltip>
 
         <MudPopover Open="@_open" Fixed="true" Class="px-4 pt-4">
@@ -42,9 +43,9 @@
     </p>
 
     <MudButton StartIcon="@Icons.Material.Rounded.Refresh" OnClick="@RefreshPage" Variant="Variant.Outlined" Color="Color.Primary">
-            Atualize os Temas
-        </MudButton>
-    
+        Atualize os Temas
+    </MudButton>
+
 </div>
 
 <MudGrid>
@@ -57,9 +58,9 @@
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudTooltip Text="Google">
-                    <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
-                    </MudLink>
+                        <MudLink Href="https://www.google.com" Target="_blank">
+                            <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
+                        </MudLink>
                     </MudTooltip>
                 </CardHeaderActions>
             </MudCardHeader>
@@ -77,9 +78,9 @@
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudTooltip Text="Google">
-                    <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
-                    </MudLink>
+                        <MudLink Href="https://www.google.com" Target="_blank">
+                            <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
+                        </MudLink>
                     </MudTooltip>
                 </CardHeaderActions>
             </MudCardHeader>
@@ -97,9 +98,9 @@
                 </CardHeaderContent>
                 <CardHeaderActions>
                     <MudTooltip Text="Google">
-                    <MudLink Href="https://www.google.com" Target="_blank">
-                        <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
-                    </MudLink>
+                        <MudLink Href="https://www.google.com" Target="_blank">
+                            <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
+                        </MudLink>
                     </MudTooltip>
                 </CardHeaderActions>
             </MudCardHeader>
@@ -112,10 +113,10 @@
 
 <br>
 
-<MudTextField T="string" Label="Escreva: de 20 a 40 linhas" Variant="Variant.Filled" Text="@sampleText" TextChanged="OnTextChanged" Lines="25" Style="height: 500px; width: auto" />
+<MudTextField T="string" Label="Escreva: de 20 a 40 linhas" Variant="Variant.Filled" Text="@sampleText" TextChanged="OnTextChanged" Lines="25" Style="height: 500px; width: 100%;" />
 
 <div class="d-flex align-items-center">
-    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px">
+    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Enabled="@isButtonDisabled" class="ml-2" style="height: 40px">
         Enviar
     </MudButton>
     <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7 ml-2" Striped="true" Size="Size.Medium" />
@@ -235,7 +236,7 @@
         base.OnInitialized();
         EmitirNota();
         sampleText = string.Empty;
-        ValidateText();       
+        ValidateText();
     }
 
     private void GenerateRandomThemes()
@@ -254,7 +255,7 @@
     private void UpdateTextFieldTitle(string cardTitle)
     {
         sampleText = cardTitle;
-        ValidateText();   
+        ValidateText();
     }
 
     private void ToggleOpen()
@@ -334,6 +335,8 @@
         sampleText = text;
         ValidateText();
     }
+
+
 }
 
 

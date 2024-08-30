@@ -1,34 +1,75 @@
-﻿<MudNavMenu Style="display: flex; flex-direction: column; height: 100vh;">
+﻿
+<style>
+    .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
+        color: cornflowerblue;
+        background-color: var(--mud-palette-action-default-hover);
+    }
+</style>
 
-    <MudNavLink Href="/" Match="NavLinkMatch.All"></MudNavLink>
+<MudNavMenu Style="display: flex; flex-direction: column; height: 100vh;">
 
-    <MudNavLink Href="/" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Home" Color="Color.Default">INÍCIO</MudNavLink><br>
+    <MudNavLink Href="/"></MudNavLink>
+
+    <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">INÍCIO</MudNavLink><br>
     
 
-    <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Cursos e Pontuações" Expanded="true">
-        <MudMenuItem Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Aracaju</MudMenuItem>
-        <MudMenuItem Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Itabaiana</MudMenuItem>
-        <MudMenuItem Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Nsa Sra. Glória</MudMenuItem>
-        <MudMenuItem Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Laranjeiras</MudMenuItem>
-        <MudMenuItem Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Lagarto</MudMenuItem>
+    <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Cursos e Pontuações" Expanded="false">
+
+        <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Universidade Federal" Expanded="false">
+        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Aracaju</MudNavLink>
+        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Itabaiana</MudNavLink>
+        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Nsa Sra. Glória</MudNavLink>
+        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Laranjeiras</MudNavLink>
+        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Lagarto</MudNavLink>
+        </MudNavGroup>
+
+        <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Instituto Federal" Expanded="false">
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Aracaju</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Estância</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Glória</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Itabaiana</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Propriá</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Poço Redondo</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS São Cristóvão</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Socorro</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">IFS Tobias Barreto</MudNavLink>
+        </MudNavGroup>
+
     </MudNavGroup>
     <br>
+    
+    <MudNavGroup Icon="@Icons.Material.Rounded.Search" Title="Pesquisa de Pontos" Expanded="false">
 
-    <MudNavGroup Icon="@Icons.Material.Filled.FindInPage" Title="Pela Sua Pontuação" Expanded="false">
-        <MudMenuItem Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Aracaju</MudMenuItem>
-        <MudMenuItem Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Itabaiana</MudMenuItem>
-        <MudMenuItem Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Nsa Sra. Glória</MudMenuItem>
-        <MudMenuItem Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Laranjeiras</MudMenuItem>
-        <MudMenuItem Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >Universidade Federal Lagarto</MudMenuItem>
+        <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Universidade Federal" Expanded="false">
+
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >UFS Aracaju</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >UFS Itabaiana</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >UFS Nsa Sra. Glória</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >UFS Laranjeiras</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >UFS Lagarto</MudNavLink>
+        </MudNavGroup>
+
+        <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Instituto Federal" Expanded="false">
+
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Aracaju</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Estância</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Glória</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Itabaiana</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Propriá</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Poço Redondo</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS São Cristóvão</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Socorro</MudNavLink>
+            <MudNavLink Href="Pesquisa" Icon="@Icons.Material.Filled.ArrowRight" >IFS Tobias Barreto</MudNavLink>
+        </MudNavGroup>
     </MudNavGroup>
     <br>
-
-    <MudNavGroup Icon="@Icons.Material.Filled.TextSnippet" Title="Teste sua Redação" Expanded="true">
+   
+    <MudNavGroup Icon="@Icons.Material.Filled.TextSnippet" Title="Teste sua Redação" Expanded="false">
         <MudMenuItem Href="Redacao" Icon="@Icons.Material.Filled.ArrowRight">Acesse o Editor</MudMenuItem>
     </MudNavGroup>
     <br>
-
-    <MudNavLink Href="Sobre" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info" Color="Color.Default">SOBRE ENEMScore</MudNavLink>
+   
+    <MudNavLink Href="Sobre" Icon="@Icons.Material.Filled.Info" Color="Color.Default">SOBRE ENEMScore</MudNavLink>
     <br>    
    
 

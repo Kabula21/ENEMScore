@@ -13,7 +13,7 @@
     </p>
 </MudItem>
 
-<MudTable Items="filteredRows" Filter="FilterFunc" Hover="hover" Striped="striped" FixedHeader="@fixedheader">
+<MudTable Items="filteredRows" Hover="hover" Striped="striped" FixedHeader="@fixedheader">
 
     <ToolBarContent>
         <MudText Typo="Typo.h6">
@@ -32,7 +32,7 @@
         <MudTh Style="background-color: #007a70; color: white;">Turno</MudTh>
         <MudTh Style="background-color: #007a70; color: white;">Universidade</MudTh>
         <MudTh Style="background-color: #007a70; color: white;">Local</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Média</MudTh>
+        <MudTh Style="background-color: #007a70; color: white;">Nota de Corte</MudTh>
     </HeaderContent>
 
     <RowTemplate>
@@ -41,7 +41,7 @@
         <MudTd DataLabel="Turno">@context.Split()[2]</MudTd>
         <MudTd DataLabel="Universidade">@context.Split()[3]</MudTd>
         <MudTd DataLabel="Local">@context.Split()[4]</MudTd>
-        <MudTd DataLabel="Média">@context.Split()[5]</MudTd>
+        <MudTd DataLabel="Nota de Corte">@context.Split()[5]</MudTd>
     </RowTemplate>
 
     <PagerContent>
@@ -58,92 +58,69 @@
 
     private bool fixedheader = true;
 
-
-
     private string[] rows = {
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-        @"1 Direito Manhã Universidade Aracaju 500",
-        @"2 Medicina Tarde Universidade Lagarto 400",
-        @"3 Jornalismo Noite Universidade Itabaiana 500",
-        @"4 Enfermagem Tarde Universidade Socorro 200",
-        @"5 Enfermagem Noite Universidade Socorro 100",
-        @"6 Design Manhã Universidade Socorro 800",
-       
-    
+        @"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",
+        @"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
+        @"2 Medicina Tarde UFS Lagarto 400 ",
+        @"3 Jornalismo Noite UFS Itabaiana 500 ",
+        @"4 Enfermagem Tarde UFS Socorro 200 ",
+        @"5 Enfermagem Noite UFS Socorro 100 ",
+        @"6 Design Manhã UFS Socorro 800 ",
     };
 
+    private IEnumerable<string> filteredRows => FilterFunc();
 
-
-    private IEnumerable<string> filteredRows => rows.Where(FilterFunc);
-
-    private bool FilterFunc(string item)
-
+    private IEnumerable<string> FilterFunc()
     {
-
         if (string.IsNullOrWhiteSpace(searchString1))
-
-            return true;
-
-
-
-        // Converte o valor de busca e a string do item para minúsculas para a comparação
+            return Enumerable.Empty<string>();
 
         var lowerSearchString = searchString1.ToLower();
-
-        return item.ToLower().Contains(lowerSearchString);
-
+        return rows.Where(x => x.ToLower().Contains(lowerSearchString));
     }
 }

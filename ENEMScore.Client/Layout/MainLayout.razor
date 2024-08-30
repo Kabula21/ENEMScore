@@ -1,6 +1,8 @@
 ﻿@inherits LayoutComponentBase
 @inject IDarkModeService DarkModeService
 
+
+
 <MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -74,7 +76,7 @@
             DrawerBackground = "#ffffff",
             GrayLight = "#e8e8e8",
             GrayLighter = "#f9f9f9",
-            Tertiary = "E0E0E0"
+            Tertiary = "#E0E0E0"
         };
 
     private readonly PaletteDark _darkPalette = new()
@@ -91,7 +93,7 @@
             ActionDisabledBackground = "#605f6d4d",
             TextPrimary = "#d9d9d9",
             TextSecondary = "#92929f",
-            TextDisabled = "#ffffff33",
+            TextDisabled = "#ffffff",
             DrawerIcon = "#5c5c5e",
             DrawerText = "#d9d9d9",
             GrayLight = "#2a2833",
@@ -113,5 +115,5 @@
         false => Icons.Material.Outlined.DarkMode,
     };
 
-    public string DarkLightModeButtonText => DarkModeService.isDarkMode ? "Tema Claro" : "Tema Escuro";
+    public string DarkLightModeButtonText => DarkModeService.isDarkMode ? "" : "";
 }
