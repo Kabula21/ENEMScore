@@ -13,114 +13,115 @@
     </p>
 </MudItem>
 
-<MudTable Items="filteredRows" Hover="hover" Striped="striped" FixedHeader="@fixedheader">
 
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">
-            Utilize o campo de pesquisa
-            <MudIcon Icon="@Icons.Material.Outlined.Search"></MudIcon>
+<br>
+<br>
+
+<MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
+            BUSCAR
         </MudText>
 
-        <MudSpacer />
-        <MudTextField @bind-Value="searchString1" Placeholder="Digite seus pontos" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"
-                      Style="width: 100%; max-width: 200px; margin-left: auto; margin-right: 0;"></MudTextField>
-    </ToolBarContent>
+<MudTextField @bind-Value="searchString" Placeholder="Digite seus pontos"
+              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search"
+              IconSize="Size.Medium" Class="mt-0"
+              Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
 
-    <HeaderContent>
-        <MudTh Style="background-color: #007a70; color: white;">Ordem</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Curso</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Turno</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Universidade</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Local</MudTh>
-        <MudTh Style="background-color: #007a70; color: white;">Nota de Corte</MudTh>
-    </HeaderContent>
 
-    <RowTemplate>
-        <MudTd DataLabel="Ordem">@context.Split()[0]</MudTd>
-        <MudTd DataLabel="Curso">@context.Split()[1]</MudTd>
-        <MudTd DataLabel="Turno">@context.Split()[2]</MudTd>
-        <MudTd DataLabel="Universidade">@context.Split()[3]</MudTd>
-        <MudTd DataLabel="Local">@context.Split()[4]</MudTd>
-        <MudTd DataLabel="Nota de Corte">@context.Split()[5]</MudTd>
-    </RowTemplate>
+@if (filteredRows.Any())
+{
+    <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="!filteredRows.Any()">
+        @foreach (var curso in distinctCursos)
+        {
+            <MudSelectItem Value="@curso">@curso</MudSelectItem>
+        }
+    </MudSelect>
 
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
+    <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="!filteredRows.Any()">
+        @foreach (var turno in distinctTurnos)
+        {
+            <MudSelectItem Value="@turno">@turno</MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="!filteredRows.Any()">
+        @foreach (var universidade in distinctUniversidades)
+        {
+            <MudSelectItem Value="@universidade">@universidade</MudSelectItem>
+        }
+    </MudField>
+
+    <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="!filteredRows.Any()">
+        @foreach (var local in distinctLocais)
+        {
+            <MudSelectItem Value="@local">@local</MudSelectItem>
+        }
+    </MudField>
+}
+else
+{
+    // Renderize campos desativados aqui, se necessário
+    <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="true">
+        <!-- Campos desativados -->
+    </MudSelect>
+
+    <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
+        <!-- Campos desativados -->
+    </MudSelect>
+
+    <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="true">
+        <!-- Campos desativados -->
+    </MudField>
+
+    <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="true">
+        <!-- Campos desativados -->
+    </MudField>
+}
 
 @code {
-    private string searchString1 = "";
-
-    private bool hover = true;
-
-    private bool striped = true;
-
-    private bool fixedheader = true;
-
-    private string[] rows = {
-        @"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",
-        @"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",@"1 Direito Manhã UFS Aracaju 500 ",
-        @"2 Medicina Tarde UFS Lagarto 400 ",
-        @"3 Jornalismo Noite UFS Itabaiana 500 ",
-        @"4 Enfermagem Tarde UFS Socorro 200 ",
-        @"5 Enfermagem Noite UFS Socorro 100 ",
-        @"6 Design Manhã UFS Socorro 800 ",
-    };
+    private string searchString = "";
+    private string selectedCurso;
+    private string selectedTurno;
+    private string selectedUniversidade;
+    private string selectedLocal;
 
     private IEnumerable<string> filteredRows => FilterFunc();
 
+    private IEnumerable<string> distinctCursos => filteredRows.Select(x => x.Split()[1]).Distinct();
+    private IEnumerable<string> distinctTurnos => filteredRows.Select(x => x.Split()[2]).Distinct();
+    private IEnumerable<string> distinctUniversidades => filteredRows.Select(x => x.Split()[3]).Distinct();
+    private IEnumerable<string> distinctLocais => filteredRows.Select(x => x.Split()[4]).Distinct();
+
+    private string[] rows = {
+    // Lista de itens conforme sua necessidade
+    @"1 Direito Manhã UFS Aracaju 500 Manhã",
+    @"1 Direito Tarde UFS Aracaju 500 Tarde",
+    @"1 Direito Noite UFS Aracaju 500 Noite",
+    @"2 Medicina Manhã UFS Lagarto 400 Manhã",
+    @"2 Medicina Tarde UFS Lagarto 400 Tarde",
+    @"2 Medicina Noite UFS Lagarto 400 Noite",
+    @"3 Jornalismo Manhã UFS Itabaiana 500 Manhã",
+    @"3 Jornalismo Tarde UFS Itabaiana 500 Tarde",
+    @"3 Jornalismo Noite UFS Itabaiana 500 Noite",
+    @"4 Enfermagem Manhã UFS Socorro 200 Manhã",
+    @"4 Enfermagem Tarde UFS Socorro 200 Tarde",
+    @"4 Enfermagem Noite UFS Socorro 200 Noite",
+    @"5 Enfermagem Manhã UFS Socorro 100 Manhã",
+    @"5 Enfermagem Tarde UFS Socorro 100 Tarde",
+    @"5 Enfermagem Noite UFS Socorro 100 Noite",
+    @"6 Design Manhã UFS Socorro 800 Manhã",
+    @"6 Design Tarde UFS Socorro 800 Tarde",
+    @"6 Design Noite UFS Socorro 800 Noite",
+    
+    };
+
     private IEnumerable<string> FilterFunc()
     {
-        if (string.IsNullOrWhiteSpace(searchString1))
+        if (string.IsNullOrWhiteSpace(searchString))
             return Enumerable.Empty<string>();
 
-        var lowerSearchString = searchString1.ToLower();
+        var lowerSearchString = searchString.ToLower();
         return rows.Where(x => x.ToLower().Contains(lowerSearchString));
     }
 }
+

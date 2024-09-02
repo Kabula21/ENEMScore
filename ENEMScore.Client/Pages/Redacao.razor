@@ -1,4 +1,5 @@
 @page "/Redacao"
+@using MudBlazor
 @inject NavigationManager Navigation
 
 <PageTitle>Teste Sua Redação</PageTitle>
@@ -113,14 +114,15 @@
 
 <br>
 
-<MudTextField T="string" Label="Escreva: de 20 a 40 linhas" Variant="Variant.Filled" Text="@sampleText" TextChanged="OnTextChanged" Lines="25" Style="height: 500px; width: 100%;" />
+<MudTextField T="string" Label="Escreva: de 20/Min a 40/Max linhas" Variant="Variant.Filled" Text="@sampleText" TextChanged="OnTextChanged" Lines="25" Style="height: 500px; width: 100%;" />
 
-<div class="d-flex align-items-center">
-    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Enabled="@isButtonDisabled" class="ml-2" style="height: 40px">
+<mudgrid class="d-flex align-items-center">    
+    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px">
         Enviar
     </MudButton>
     <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7 ml-2" Striped="true" Size="Size.Medium" />
-</div>
+</mudgrid>
+
 
 
 <MudPopover Open="@_open2" Fixed="true"
@@ -163,7 +165,7 @@
 @code {
     private bool _open { get; set; }
     private bool _open2 { get; set; }
-    private string sampleText { get; set; } = "";
+    private string sampleText { get; set; } = string.Empty;
     private bool isButtonDisabled { get; set; } = true;
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
@@ -309,31 +311,27 @@
         totalNota = criterios.Sum();
     }
 
+
+    private const int MinLines = 20;
+    private const int MaxLines = 40;
+   
+
     private void ValidateText()
     {
-        // Separa o texto em linhas
         var lines = sampleText.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-        // Se houver menos de duas linhas, desabilita o botão
-        if (lines.Length < 2)
-        {
-            isButtonDisabled = true;
-            return;
-        }
+        // Verifica se o número de linhas está dentro dos limites especificados
+        bool isValid = lines.Length >= MinLines && lines.Length <= MaxLines;
 
-        // Conta o número de linhas a partir da segunda linha
-        var lineCount = lines.Skip(1).Count();
-
-        // Habilita o botão se o número de linhas estiver entre 40 e 60
-        isButtonDisabled = lineCount < 20 || lineCount > 40;
-        StateHasChanged();
+        isButtonDisabled = !isValid;
+        StateHasChanged(); // Atualiza o estado da UI
     }
 
-
-    private void OnTextChanged(string text)
+    private Task OnTextChanged(string newValue)
     {
-        sampleText = text;
-        ValidateText();
+        sampleText = newValue;
+        ValidateText(); // Revalida o texto sempre que o conteúdo mudar
+        return Task.CompletedTask;
     }
 
 

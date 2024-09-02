@@ -1,8 +1,9 @@
 ﻿@page "/"
 @inject IDarkModeService DarkModeService
+@using MudBlazor
 
 <PageTitle>ENEMScore</PageTitle>
-@using MudBlazor
+
 
 <MudItem xs="12" md="8" class="items-left">
     <h1>
@@ -19,7 +20,7 @@
     </h3>
 
 </MudItem>
-
+<br>
 <MudGrid>
     <MudItem class="items-center mx-auto mt-0">
         @if (DarkModeService.isDarkMode)
@@ -29,7 +30,7 @@
             <MudImage Src="/img/logo-white.png"
                       Alt="Bem Vindo ao ENEMScore"
                       Class="responsive-image"
-                      Style="margin-top: 200px; height: 200px" />
+                      Style="margin-top: 100px; height: 150px" />
         }
 
         else
@@ -38,17 +39,48 @@
             <MudImage Src="/img/logo-enemscore.png"
                       Alt="Bem Vindo ao ENEMScore"
                       Class="responsive-image"
-                      Style="margin-top: 200px; height: 200px" />
+                      Style="margin-top: 100px; height: 150px" />
         }
     </MudItem>
 </MudGrid>
 
-<style>
-    .responsive-image {
-        max-width: 100%;
-        height: auto;
-    }
-</style>
+<MudGrid Spacing="2" style="margin-top: 150px">
+    <MudItem xs="12" sm="4" md="4">
+        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
+            <MudCardMedia 
+                Image="img/Imagem1.jpg" 
+                Height="200" 
+                ObjectFit="cover" 
+                LazyLoad="true" 
+                Style="filter: brightness(0.8);" />
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4">
+        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
+            <MudCardMedia 
+                Image="img/Imagem2.jpg" 
+                Height="200" 
+                ObjectFit="cover" 
+                LazyLoad="true" 
+                Style="filter: brightness(0.8);" />
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="4" md="4">
+        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
+            <MudCardMedia 
+                Image="img/Imagem3.png" 
+                Height="200" 
+                ObjectFit="cover" 
+                LazyLoad="true" 
+                Style="filter: brightness(0.8);" />
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+
+
+
+
 
 @code {
     protected override void OnInitialized()
