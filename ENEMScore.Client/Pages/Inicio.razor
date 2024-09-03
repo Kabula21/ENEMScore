@@ -21,68 +21,65 @@
 
 </MudItem>
 <br>
-<MudGrid>
-    <MudItem class="items-center mx-auto mt-0">
-        @if (DarkModeService.isDarkMode)
 
+<MudGrid>
+    <MudItem class="items-center mx-auto mt-20">
+        @if (DarkModeService.isDarkMode)
         {
-    
             <MudImage Src="/img/logo-white.png"
                       Alt="Bem Vindo ao ENEMScore"
-                      Class="responsive-image"
-                      Style="margin-top: 100px; height: 150px" />
+                      Style="height: 200px; width: auto;" />
         }
-
         else
-
         {
             <MudImage Src="/img/logo-enemscore.png"
                       Alt="Bem Vindo ao ENEMScore"
-                      Class="responsive-image"
-                      Style="margin-top: 100px; height: 150px" />
+                      Style="height: 200px; width: auto;" />
         }
     </MudItem>
 </MudGrid>
 
-<MudGrid Spacing="2" style="margin-top: 150px">
+<MudGrid Spacing="2" Class="mt-20">
     <MudItem xs="12" sm="4" md="4">
-        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
-            <MudCardMedia 
-                Image="img/Imagem1.jpg" 
-                Height="200" 
-                ObjectFit="cover" 
-                LazyLoad="true" 
-                Style="filter: brightness(0.8);" />
-        </MudCard>
+        <MudLink Href="/Pesquisa" Class="block hover:scale-105 transition-transform duration-300">
+            <MudCard Class="shadow-lg rounded-lg">
+                <MudCardMedia Image="img/Imagem1.jpg"
+                              Height="200"
+                              ObjectFit="cover"
+                              LazyLoad="true"
+                              Class="filter brightness-80" />
+            </MudCard>
+        </MudLink>
     </MudItem>
     <MudItem xs="12" sm="4" md="4">
-        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
-            <MudCardMedia 
-                Image="img/Imagem2.jpg" 
-                Height="200" 
-                ObjectFit="cover" 
-                LazyLoad="true" 
-                Style="filter: brightness(0.8);" />
-        </MudCard>
+        <MudLink Href="/Cursos" Class="block hover:scale-105 transition-transform duration-300">
+            <MudCard Class="shadow-lg rounded-lg">
+                <MudCardMedia Image="img/Imagem2.jpg"
+                              Height="200"
+                              ObjectFit="cover"
+                              LazyLoad="true"
+                              Class="filter brightness-80" />
+            </MudCard>
+        </MudLink>
     </MudItem>
     <MudItem xs="12" sm="4" md="4">
-        <MudCard Style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);">
-            <MudCardMedia 
-                Image="img/Imagem3.png" 
-                Height="200" 
-                ObjectFit="cover" 
-                LazyLoad="true" 
-                Style="filter: brightness(0.8);" />
-        </MudCard>
+        <MudLink Href="/Redacao" Class="block hover:scale-105 transition-transform duration-300">
+            <MudCard Class="shadow-lg rounded-lg">
+                <MudCardMedia Image="img/Imagem3.png"
+                              Height="200"
+                              ObjectFit="cover"
+                              LazyLoad="true"
+                              Class="filter brightness-80" />
+            </MudCard>
+        </MudLink>
     </MudItem>
 </MudGrid>
 
 
 
 
+@code { 
 
-
-@code {
     protected override void OnInitialized()
     {
         DarkModeService.OnChange += StateHasChanged;
@@ -92,4 +89,5 @@
     {
         DarkModeService.OnChange -= StateHasChanged;
     }
+      
 }

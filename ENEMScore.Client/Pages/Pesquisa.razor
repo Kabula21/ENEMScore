@@ -18,15 +18,18 @@
 <br>
 
 <MudText Typo="Typo.h5" Class="mb-4">
-            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
-            BUSCAR
+    <MudIcon Icon="@Icons.Material.Outlined.LocationSearching" Class="mr-2" />
+            Pesquisar por Pontos
         </MudText>
 
-<MudTextField @bind-Value="searchString" Placeholder="Digite seus pontos"
-              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search"
-              IconSize="Size.Medium" Class="mt-0"
-              Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
+<br />
 
+<MudFocusTrap>
+    <MudTextField @bind-Value="searchString" Variant="Variant.Text" Placeholder="Digite seus Pontos"
+                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search" 
+                  IconSize="Size.Medium"
+                  Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
+</MudFocusTrap>
 
 @if (filteredRows.Any())
 {
@@ -78,7 +81,21 @@ else
     </MudField>
 }
 
+<br /><br />
+
+<MudText Typo="Typo.h5" Class="mb-4">
+    <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2" />
+    Localização
+</MudText>
+
+<MudCard class="max-w-md w-10 rounded-lg shadow-lg" Outlined="true">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d14216.66766192764!2d-37.11080792839875!3d-10.923455642986067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x71ab2423713aed3%3A0xdc26874c8378592c!2zUm9zYSBFbHplLCBTw6NvIENyaXN0w7N2w6NvIC0gU0UsIDQ5MTAwLTAwMA!3m2!1d-10.9263351!2d-37.103066399999996!5e0!3m2!1spt-BR!2sbr!4v1725316551912!5m2!1spt-BR!2sbr"
+            style="height: 300px; width: auto" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</MudCard>
+
+
 @code {
+
     private string searchString = "";
     private string selectedCurso;
     private string selectedTurno;
@@ -123,5 +140,7 @@ else
         var lowerSearchString = searchString.ToLower();
         return rows.Where(x => x.ToLower().Contains(lowerSearchString));
     }
+
+
 }
 
