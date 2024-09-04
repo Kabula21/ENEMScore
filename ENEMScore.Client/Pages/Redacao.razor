@@ -5,6 +5,32 @@
 <PageTitle>Teste Sua Redação</PageTitle>
 
 
+<style>
+.text-field-container {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.line-numbers {
+    width: 20px;
+    text-align: right;
+    padding-right: 5px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ccc;
+}
+
+.line-numbers div {
+    height: 20px; /* Ajuste conforme necessário */
+    line-height: 20px;
+}
+
+.MudTextField {
+    /* Ensure the text field doesn't overlap with the line numbers */
+    box-sizing: border-box;
+}
+</style>
+
 <MudItem xs="12" md="8" class="items-left">
     <h1>
         <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
@@ -56,17 +82,16 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[0]</MudText>
-                </CardHeaderContent>
-                <CardHeaderActions>
-                    <MudTooltip Text="Google">
-                        <MudLink Href="https://www.google.com" Target="_blank">
+                </CardHeaderContent>             
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                    <MudTooltip Text="Textos de Apoio">
+                        <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[0])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                         </MudLink>
                     </MudTooltip>
-                </CardHeaderActions>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
+                </MudText>
             </MudCardContent>
         </MudCard>
     </MudItem>
@@ -76,17 +101,17 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[1]</MudText>
-                </CardHeaderContent>
-                <CardHeaderActions>
-                    <MudTooltip Text="Google">
-                        <MudLink Href="https://www.google.com" Target="_blank">
+                </CardHeaderContent>               
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                    <MudTooltip Text="Textos de Apoio">
+                        <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[1])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                         </MudLink>
                     </MudTooltip>
-                </CardHeaderActions>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
+                
+                </MudText>
             </MudCardContent>
         </MudCard>
     </MudItem>
@@ -96,17 +121,16 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[2]</MudText>
-                </CardHeaderContent>
-                <CardHeaderActions>
-                    <MudTooltip Text="Google">
-                        <MudLink Href="https://www.google.com" Target="_blank">
+                </CardHeaderContent>                
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                    <MudTooltip Text="Textos de Apoio">
+                        <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[2])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                         </MudLink>
                     </MudTooltip>
-                </CardHeaderActions>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio utilize o google!</i></MudText>
+                </MudText>
             </MudCardContent>
         </MudCard>
     </MudItem>
@@ -114,7 +138,31 @@
 
 <br>
 
-<MudTextField T="string" Label="Escreva: de 20/Min a 40/Max linhas" Variant="Variant.Filled" Text="@sampleText" TextChanged="OnTextChanged" Lines="25" Style="height: 500px; width: 100%;" />
+<MudPaper Class="h-5" Elevation="3">
+    <MudText Typo="Typo.h5" Color="Color.Tertiary"
+             Style="display: block; text-align: center; background-color: darkslategrey; border-radius: 3px">
+        @if (string.IsNullOrEmpty(sampleTitle))
+        {
+            <span style="color: bisque;">Folha de Redação</span>
+        }
+        else
+        {
+            @sampleTitle
+        }
+    </MudText>
+</MudPaper>
+<br>
+
+<div class="text-field-container">
+    <div class="line-numbers">
+        @for (int i = 1; i <= 45; i++)
+        {
+            <div>@i</div>
+        }
+    </div>
+    <MudTextField T="string" Label="Escreva entre 20 a 40 linhas" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="45"
+                  Style="width: calc(100% - 40px); height: 900px; background-image: repeating-linear-gradient(white, white 19px, #ccc 20px); background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px;" />
+</div>
 
 <mudgrid class="d-flex align-items-center">    
     <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px">
@@ -122,8 +170,6 @@
     </MudButton>
     <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7 ml-2" Striped="true" Size="Size.Medium" />
 </mudgrid>
-
-
 
 <MudPopover Open="@_open2" Fixed="true"
             Style="position: fixed; top: 0%; margin-left: 30%; width: 90vw; max-width: 600px; height: 650vw; max-height: 650px; padding: 16px; box-sizing: border-box;"
@@ -166,7 +212,8 @@
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string sampleText { get; set; } = string.Empty;
-    private bool isButtonDisabled { get; set; } = true;
+    private string sampleTitle { get; set; } = string.Empty;
+    private bool isButtonDisabled { get; set; } = true; 
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
     {
@@ -257,7 +304,9 @@
     private void UpdateTextFieldTitle(string cardTitle)
     {
         sampleText = cardTitle;
+        sampleTitle = cardTitle;
         ValidateText();
+        StateHasChanged(); // Apenas atualiza o MudPaper
     }
 
     private void ToggleOpen()
@@ -332,8 +381,8 @@
         sampleText = newValue;
         ValidateText(); // Revalida o texto sempre que o conteúdo mudar
         return Task.CompletedTask;
+        StateHasChanged();
     }
-
 
 }
 
