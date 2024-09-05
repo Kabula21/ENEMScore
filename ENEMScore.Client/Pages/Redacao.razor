@@ -1,34 +1,35 @@
 @page "/Redacao"
 @using MudBlazor
 @inject NavigationManager Navigation
+@inject ISnackbar Snackbar
 
 <PageTitle>Teste Sua Redação</PageTitle>
 
 
 <style>
-.text-field-container {
-    display: flex;
-    width: 100%;
-    position: relative;
-}
+    .text-field-container {
+        display: flex;
+        width: 100%;
+        position: relative;
+    }
 
-.line-numbers {
-    width: 20px;
-    text-align: right;
-    padding-right: 5px;
-    background-color: #f5f5f5;
-    border-right: 1px solid #ccc;
-}
+    .line-numbers {
+        width: 20px;
+        text-align: right;
+        padding-right: 5px;
+        background-color: #f5f5f5;
+        border-right: 1px solid #ccc;
+    }
 
-.line-numbers div {
-    height: 20px; /* Ajuste conforme necessário */
-    line-height: 20px;
-}
+        .line-numbers div {
+            height: 20px; /* Ajuste conforme necessário */
+            line-height: 20px;
+        }
 
-.MudTextField {
-    /* Ensure the text field doesn't overlap with the line numbers */
-    box-sizing: border-box;
-}
+    .MudTextField {
+        /* Ensure the text field doesn't overlap with the line numbers */
+        box-sizing: border-box;
+    }
 </style>
 
 <MudItem xs="12" md="8" class="items-left">
@@ -64,6 +65,46 @@
     </p>
 </MudItem>
 
+<br />
+
+<MudGrid Class="flex flex-nowrap">
+    <MudItem class="mt-4">
+        <h2>Preencha seus dados:</h2>
+    </MudItem>
+    <MudItem xs="12" sm="3" Class="flex items-center">
+        <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Filled" Error="@isNomeAlunoError" />
+        @if (isNomeAlunoError)
+        {
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
+        }
+    </MudItem>
+    <MudItem xs="12" sm="3" Class="flex-shrink-0">
+        <MudSelect @bind-Value="ano" Label="Ano" T="int" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Filled">
+            <MudSelectItem Value="1">1ª Ano Ensino Médio</MudSelectItem>
+            <MudSelectItem Value="2">2ª Ano Ensino Médio</MudSelectItem>
+            <MudSelectItem Value="3">3ª Ano Ensino Médio</MudSelectItem>
+        </MudSelect>
+        @if (isAnoError)
+        {
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
+        }
+    </MudItem>
+    <MudItem xs="12" sm="3" Class="flex-shrink-0">
+        <MudSelect @bind-Value="turma" Label="Turma" T="int" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Filled">
+            <MudSelectItem Value="1">Turma A</MudSelectItem>
+            <MudSelectItem Value="2">Turma B</MudSelectItem>
+            <MudSelectItem Value="3">Turma C</MudSelectItem>
+            <MudSelectItem Value="4">Turma D</MudSelectItem>
+        </MudSelect>
+        @if (isTurmaError)
+        {
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
+        }
+    </MudItem>
+</MudGrid>
+
+<br>
+
 <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px;">
     <p class="font-normal text-left">
         <i>Clique e escolha um tema!</i> <MudIcon Icon="@Icons.Material.Filled.ArrowDownward"></MudIcon>
@@ -82,10 +123,11 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[0]</MudText>
-                </CardHeaderContent>             
+                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                <MudText Color="Color.Tertiary">
+                    <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[0])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
@@ -101,16 +143,17 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[1]</MudText>
-                </CardHeaderContent>               
+                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                <MudText Color="Color.Tertiary">
+                    <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[1])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                         </MudLink>
                     </MudTooltip>
-                
+
                 </MudText>
             </MudCardContent>
         </MudCard>
@@ -121,10 +164,11 @@
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[2]</MudText>
-                </CardHeaderContent>                
+                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudText Color="Color.Tertiary"><i>Para textos de apoio clique -></i>
+                <MudText Color="Color.Tertiary">
+                    <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[2])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
@@ -164,7 +208,7 @@
                   Style="width: calc(100% - 40px); height: 900px; background-image: repeating-linear-gradient(white, white 19px, #ccc 20px); background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px;" />
 </div>
 
-<mudgrid class="d-flex align-items-center">    
+<mudgrid class="d-flex align-items-center">
     <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px">
         Enviar
     </MudButton>
@@ -172,19 +216,22 @@
 </mudgrid>
 
 <MudPopover Open="@_open2" Fixed="true"
-            Style="position: fixed; top: 0%; margin-left: 30%; width: 90vw; max-width: 600px; height: 650vw; max-height: 650px; padding: 16px; box-sizing: border-box;"
+            Style="position: fixed; top: 0%; margin-left: 30%; width: 90vw; max-width: 600px; height: 690vw; max-height: 690px; padding: 16px; box-sizing: border-box;"
             OnOpen="EmitirNota">
     <MudText>
         <h2>Redação Enviada com Sucesso!</h2>
+        <br />
+        <p>@GetSelectedData()</p>
+        <br /><!-- Exibindo os dados selecionados -->
         <p>
-            Sua redação foi enviada a sua professora para correção.<br>
+            Sua redação foi enviada a sua professora para correção.
             Em breve, você receberá um feedback detalhado com sugestões de melhorias e sua pontuação.<br>
             Fique de olho na sua área de correções para acompanhar o seu progresso.
         </p>
     </MudText>
 
     <!-- Contador de Nota Simplificado -->
-    <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+    <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-0">
         <MudCard>
             <MudCardContent>
                 <MudText Typo="Typo.h6" GutterBottom>Nota Simulada de Redação do ENEM</MudText>
@@ -211,9 +258,15 @@
 @code {
     private bool _open { get; set; }
     private bool _open2 { get; set; }
+    private string nomeAluno;
+    private int ano;
+    private int turma;
+    private bool isNomeAlunoError;
+    private bool isAnoError;
+    private bool isTurmaError;
     private string sampleText { get; set; } = string.Empty;
     private string sampleTitle { get; set; } = string.Empty;
-    private bool isButtonDisabled { get; set; } = true; 
+    private bool isButtonDisabled { get; set; } = true;
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
     {
@@ -324,7 +377,23 @@
 
     private async Task StartProgress()
     {
+        // Reset errors
+        isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
+        isAnoError = ano == 0;
+        isTurmaError = turma == 0;
+
+        if (isNomeAlunoError || isAnoError || isTurmaError)
+        {
+            // Exibe mensagem de erro se houver erros de validação
+            Snackbar.Add("Por favor, preencha todos os campos obrigatórios.", Severity.Error);
+            return;
+        }
+
+        _open2 = false; // Hide the popover before starting progress
         await SimulateProgressAsync();
+        // Simulate progress
+        isButtonDisabled = true;
+        Value = 100;
     }
 
     public async Task SimulateProgressAsync()
@@ -360,10 +429,32 @@
         totalNota = criterios.Sum();
     }
 
+    private string GetSelectedData()
+    {
+        // Mapeia os anos para suas descrições
+        var anoDescricao = ano switch
+        {
+            1 => "1ª Ano Ensino Médio",
+            2 => "2ª Ano Ensino Médio",
+            3 => "3ª Ano Ensino Médio",           
+        };
+
+        // Mapeia as turmas para suas descrições
+        var turmaDescricao = turma switch
+        {
+            1 => "Turma A",
+            2 => "Turma B",
+            3 => "Turma C",
+            4 => "Turma D",           
+        };
+
+        return $"Nome: {nomeAluno}\nAno: {anoDescricao}\nTurma: {turmaDescricao}";
+    }
+
 
     private const int MinLines = 20;
     private const int MaxLines = 40;
-   
+
 
     private void ValidateText()
     {
@@ -384,6 +475,6 @@
         StateHasChanged();
     }
 
+    
+
 }
-
-
