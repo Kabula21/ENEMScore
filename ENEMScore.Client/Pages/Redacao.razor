@@ -1,7 +1,16 @@
 @page "/Redacao"
+@page "/seu-componente"
 @using MudBlazor
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
+@inject IJSRuntime JSRuntime
+@using System.Linq
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+
+
 
 <PageTitle>Teste Sua Redação</PageTitle>
 
@@ -116,6 +125,8 @@
 
 </div>
 
+<!--CARDS-->
+
 <MudGrid>
     <MudItem xs="12" sm="6" md="4" lg="4">
         <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[0])'
@@ -182,9 +193,14 @@
 
 <br>
 
-<MudPaper Class="h-5" Elevation="3">
-    <MudText Typo="Typo.h5" Color="Color.Tertiary"
-             Style="display: block; text-align: center; background-color: darkslategrey; border-radius: 3px">
+<!--SAMPLE TEXT-->
+
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <MudText Elevation="3" Typo="Typo.h5" Color="Color.Tertiary"
+         Style="display: flex; justify-content: center; align-items: center; text-align: center; 
+                background-color: darkslategrey; border-radius: 3px; width: 1000px; 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
         @if (string.IsNullOrEmpty(sampleTitle))
         {
             <span style="color: bisque;">Folha de Redação</span>
@@ -194,26 +210,106 @@
             @sampleTitle
         }
     </MudText>
-</MudPaper>
-<br>
-
-<div class="text-field-container">
-    <div class="line-numbers">
-        @for (int i = 1; i <= 45; i++)
-        {
-            <div>@i</div>
-        }
-    </div>
-    <MudTextField T="string" Label="Escreva entre 20 a 40 linhas" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="45"
-                  Style="width: calc(100% - 40px); height: 900px; background-image: repeating-linear-gradient(white, white 19px, #ccc 20px); background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px;" />
 </div>
 
-<mudgrid class="d-flex align-items-center">
-    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px">
+
+<br>
+
+
+<!--EDITOR DE TEXTO NOVO-->
+<div style="display: flex; justify-content: center; height: 50vh;">
+    <div style="border-radius: 3px; width: 1000px; padding: 0px; text-align: left;">
+        @if (EditorEnabled)
+        {
+            <div id="toolbar" >
+                <span class="ql-formats">
+                    <select class="ql-font">
+                        <option selected=""></option>
+                        <option value="serif"></option>
+                        <option value="monospace"></option>
+                    </select>
+                    <select class="ql-size">
+                        <option value="small"></option>
+                        <option selected=""></option>
+                        <option value="large"></option>
+                        <option value="huge"></option>
+                    </select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                    <select class="ql-align">
+                        <option selected=""></option>
+                        <option value="center"></option>
+                        <option value="right"></option>
+                        <option value="justify"></option>
+                    </select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                </span>
+            </div>
+        }
+        <div @ref="@divEditorElement" />
+      
+            @EditorContent
+      
+        <div>
+            @((MarkupString)@EditorHTMLContent)
+        </div>
+    </div>
+</div>
+
+
+@* <!--EDITOR DE TEXTO ANTIGO-->
+
+<div class="text-field-container" style="display: flex; align-items: flex-start; justify-content: center; width: 100%; padding: 20px;">
+    <!-- Contêiner centralizado com largura fixa -->
+    <div style="display: flex; align-items: flex-start; width: 1500px;">
+        <!-- Números de linhas -->
+        <div class="line-numbers" style="padding-right: 10px; text-align: right; user-select: none; font-family: monospace; background: white;">
+         
+        @for (int i = 1; i <= 35; i++)
+            {
+                 <div style="height: 20px; line-height: 20px;">@i</div>
+            }
+        </div> 
+
+        <!-- Caixa de texto com linhas -->
+        <MudTextField T="string" Label="Escreva entre 8 a 30 linhas" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="35"
+                      Style="width: calc(100% - 40px); height: 700px; background-image: repeating-linear-gradient(white, white 19px, #444 20px);
+                              background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px; font-family: monospace;" />
+    </div>
+</div>*@
+
+<!--BOTAO DE ENVIAR-->
+<br />
+<br />
+
+<div style="display: flex; align-items: center; margin-left: 230px">
+    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px; margin-right: 8px;">
         Enviar
     </MudButton>
-    <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7 ml-2" Striped="true" Size="Size.Medium" />
-</mudgrid>
+    <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7" Striped="true" Size="Size.Small" style="width: 900px" />
+</div>
+
+
+
+
+
+<!--POPUP-->
 
 <MudPopover Open="@_open2" Fixed="true"
             Style="position: fixed; top: 0%; margin-left: 30%; width: 90vw; max-width: 600px; height: 690vw; max-height: 690px; padding: 16px; box-sizing: border-box;"
@@ -255,7 +351,13 @@
     <MudButton OnClick="@ToggleOpen2" Style="margin-left: 45%" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">Fechar</MudButton>
 </MudPopover>
 
-@code {
+
+
+
+<!--LOGICA C#-->
+
+
+@code {  
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string nomeAluno;
@@ -266,7 +368,7 @@
     private bool isTurmaError;
     private string sampleText { get; set; } = string.Empty;
     private string sampleTitle { get; set; } = string.Empty;
-    private bool isButtonDisabled { get; set; } = true;
+    private bool isButtonDisabled { get; set; } = true; 
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
     {
@@ -337,8 +439,7 @@
         GenerateRandomThemes();
         base.OnInitialized();
         EmitirNota();
-        sampleText = string.Empty;
-        ValidateText();
+        ValidateText(); // Mover a validação para cá
     }
 
     private void GenerateRandomThemes()
@@ -359,7 +460,6 @@
         sampleText = cardTitle;
         sampleTitle = cardTitle;
         ValidateText();
-        StateHasChanged(); // Apenas atualiza o MudPaper
     }
 
     private void ToggleOpen()
@@ -384,7 +484,6 @@
 
         if (isNomeAlunoError || isAnoError || isTurmaError)
         {
-            // Exibe mensagem de erro se houver erros de validação
             Snackbar.Add("Por favor, preencha todos os campos obrigatórios.", Severity.Error);
             return;
         }
@@ -431,50 +530,103 @@
 
     private string GetSelectedData()
     {
-        // Mapeia os anos para suas descrições
         var anoDescricao = ano switch
         {
             1 => "1ª Ano Ensino Médio",
             2 => "2ª Ano Ensino Médio",
-            3 => "3ª Ano Ensino Médio",           
+            3 => "3ª Ano Ensino Médio",
         };
 
-        // Mapeia as turmas para suas descrições
         var turmaDescricao = turma switch
         {
             1 => "Turma A",
             2 => "Turma B",
             3 => "Turma C",
-            4 => "Turma D",           
+            4 => "Turma D",
         };
 
         return $"Nome: {nomeAluno}\nAno: {anoDescricao}\nTurma: {turmaDescricao}";
     }
 
-
-    private const int MinLines = 20;
-    private const int MaxLines = 40;
-
+    private const int MinRequiredLinesForEnable = 8;
+    private const int MaxAllowedLines = 20;
 
     private void ValidateText()
     {
-        var lines = sampleText.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        // Divide o texto em linhas, remove linhas vazias e conta o número de linhas não vazias
+        int lineCount = sampleText
+            .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            .Count(line => !string.IsNullOrWhiteSpace(line.Trim()));
 
-        // Verifica se o número de linhas está dentro dos limites especificados
-        bool isValid = lines.Length >= MinLines && lines.Length <= MaxLines;
+        // Define o estado do botão baseado no número de linhas
+        isButtonDisabled = string.IsNullOrWhiteSpace(sampleText) || lineCount < MinRequiredLinesForEnable || lineCount > MaxAllowedLines;
 
-        isButtonDisabled = !isValid;
-        StateHasChanged(); // Atualiza o estado da UI
-    }
-
-    private Task OnTextChanged(string newValue)
-    {
-        sampleText = newValue;
-        ValidateText(); // Revalida o texto sempre que o conteúdo mudar
-        return Task.CompletedTask;
+        // Solicita a atualização da interface do usuário
         StateHasChanged();
     }
 
     
 
+    private void OnTextChanged(string newText)
+    {
+       
+        sampleText = newText;
+        ValidateText();
+    }
+
+
+
+
+
+
+    private string strSavedContent = "";
+    private ElementReference divEditorElement;
+    private string EditorContent;
+    private string EditorHTMLContent;
+    private bool EditorEnabled = true;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<string>(
+                "QuillFunctions.createQuill", divEditorElement);
+        }
+    }
+    async Task GetText()
+    {
+        EditorHTMLContent = "";
+        EditorContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillText", divEditorElement);
+    }
+    async Task GetHTML()
+    {
+        EditorContent = "";
+        EditorHTMLContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillHTML", divEditorElement);
+    }
+    async Task GetEditorContent()
+    {
+        EditorHTMLContent = "";
+        EditorContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillContent", divEditorElement);
+    }
+    async Task SaveContent()
+    {
+        strSavedContent = await JSRuntime.InvokeAsync<string>(
+            "QuillFunctions.getQuillContent", divEditorElement);
+    }
+    async Task LoadContent()
+    {
+        var QuillDelta = await JSRuntime.InvokeAsync<object>(
+            "QuillFunctions.loadQuillContent", divEditorElement, strSavedContent);
+    }
+    async Task DisableQuillEditor()
+    {
+        EditorEnabled = false;
+        await JSRuntime.InvokeAsync<object>(
+            "QuillFunctions.disableQuillEditor", divEditorElement);
+    }
+
+
 }
+

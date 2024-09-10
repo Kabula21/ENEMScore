@@ -9,12 +9,13 @@
     .icon-container {
         display: inline-flex;
         gap: 0rem;
+        
     }
 
     .icon-container .icon {
         cursor: pointer;
-        transition: color 0.3s ease;
-        
+        transition: color 0.3s ease;        
+            
     }
 
     .icon-container .icon:hover:nth-of-type(1) {
@@ -28,15 +29,6 @@
     .icon-container .icon:hover:nth-of-type(3) {
         color: green; /* Cor para o terceiro ícone ao passar o mouse */
     }
-
-    .icon-container .icon.fixed {
-       
-    }
-
-    .icon {
-        font-size: 32px;
-    }
-
     
 </style>
 
@@ -110,15 +102,17 @@
     <div Style="margin-top: auto; padding: 1rem; text-align: center;">
         <MudText Color="Color.Default">Avalie-nos!</MudText>
         <div class="icon-container">
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentDissatisfied" OnClick="() => OpenPopover(1)" class="icon" />
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentNeutral" OnClick="() => OpenPopover(2)" class="icon" />
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentSatisfied" OnClick="() => OpenPopover(3)" class="icon" />
+            <MudIconButton Icon="@Icons.Material.Outlined.SentimentDissatisfied" OnClick="() => OpenPopover(1)" Size="Size.Large" class="icon" />
+            <MudIconButton Icon="@Icons.Material.Outlined.SentimentNeutral" OnClick="() => OpenPopover(2)" Size="Size.Large" class="icon" />
+            <MudIconButton Icon="@Icons.Material.Outlined.SentimentSatisfied" OnClick="() => OpenPopover(3)" Size="Size.Large" class="icon" />
         </div>
         <br />
         <MudText Color="Color.Default">ENEMScore Copyright 2024</MudText>
     </div>
 </MudNavMenu>
 
+
+<!--AVALIE -->
 
     <MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover1Open" Style="margin-left: 5px; height: 400px; width: 300px;">
     <MudGrid>
@@ -146,7 +140,7 @@
             <MudGrid>
                 <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
                     <MudText>
-                        <h3>Agradecemos seu feedback! <br />No que podemos melhorar? Entre em contato com o suporte se precisar de ajuda.</h3>
+                        <h3>Agradecemos seu feedback! <br />No que podemos melhorar? </h3>
                     </MudText>
                 </MudItem>
                 <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
@@ -154,7 +148,7 @@
                 </MudItem>
                 <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
                     <MudText>
-                        Por favor, entre em contato com o suporte.
+                    Entre em contato com o suporte se precisar de ajuda.
                     </MudText>
                 </MudItem>
                 <MudItem xs="12" Style="display: flex; justify-content: center;">
@@ -168,16 +162,13 @@
             <MudGrid>
                 <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
                     <MudText>
-                        <h3>Agradecemos por sua avaliação positiva! <br />Se precisar de ajuda, não hesite em entrar em contato com o suporte.</h3>
+                        <h3>Agradecemos por sua avaliação positiva! <br />Se precisar de ajuda, em contato com o suporte.</h3>
                     </MudText>
                 </MudItem>
                 <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
                     <MudIcon Icon="@Icons.Material.Outlined.SentimentSatisfied" Style="font-size: 100px;"></MudIcon>
                 </MudItem>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudText>
-                        Por favor, entre em contato com o suporte.
-                    </MudText>
+                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">                   
                 </MudItem>
                 <MudItem xs="12" Style="display: flex; justify-content: center;">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="() => ClosePopover(3)">Fechar</MudButton>
@@ -189,14 +180,15 @@
 @code {
     private bool popover1Open;
     private bool popover2Open;
-    private bool popover3Open;
+    private bool popover3Open;   
 
     private void OpenPopover(int popoverNumber)
     {
-        // Fecha todos os popovers antes de abrir o selecionado
+       
         popover1Open = popoverNumber == 1;
         popover2Open = popoverNumber == 2;
         popover3Open = popoverNumber == 3;
+        
     }
 
     private void ClosePopover(int popoverNumber)
@@ -209,25 +201,28 @@
     private void OpenSupport()
     {
         NavigationManager.NavigateTo("/sobre");
+        popover1Open = false;
+        popover2Open = false;
+       
     }
 }
 
 <script>
     document.querySelectorAll('.icon').forEach((icon, index) => {
         icon.addEventListener('click', () => {
-            // Remove a cor fixa de todos os ícones
+           
             document.querySelectorAll('.icon').forEach(el => el.style.color = '');
 
-            // Define a cor fixa do ícone clicado
+          
             icon.style.color = getColor(index);
         });
     });
 
     function getColor(index) {
         switch (index) {
-            case 0: return 'red';    // Cor para o primeiro ícone
-            case 1: return 'orange'; // Cor para o segundo ícone
-            case 2: return 'green';  // Cor para o terceiro ícone
+            case 0: return 'red';   
+            case 1: return 'orange'; 
+            case 2: return 'green';  
             default: return 'black';
         }
     }
