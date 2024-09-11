@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 
+<!--Folha de Estilos-->
 <style>
     .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
         color: cornflowerblue;
@@ -31,6 +32,8 @@
     }
     
 </style>
+
+<!--NAV MENU-->
 
 <MudNavMenu Style="display: flex; flex-direction: column; height: 100vh;">
 
@@ -112,7 +115,7 @@
 </MudNavMenu>
 
 
-<!--AVALIE -->
+<!--AVALIE POPUP -->
 
     <MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover1Open" Style="margin-left: 5px; height: 400px; width: 300px;">
     <MudGrid>
@@ -176,6 +179,7 @@
             </MudGrid>
         </MudPopover>
 
+<!--CODE C#-->
 
 @code {
     private bool popover1Open;
@@ -207,6 +211,7 @@
     }
 }
 
+<!--JavaScript AVALIE-->
 <script>
     document.querySelectorAll('.icon').forEach((icon, index) => {
         icon.addEventListener('click', () => {

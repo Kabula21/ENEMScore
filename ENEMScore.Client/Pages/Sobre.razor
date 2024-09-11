@@ -1,10 +1,10 @@
 ﻿@page "/Sobre"
-
-<PageTitle>Sobre</PageTitle>
+@page "/expansion"
 @using MudBlazor
 
-@page "/expansion"
+<PageTitle>Sobre</PageTitle>
 
+<!--Acordeon-->
 
 <div>
     <MudItem xs="12" md="8" class="items-left">
@@ -57,6 +57,8 @@
     </MudExpansionPanels>
 </div>
 
+<!--MudPopover-->
+
 <MudPopover Open="@_isPopoverOpen" CloseOnClickAway="true" AnchorOrigin="Origin.CenterCenter" TransformOrigin="Origin.CenterCenter" Class="px-4 pt-4">
     <div class="flex items-center mb-4">       
         <MudText Typo="Typo.h4" Class="font-bold"><MudIcon Icon="@Icons.Material.Filled.ThumbUp" /> Obrigado pelo seu feedback!</MudText>
@@ -71,6 +73,8 @@
         Fechar
     </MudButton>
 </MudPopover>
+
+@*Code C#*@
 
 @code {
     private bool allPanelsExpanded = true;
@@ -96,8 +100,6 @@
     {
         _isPopoverOpen = false;
     }
-
-
 }
 
 

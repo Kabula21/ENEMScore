@@ -2,6 +2,8 @@
 
 <PageTitle>Pesquisa de Cursos</PageTitle>
 
+<!--FORM-->
+
 <MudItem xs="12" md="8" class="items-left">
     <h1>
         <MudIcon Icon="@Icons.Material.Outlined.FindInPage" />
@@ -12,7 +14,6 @@
         <i>Pesquise os cursos pela sua pontuação!</i>
     </p>
 </MudItem>
-
 
 <br>
 <br>
@@ -83,6 +84,8 @@ else
 
 <br /><br />
 
+<!--MAPS-->
+
 <MudText Typo="Typo.h5" Class="mb-4">
     <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2" />
     Localização
@@ -93,7 +96,7 @@ else
             style="height: 300px; width: auto" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </MudCard>
 
-
+@*CODE C#*@
 @code {
 
     private string searchString = "";
@@ -140,7 +143,5 @@ else
         var lowerSearchString = searchString.ToLower();
         return rows.Where(x => x.ToLower().Contains(lowerSearchString));
     }
-
-
 }
 

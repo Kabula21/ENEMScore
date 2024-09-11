@@ -8,12 +8,9 @@
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
-
-
-
+@using System.Text.RegularExpressions
 
 <PageTitle>Teste Sua Redação</PageTitle>
-
 
 <style>
     .text-field-container {
@@ -48,7 +45,7 @@
     </h1>
 
     <p class="font-normal text-left ml-8">
-        <i>Avalie como está a sua redação e receba uma nota!</i>
+        <i>*ATENÇÃO! Antes de começar leia as REGRAS!</i>
         <MudTooltip Text="Veja as Regras">
             <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Info" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
         </MudTooltip>
@@ -61,11 +58,14 @@
                     • Compreensão do tema e aplicação das áreas de conhecimento.<br>
                     • Capacidade de interpretação das informações e organização dos argumentos.<br>
                     • Domínio dos mecanismos linguísticos de argumentação.
+                    <br><br />
                     <h3>Cálculo da Nota</h3>
-                    • Para o cálculo da nota do <strong>ENEM</strong>, é usada uma régua de correção.<br>
-                    • Essa régua varia de <strong>100</strong> em <strong>100</strong> pontos, tendo o <strong>500</strong> como ponto central.<br>
-                    • Cada questão da prova é posicionada nessa régua, de acordo com seu grau de dificuldade.<br>
-                    • As perguntas medianas ficam perto do <strong>500</strong>, as mais fáceis ficam abaixo e as mais difíceis, acima.<br><br>
+                    <h3> O seu texto deve ter entre <strong>7</strong> e <strong>30</strong> linhas.</h3>
+                    <i>Valores menores ou maiores sua nota será comprometida.</i><br /><br />
+                    A nota final é a soma das notas de cada competência. 
+                    Cada competência é avaliada em <br />uma escala de <strong>0</strong> a <strong>200</strong> pontos,
+                    e a soma das notas das <strong>cinco</strong> competências resulta na<br /> nota final da redação, 
+                    que pode variar de <strong>0</strong> a <strong>1000</strong> pontos.<br><br>
                 </MudText>
 
                 <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Variant="Variant.Filled" Color="Color.Primary">Fechar</MudButton>
@@ -194,8 +194,6 @@
 <br>
 
 <!--SAMPLE TEXT-->
-
-
 <div style="display: flex; justify-content: center; align-items: center;">
     <MudText Elevation="3" Typo="Typo.h5" Color="Color.Tertiary"
          Style="display: flex; justify-content: center; align-items: center; text-align: center; 
@@ -213,101 +211,34 @@
 </div>
 
 
-<br>
+<!--EDITOR DE TEXTO ANTIGO-->
 
-
-<!--EDITOR DE TEXTO NOVO-->
-<div style="display: flex; justify-content: center; height: 50vh;">
-    <div style="border-radius: 3px; width: 1000px; padding: 0px; text-align: left;">
-        @if (EditorEnabled)
-        {
-            <div id="toolbar" >
-                <span class="ql-formats">
-                    <select class="ql-font">
-                        <option selected=""></option>
-                        <option value="serif"></option>
-                        <option value="monospace"></option>
-                    </select>
-                    <select class="ql-size">
-                        <option value="small"></option>
-                        <option selected=""></option>
-                        <option value="large"></option>
-                        <option value="huge"></option>
-                    </select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
-                </span>
-                <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
-                    <button class="ql-indent" value="-1"></button>
-                    <button class="ql-indent" value="+1"></button>
-                    <select class="ql-align">
-                        <option selected=""></option>
-                        <option value="center"></option>
-                        <option value="right"></option>
-                        <option value="justify"></option>
-                    </select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-link"></button>
-                </span>
-            </div>
-        }
-        <div @ref="@divEditorElement" />
-      
-            @EditorContent
-      
-        <div>
-            @((MarkupString)@EditorHTMLContent)
-        </div>
-    </div>
-</div>
-
-
-@* <!--EDITOR DE TEXTO ANTIGO-->
-
-<div class="text-field-container" style="display: flex; align-items: flex-start; justify-content: center; width: 100%; padding: 20px;">
+<div class="text-field-container" style="display: flex; justify-content: center; width: 100%; padding: 15px;">
     <!-- Contêiner centralizado com largura fixa -->
-    <div style="display: flex; align-items: flex-start; width: 1500px;">
+    <div style="display: flex; align-items: flex-start; margin-left: 2%; width: 1000px;">
         <!-- Números de linhas -->
-        <div class="line-numbers" style="padding-right: 10px; text-align: right; user-select: none; font-family: monospace; background: white;">
-         
-        @for (int i = 1; i <= 35; i++)
+        <div class="line-numbers" style="padding-right: 10px; padding-top: 2px; text-align: right; user-select: none; font-family: monospace; background: white;">
+            @for (int i = 1; i <= 35; i++)
             {
-                 <div style="height: 20px; line-height: 20px;">@i</div>
+                <div style="height: 20px; line-height: 20px;">@i</div>
             }
-        </div> 
+        </div>
 
         <!-- Caixa de texto com linhas -->
-        <MudTextField T="string" Label="Escreva entre 8 a 30 linhas" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="35"
-                      Style="width: calc(100% - 40px); height: 700px; background-image: repeating-linear-gradient(white, white 19px, #444 20px);
-                              background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px; font-family: monospace;" />
+        <MudTextField T="string" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="35"
+            Style="width: calc(100% - 40px); height: calc(35 * 20px); background-image: repeating-linear-gradient(white, white 19px, #444 20px);
+                    background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px; font-family: monospace; overflow: hidden;
+                    box-shadow: 10px 4px 15px rgba(8, 10, 15, 0.2); border: 2px solid #ddd; border-radius: 4px;" />
     </div>
-</div>*@
-
-<!--BOTAO DE ENVIAR-->
-<br />
-<br />
-
-<div style="display: flex; align-items: center; margin-left: 230px">
-    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress" Disabled="@isButtonDisabled" class="ml-2" style="height: 40px; margin-right: 8px;">
-        Enviar
-    </MudButton>
-    <MudProgressLinear Color="Color.Primary" Value="@Value" Class="my-7" Striped="true" Size="Size.Small" style="width: 900px" />
 </div>
 
+<!--BOTAO DE ENVIAR-->
 
-
-
+<div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
+    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress"
+              Enabled="@isButtonDisabled" class="h-10" style="max-width: 100px;">Enviar</MudButton>
+    <MudProgressLinear Color="Color.Primary" Value="@Value" style="flex-grow: 1; max-width: 900px;" Striped="true" Size="Size.Large" />
+</div>
 
 <!--POPUP-->
 
@@ -320,9 +251,9 @@
         <p>@GetSelectedData()</p>
         <br /><!-- Exibindo os dados selecionados -->
         <p>
-            Sua redação foi enviada a sua professora para correção.
-            Em breve, você receberá um feedback detalhado com sugestões de melhorias e sua pontuação.<br>
-            Fique de olho na sua área de correções para acompanhar o seu progresso.
+            Sua redação também foi enviada p/ sua professora p/ correção.
+            Em breve, você receberá um feedback detalhado com sugestões de melhorias.<br><br>
+            Acompanhe a sua nota parcial.
         </p>
     </MudText>
 
@@ -342,7 +273,6 @@
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
                     <MudTextField @bind-Value="criterios[4]" Label="Respeito aos direitos humanos" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
-
                     <MudText Typo="Typo.subtitle1" Class="mt-4"><strong>Nota Total: @totalNota</strong></MudText>
                 </MudForm>
             </MudCardContent>
@@ -351,13 +281,8 @@
     <MudButton OnClick="@ToggleOpen2" Style="margin-left: 45%" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">Fechar</MudButton>
 </MudPopover>
 
-
-
-
 <!--LOGICA C#-->
-
-
-@code {  
+@code {
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string nomeAluno;
@@ -365,13 +290,20 @@
     private int turma;
     private bool isNomeAlunoError;
     private bool isAnoError;
-    private bool isTurmaError;
-    private string sampleText { get; set; } = string.Empty;
+    private bool isTurmaError;    
+    private int Value { get; set; } = 0;
+    private bool _disposed { get; set; }
+    public void Dispose() => _disposed = true;
+    private MudForm form { get; set; }
+    private int totalNota { get; set; }
+    private int[] criterios = new int[5];
+    private string sampleText { get; set; } = string.Empty;    
     private string sampleTitle { get; set; } = string.Empty;
-    private bool isButtonDisabled { get; set; } = true; 
+    private bool isButtonDisabled { get; set; } = true;
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
     {
+
         "Desigualdade Social no Brasil",
         "Violência Urbana e Segurança Pública",
         "Educação e Tecnologia na Era Digital",
@@ -432,14 +364,14 @@
         "O Futuro do Trabalho na Era da Automação",
         "O Desafio da Inclusão Digital no Brasil",
         "A Importância do Lazer na Qualidade de Vida"
-    };
+    };   
 
     protected override void OnInitialized()
     {
         GenerateRandomThemes();
         base.OnInitialized();
         EmitirNota();
-        ValidateText(); // Mover a validação para cá
+        ValidateText(); // Valida o texto ao inicializar
     }
 
     private void GenerateRandomThemes()
@@ -470,10 +402,7 @@
     private void ToggleOpen2()
     {
         _open2 = !_open2;
-    }
-
-    private int Value { get; set; } = 0;
-    private bool _disposed { get; set; }
+    }    
 
     private async Task StartProgress()
     {
@@ -482,16 +411,24 @@
         isAnoError = ano == 0;
         isTurmaError = turma == 0;
 
+        // Valida o texto
+        ValidateText();
+
+        // Verifica se há algum erro
         if (isNomeAlunoError || isAnoError || isTurmaError)
         {
             Snackbar.Add("Por favor, preencha todos os campos obrigatórios.", Severity.Error);
             return;
         }
 
-        _open2 = false; // Hide the popover before starting progress
+        if (!isButtonDisabled) // Verifica se o texto é válido
+        {
+            Snackbar.Add("O texto deve atender aos requisitos mínimos.", Severity.Error);
+            return;
+        }
+
         await SimulateProgressAsync();
         // Simulate progress
-        isButtonDisabled = true;
         Value = 100;
     }
 
@@ -513,19 +450,25 @@
         _open2 = true;
         StateHasChanged();
 
-        await Task.Delay(1000);
+        await Task.Delay(200);
         Value = 0;
-    }
-
-    public void Dispose() => _disposed = true;
-
-    private MudForm form { get; set; }
-    private int[] criterios { get; set; } = new int[5] { 160, 180, 170, 150, 190 };
-    private int totalNota { get; set; }
+    }    
 
     private void EmitirNota()
     {
-        totalNota = criterios.Sum();
+        var random = new Random();
+        totalNota = random.Next(0, 1001); // Gera uma nota total aleatória entre 0 e 1000
+        int remaining = totalNota;
+
+        for (int i = 0; i < criterios.Length - 1; i++)
+        {
+            // Gere um valor aleatório para o critério, mas garanta que o total não será ultrapassado
+            criterios[i] = random.Next(0, Math.Min(remaining - (criterios.Length - i - 1) * 0, 201)); // Nota mínima é 0, máxima é 200
+            remaining -= criterios[i];
+        }
+
+        // O último critério recebe o restante da nota
+        criterios[criterios.Length - 1] = remaining;
     }
 
     private string GetSelectedData()
@@ -546,87 +489,32 @@
         };
 
         return $"Nome: {nomeAluno}\nAno: {anoDescricao}\nTurma: {turmaDescricao}";
-    }
-
-    private const int MinRequiredLinesForEnable = 8;
-    private const int MaxAllowedLines = 20;
+    }    
 
     private void ValidateText()
     {
-        // Divide o texto em linhas, remove linhas vazias e conta o número de linhas não vazias
-        int lineCount = sampleText
-            .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-            .Count(line => !string.IsNullOrWhiteSpace(line.Trim()));
+        if (string.IsNullOrWhiteSpace(sampleText))
+        {
+            isButtonDisabled = false;
+            StateHasChanged();
+            return;
+        }
 
-        // Define o estado do botão baseado no número de linhas
-        isButtonDisabled = string.IsNullOrWhiteSpace(sampleText) || lineCount < MinRequiredLinesForEnable || lineCount > MaxAllowedLines;
+        // Divide o texto em linhas com base em \n e remove linhas vazias
+        var lineCount = sampleText.Split('\n').Count(line => !string.IsNullOrWhiteSpace(line));
 
-        // Solicita a atualização da interface do usuário
+        // Habilita o botão apenas se o número de linhas for maior ou igual a 8
+        isButtonDisabled = lineCount < 8 || lineCount > 30;
+
         StateHasChanged();
     }
 
-    
-
     private void OnTextChanged(string newText)
     {
-       
         sampleText = newText;
         ValidateText();
     }
-
-
-
-
-
-
-    private string strSavedContent = "";
-    private ElementReference divEditorElement;
-    private string EditorContent;
-    private string EditorHTMLContent;
-    private bool EditorEnabled = true;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeAsync<string>(
-                "QuillFunctions.createQuill", divEditorElement);
-        }
-    }
-    async Task GetText()
-    {
-        EditorHTMLContent = "";
-        EditorContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillText", divEditorElement);
-    }
-    async Task GetHTML()
-    {
-        EditorContent = "";
-        EditorHTMLContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillHTML", divEditorElement);
-    }
-    async Task GetEditorContent()
-    {
-        EditorHTMLContent = "";
-        EditorContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-    }
-    async Task SaveContent()
-    {
-        strSavedContent = await JSRuntime.InvokeAsync<string>(
-            "QuillFunctions.getQuillContent", divEditorElement);
-    }
-    async Task LoadContent()
-    {
-        var QuillDelta = await JSRuntime.InvokeAsync<object>(
-            "QuillFunctions.loadQuillContent", divEditorElement, strSavedContent);
-    }
-    async Task DisableQuillEditor()
-    {
-        EditorEnabled = false;
-        await JSRuntime.InvokeAsync<object>(
-            "QuillFunctions.disableQuillEditor", divEditorElement);
-    }
-
-
+          
 }
+
 
