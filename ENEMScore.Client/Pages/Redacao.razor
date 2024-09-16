@@ -407,6 +407,18 @@
 
     private async Task StartProgress()
     {
+        // Validação dos campos obrigatórios
+        isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
+        isAnoError = ano == 0; // Supondo que 'ano' seja um int e 0 represente um valor não selecionado
+        isTurmaError = turma == 0; // Supondo que 'turma' seja um int e 0 represente um valor não selecionado
+
+        // Verificar se algum campo obrigatório não está preenchido
+        if (isNomeAlunoError || isAnoError || isTurmaError)
+        {
+            // Exibir mensagens de erro e parar a execução
+            Snackbar.Add("Preencha todos os campos obrigatórios.", Severity.Error);
+            return;
+        }
         // Normalize line endings
         var normalizedText = sampleText.Replace("\r\n", "\n").Replace("\r", "\n");
 
