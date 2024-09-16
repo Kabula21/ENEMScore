@@ -6,30 +6,6 @@
         color: cornflowerblue;
         background-color: var(--mud-palette-action-default-hover);
     }
-
-    .icon-container {
-        display: inline-flex;
-        gap: 0rem;
-        
-    }
-
-    .icon-container .icon {
-        cursor: pointer;
-        transition: color 0.3s ease;        
-            
-    }
-
-    .icon-container .icon:hover:nth-of-type(1) {
-        color: red; /* Cor para o primeiro ícone ao passar o mouse */
-    }
-
-    .icon-container .icon:hover:nth-of-type(2) {
-        color: orange; /* Cor para o segundo ícone ao passar o mouse */
-    }
-
-    .icon-container .icon:hover:nth-of-type(3) {
-        color: green; /* Cor para o terceiro ícone ao passar o mouse */
-    }
     
 </style>
 
@@ -105,13 +81,21 @@
     <div Style="margin-top: auto; padding: 1rem; text-align: center;">
         <MudText Color="Color.Default">Avalie-nos!</MudText>
         <div class="icon-container">
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentDissatisfied" OnClick="() => OpenPopover(1)" Size="Size.Large" class="icon" />
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentNeutral" OnClick="() => OpenPopover(2)" Size="Size.Large" class="icon" />
-            <MudIconButton Icon="@Icons.Material.Outlined.SentimentSatisfied" OnClick="() => OpenPopover(3)" Size="Size.Large" class="icon" />
+            <MudTooltip Text="Não gostei">
+                <MudIconButton Icon="@Icons.Material.Outlined.SentimentDissatisfied" Color="Color.Error" OnClick="() => OpenPopover(1)" Size="Size.Large" />
+            </MudTooltip>
+            <MudTooltip Text="Razoável">
+                <MudIconButton Icon="@Icons.Material.Outlined.SentimentNeutral" Color="Color.Warning" OnClick="() => OpenPopover(2)" Size="Size.Large"/>
+            </MudTooltip>
+            <MudTooltip Text="Gostei">
+                <MudIconButton Icon="@Icons.Material.Outlined.SentimentSatisfied" Color="Color.Success" OnClick="() => OpenPopover(3)" Size="Size.Large" />
+            </MudTooltip>
         </div>
         <br />
         <MudText Color="Color.Default">ENEMScore Copyright 2024</MudText>
     </div>
+
+
 </MudNavMenu>
 
 
@@ -211,27 +195,6 @@
     }
 }
 
-<!--JavaScript AVALIE-->
-<script>
-    document.querySelectorAll('.icon').forEach((icon, index) => {
-        icon.addEventListener('click', () => {
-           
-            document.querySelectorAll('.icon').forEach(el => el.style.color = '');
-
-          
-            icon.style.color = getColor(index);
-        });
-    });
-
-    function getColor(index) {
-        switch (index) {
-            case 0: return 'red';   
-            case 1: return 'orange'; 
-            case 2: return 'green';  
-            default: return 'black';
-        }
-    }
-</script>
 
 
 

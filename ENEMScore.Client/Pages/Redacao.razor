@@ -225,7 +225,7 @@
         </div>
 
         <!-- Caixa de texto com linhas -->
-        <MudTextField T="string" Variant="Variant.Text" TextChanged="OnTextChanged" Lines="35"
+        <MudTextField T="string" @bind-Value="sampleText" Variant="Variant.Text" @oninput="OnTextChanged" Lines="35"
             Style="width: calc(100% - 40px); height: calc(35 * 20px); background-image: repeating-linear-gradient(white, white 19px, #444 20px);
                     background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px; font-family: monospace; overflow: hidden;
                     box-shadow: 10px 4px 15px rgba(8, 10, 15, 0.2); border: 2px solid #ddd; border-radius: 4px;" />
@@ -236,7 +236,7 @@
 
 <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
     <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Primary" OnClick="@StartProgress"
-              Enabled="@isButtonDisabled" class="h-10" style="max-width: 100px;">Enviar</MudButton>
+        class="h-10" style="max-width: 100px;">Enviar</MudButton>
     <MudProgressLinear Color="Color.Primary" Value="@Value" style="flex-grow: 1; max-width: 900px;" Striped="true" Size="Size.Large" />
 </div>
 
@@ -291,15 +291,16 @@
     private bool isNomeAlunoError;
     private bool isAnoError;
     private bool isTurmaError;    
-    private int Value { get; set; } = 0;
+    private double Value { get; set; } = 0;
     private bool _disposed { get; set; }
     public void Dispose() => _disposed = true;
     private MudForm form { get; set; }
     private int totalNota { get; set; }
     private int[] criterios = new int[5];
-    private string sampleText { get; set; } = string.Empty;    
+    private string sampleText { get; set; } = string.Empty;
+    private const int CharactersPerLine = 100;
     private string sampleTitle { get; set; } = string.Empty;
-    private bool isButtonDisabled { get; set; } = true;
+    private bool isButtonDisabled { get; set; } = false;
     private string[] cardTitles { get; set; } = new string[3];
     private string[] themes { get; set; } = new string[]
     {
@@ -371,7 +372,7 @@
         GenerateRandomThemes();
         base.OnInitialized();
         EmitirNota();
-        ValidateText(); // Valida o texto ao inicializar
+        OnTextChanged(); // Valida o texto ao inicializar
     }
 
     private void GenerateRandomThemes()
@@ -389,9 +390,9 @@
 
     private void UpdateTextFieldTitle(string cardTitle)
     {
-        sampleText = cardTitle;
+       
         sampleTitle = cardTitle;
-        ValidateText();
+        OnTextChanged();
     }
 
     private void ToggleOpen()
@@ -406,30 +407,30 @@
 
     private async Task StartProgress()
     {
-        // Reset errors
-        isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
-        isAnoError = ano == 0;
-        isTurmaError = turma == 0;
+        // Normalize line endings
+        var normalizedText = sampleText.Replace("\r\n", "\n").Replace("\r", "\n");
 
-        // Valida o texto
-        ValidateText();
+        // Log for debugging
+        Console.WriteLine($"Sample Text: {normalizedText}");
 
-        // Verifica se há algum erro
-        if (isNomeAlunoError || isAnoError || isTurmaError)
+        // Count the actual lines in the text
+        var lines = normalizedText.Split('\n').ToList();
+
+        // Estimate lines for any very long lines that may wrap
+        int totalLines = lines.Sum(line => (int)Math.Ceiling((double)line.Length / CharactersPerLine));
+
+        // Log for debugging
+        Console.WriteLine($"Line Count: {totalLines}");
+
+        // Check if the number of lines is between 8 and 30
+        if (totalLines < 8 || totalLines > 30)
         {
-            Snackbar.Add("Por favor, preencha todos os campos obrigatórios.", Severity.Error);
+            Snackbar.Add("O texto deve ter entre 8 e 30 linhas.", Severity.Error);
             return;
         }
 
-        if (!isButtonDisabled) // Verifica se o texto é válido
-        {
-            Snackbar.Add("O texto deve atender aos requisitos mínimos.", Severity.Error);
-            return;
-        }
-
+        // If validation passes, continue with progress logic
         await SimulateProgressAsync();
-        // Simulate progress
-        Value = 100;
     }
 
     public async Task SimulateProgressAsync()
@@ -491,28 +492,18 @@
         return $"Nome: {nomeAluno}\nAno: {anoDescricao}\nTurma: {turmaDescricao}";
     }    
 
-    private void ValidateText()
+  
+
+    private void OnTextChanged()
     {
+
         if (string.IsNullOrWhiteSpace(sampleText))
         {
-            isButtonDisabled = false;
+            Console.WriteLine("Text changed: " + sampleText);
             StateHasChanged();
             return;
         }
 
-        // Divide o texto em linhas com base em \n e remove linhas vazias
-        var lineCount = sampleText.Split('\n').Count(line => !string.IsNullOrWhiteSpace(line));
-
-        // Habilita o botão apenas se o número de linhas for maior ou igual a 8
-        isButtonDisabled = lineCount < 8 || lineCount > 30;
-
-        StateHasChanged();
-    }
-
-    private void OnTextChanged(string newText)
-    {
-        sampleText = newText;
-        ValidateText();
     }
           
 }
