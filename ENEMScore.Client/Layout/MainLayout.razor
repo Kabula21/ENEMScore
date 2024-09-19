@@ -1,34 +1,45 @@
 ﻿@inherits LayoutComponentBase
 @inject IDarkModeService DarkModeService
 
-
 <MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Color="Color.Primary" Elevation="5" Class="flex items-center h-15">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+@if (isLoading)
+{
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: white; width: 100vw;">
+        <img src="/img/logo-enemscore.png" alt="Loading" style="width: 500px; height: auto; margin-bottom: 20px" />
+        <MudProgressLinear Color="Color.Primary" Class="my-7" Style="width: 200px;" Rounded="true" Size="Size.Small" Value="@Value" />
+    </div>
+}
 
-        <MudText Class="ml-5 h-px items-center">
-            <a href="/">
-                <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
-            </a>
-        </MudText>
+else
+{
 
-        <MudSpacer />
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode" />
-        <span>@DarkLightModeButtonText</span>
-    </MudAppBar>
+    <MudLayout>
+        <MudAppBar Color="Color.Primary" Elevation="5" Class="flex items-center h-15">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 
-    <MudDrawer Color="Color.Default" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent Class="mt-16 pa-4">
-        @Body
-    </MudMainContent>
-</MudLayout>
+            <MudText Class="ml-5 h-px items-center">
+                <a href="/">
+                    <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
+                </a>
+            </MudText>
+
+            <MudSpacer />
+            <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode" />
+            <span>@DarkLightModeButtonText</span>
+        </MudAppBar>
+
+        <MudDrawer Color="Color.Default" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
+            <NavMenu />
+        </MudDrawer>
+        <MudMainContent Class="mt-16 pa-4">
+            @Body
+        </MudMainContent>
+    </MudLayout>
+}
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -36,15 +47,17 @@
     <a class="dismiss">🗙</a>
 </div>
 
-<!--CODE C#-->
-
 @code {
     private bool _drawerOpen { get; set; } = false;
     private MudTheme? _theme { get; set; } = null;
+    private bool isLoading = true;
+    public int Value { get; set; } = 0; // Valor inicial do progresso
+    private Timer _timer;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Inscrição no evento OnChange para garantir que o layout seja atualizado quando o tema mudar
+        StartLoading();
+
         DarkModeService.OnChange += StateHasChanged;
 
         _theme = new MudTheme
@@ -53,12 +66,33 @@
                 PaletteDark = _darkPalette,
                 LayoutProperties = new LayoutProperties()
             };
+
+        // Atualiza a tela quando o carregamento termina
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void StartLoading()
+    {
+        _timer = new Timer(async _ =>
+        {
+            if (Value < 100)
+            {
+                Value += 10; // Incrementa de 5 em 5
+                await InvokeAsync(StateHasChanged); // Garante que a UI seja atualizada
+            }
+            else
+            {
+                _timer.Dispose();
+                isLoading = false;
+                await InvokeAsync(StateHasChanged); // Atualiza a UI para mostrar o conteúdo
+            }
+        }, null, 0, 200); // Atualiza a cada 200ms
     }
 
     public void Dispose()
     {
-        // Cancelar a inscrição do evento para evitar vazamentos de memória
         DarkModeService.OnChange -= StateHasChanged;
+        _timer?.Dispose();
     }
 
     private void DrawerToggle()
@@ -81,32 +115,71 @@
 
     private readonly PaletteDark _darkPalette = new()
         {
-            Primary = "#002c54",
+            Primary = "#0060b8",
+            PrimaryDarken = "rgb(62,44,221)",
+            PrimaryLighten = "rgb(151,141,236)",
+
+            SecondaryDarken = "rgb(255,31,105)",
+            SecondaryLighten = "rgb(255,102,153)",
+
+            Tertiary = "#ffffff",
+            TertiaryDarken = "rgb(25,169,140)",
+            TertiaryLighten = "rgb(42,223,187)",
+
+            Info = "#4a86ff",
+            InfoDarken = "rgb(10,133,255)",
+            InfoLighten = "rgb(92,173,255)",
+
+            Success = "#3dcb6c",
+            SuccessDarken = "rgb(9,154,108)",
+            SuccessLighten = "rgb(13,222,156)",
+
+            Warning = "#ffb545",
+            WarningDarken = "rgb(214,143,0)",
+            WarningLighten = "rgb(255,182,36)",
+
+            Error = "#ff3f5f",
+            ErrorDarken = "rgb(244,47,70)",
+            ErrorLighten = "rgb(248,119,134)",
+
+            Dark = "#1e1e2d",
+            DarkDarken = "rgb(23,23,28)",
+            DarkLighten = "rgb(56,56,67)",
+
             Surface = "#1e1e2d",
             Background = "#1a1a27",
-            BackgroundGray = "#151521",
-            AppbarText = "#92929f",
+
             AppbarBackground = "rgba(26,26,39,0.8)",
+            AppbarText = "#92929f",
+
             DrawerBackground = "#1a1a27",
+            DrawerText = "#d9d9d9",
+            DrawerIcon = "#5c5c5e",
+
             ActionDefault = "#74718e",
             ActionDisabled = "#9999994d",
             ActionDisabledBackground = "#605f6d4d",
+
             TextPrimary = "#d9d9d9",
             TextSecondary = "#92929f",
             TextDisabled = "#ffffff",
-            DrawerIcon = "#5c5c5e",
-            DrawerText = "#d9d9d9",
-            GrayLight = "#2a2833",
-            GrayLighter = "#1e1e2d",
-            Info = "#4a86ff",
-            Success = "#3dcb6c",
-            Warning = "#ffb545",
-            Error = "#ff3f5f",
+
             LinesDefault = "#33323e",
             TableLines = "#33323e",
             Divider = "#292838",
-            OverlayLight = "#1e1e2d80",
-            Tertiary = "#ffffff"
+
+            OverlayLight = "rgba(255,255,255,0.4980392156862745)",
+            OverlayDark = "rgba(33,33,33,0.4980392156862745)",
+
+            HoverOpacity = 0.06,
+            RippleOpacity = 0.1,
+            RippleOpacitySecondary = 0.2,
+
+            GrayDefault = "#9E9E9E",
+            GrayLight = "#BDBDBD",
+            GrayLighter = "#E0E0E0",
+            GrayDark = "#757575",
+            GrayDarker = "#616161"
         };
 
     public string DarkLightModeButtonIcon => DarkModeService.isDarkMode switch

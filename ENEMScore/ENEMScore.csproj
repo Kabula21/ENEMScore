@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Components\Loading.razor" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\ENEMScore.Client\ENEMScore.Client.csproj" />
