@@ -19,32 +19,49 @@
             O ENEMScore é uma inovadora aplicação desenvolvida para ajudar os estudantes a avaliar suas pontuações no Exame Nacional do Ensino Médio (ENEM) e identificar os cursos universitários mais adequados com base em seus resultados.<br>
             Com uma interface intuitiva e fácil de usar, o ENEMScore permite aos usuários verificar sua média de pontuação e buscar informações detalhadas sobre as melhores opções de cursos que correspondem ao seu desempenho.
         </MudExpansionPanel>
+
+        <MudExpansionPanel Text="Suporte">
+            <p>
+                Nosso objetivo é continuar aprimorando o ENEMScore com novas funcionalidades e atualizações, mantendo a aplicação alinhada às necessidades dos estudantes e às mudanças no exame.<br>
+                Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br><br>
+                Para mais informações e atualizações sobre o ENEMScore, acompanhe nossas redes sociais.<br><br>
+                *Caso queira nos enviar elogios, sugestões ou críticas, por favor, preencha o formulário abaixo.*
+            </p>
+            <MudForm Style="width: 850px;" @ref="_form">
+                <MudTextField T="string" Label="Nome" Required="true" RequiredError="Por favor, insira seu nome." @bind-Value="_nome" />
+                <MudTextField T="string" Label="E-mail" Required="true" RequiredError="Por favor, insira um e-mail válido." @bind-Value="_email" /><br />
+                <MudTextField T="string" Label="Mensagem" Placeholder="Deixe seu elogio, sugestão ou crítica" InputType="InputType.Text" Variant="Variant.Outlined" Lines="3" Required="true" RequiredError="A mensagem não pode estar vazia." Style="height: 80px;" @bind-Value="_mensagem" /><br />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 50px; height: 30px;" OnClick="SubmitForm">Enviar</MudButton>
+            </MudForm>
+        </MudExpansionPanel>
+
         <MudExpansionPanel Text="Funcionalidades">
-            <p><b>Avaliação de Pontuação:</b> Insira suas notas do ENEM e obtenha uma análise detalhada de seu desempenho.</p><br />
+            <p><b>Avaliação de Pontuação:</b> Insira suas notas do ENEM e obtenha a realação de cursos por notas e pesos.</p><br />
             <ul>
-                <li>Inserção de Notas nas cinco áreas do ENEM. Análise de desempenho com média geral e por área.</li>
-                <li>Gráficos de comparação com as médias nacionais. Sugestões de melhorias com base nas notas.</li>
-                <li>Comparativo com anos anteriores (se disponível).</li>
+                <li>Inserção de Notas do ENEM. Análise de pontos com notas de corte e pesos por área.</li>
+                <li>Sugestões de melhorias com base nas funcionalidades.</li>
+                <li>Comparativo com anos anteriores.</li>
             </ul><br>
 
-            <p><b>Busca de Cursos:</b> Descubra quais cursos são ideais para a sua pontuação e explore detalhes sobre cada opção.</p>
+            <p><b>Busca de Cursos:</b> Descubra quais cursos são ideais para a sua pontuação e explore detalhes dos pesos sobre cada opção.</p>
             <ul>
-                <li>Campo de Pesquisa inteligente com filtros por localidade, modalidade, notas de corte e tipo de universidade.
-                Detalhes sobre cada curso: grade curricular, instituição e perspectivas de mercado.</li>
+                <li>Campo de Pesquisa inteligente com filtros por localidade, notas de corte e tipo de universidade.
+                Detalhes sobre cada curso: pesos nas diversas áreas dos cursos.</li>
                 <li>Histórico de notas de corte dos cursos.</li>
             </ul><br>
 
             <p><b>Editor de Redação:</b> Pratique suas redações com feedback instantâneo.</p>
             <ul>
-                <li>Editor de texto com sugestões de melhorias em tempo real. Correção automática de ortografia e gramática.</li>
+                <li>Editor de texto com sugestões de melhorias após validação. Correção feita também pelo professor.</li>
                 <li>Temas sugeridos para prática. Simulação de correção baseada nos critérios do ENEM.</li>
                 <li>Feedback detalhado com pontuação simulada.</li>
             </ul><br>
 
-            <p><b>Interface Amigável:</b> Navegue facilmente por uma interface moderna e responsiva, projetada para tornar a experiência do usuário o mais agradável possível.</p>
+            <p><b>Interface Amigável:</b> Navegue facilmente por uma interface moderna e responsiva, 
+                projetada para tornar a experiência do usuário o mais agradável possível.</p>
             <ul>
-                <li>Design responsivo para computadores, tablets e smartphones.
-                    Painel de controle personalizado para acesso rápido a notas, cursos salvos e redações.</li>
+                <li>Design responsivo para computadores.
+                    Painel de controle personalizado para acesso rápido a notas, cursos e redações.</li>
                 <li>Navegação intuitiva com ícones e menus simples.</li>
             </ul><br>
 
@@ -65,26 +82,12 @@
             <br><br>            
             Com o uso de tecnologias de ponta como Blazor e Tailwind CSS, os desenvolvedores garantem que o ENEMScore não só ofereça um desempenho robusto, mas também uma experiência visual agradável e moderna.
         </MudExpansionPanel>
+
         <MudExpansionPanel Text="Visão">
             Nosso objetivo é continuar aprimorando o ENEMScore com novas funcionalidades e atualizações, mantendo a aplicação alinhada às necessidades dos estudantes e às mudanças no exame.<br>
-            Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br>
-            Para mais informações e atualizações sobre o ENEMScore, acompanhe nossas redes sociais.
+            Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br>            
         </MudExpansionPanel>
-        <MudExpansionPanel Text="Suporte" Expanded="@allPanelsExpanded">
-            <p>
-                Nosso objetivo é continuar aprimorando o ENEMScore com novas funcionalidades e atualizações, mantendo a aplicação alinhada às necessidades dos estudantes e às mudanças no exame.<br>
-                Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br><br>
-                Para mais informações e atualizações sobre o ENEMScore, acompanhe nossas redes sociais e visite nosso site oficial.<br><br>
-                *Caso queira nos enviar elogios, sugestões ou críticas, por favor, preencha o formulário abaixo.*
-            </p>
-
-            <MudForm Style="width: 850px;" @ref="_form">
-                <MudTextField T="string" Label="Nome" Required="true" RequiredError="Por favor, insira seu nome." @bind-Value="_nome" />
-                <MudTextField T="string" Label="E-mail" Required="true" RequiredError="Por favor, insira um e-mail válido." @bind-Value="_email" /><br />
-                <MudTextField T="string" Label="Mensagem" Placeholder="Deixe seu elogio, sugestão ou crítica" InputType="InputType.Text" Variant="Variant.Outlined" Lines="3" Required="true" RequiredError="A mensagem não pode estar vazia." Style="height: 80px;" @bind-Value="_mensagem" /><br />
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 50px; height: 30px;" OnClick="SubmitForm">Enviar</MudButton>
-            </MudForm>            
-        </MudExpansionPanel> 
+        
     </MudExpansionPanels>
 </div>
 
