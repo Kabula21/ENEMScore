@@ -15,28 +15,31 @@
     </MudItem>
 
     <MudExpansionPanels MultiExpansion="true">
-        <MudExpansionPanel Expanded="@allPanelsExpanded" Text="O ENEMScore">
+        <MudExpansionPanel Expanded="@allPanelsExpanded" Text="O ENEMScore"
+                           Style="background-color: #f7f7f7; color: #3a3a3a; border: 1px solid #d1d1d1; border-radius: 8px; margin-bottom: 10px;">
             O ENEMScore é uma inovadora aplicação desenvolvida para ajudar os estudantes a avaliar suas pontuações no Exame Nacional do Ensino Médio (ENEM) e identificar os cursos universitários mais adequados com base em seus resultados.<br>
             Com uma interface intuitiva e fácil de usar, o ENEMScore permite aos usuários verificar sua média de pontuação e buscar informações detalhadas sobre as melhores opções de cursos que correspondem ao seu desempenho.
         </MudExpansionPanel>
 
-        <MudExpansionPanel Text="Suporte">
+        <MudExpansionPanel Text="Suporte"
+                           Style="background-color: #fcfcfc; color: #3a3a3a; border: 1px solid #d1d1d1; border-radius: 8px; margin-bottom: 10px;">
             <p>
                 Nosso objetivo é continuar aprimorando o ENEMScore com novas funcionalidades e atualizações, mantendo a aplicação alinhada às necessidades dos estudantes e às mudanças no exame.<br>
                 Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br><br>
                 Para mais informações e atualizações sobre o ENEMScore, acompanhe nossas redes sociais.<br><br>
                 *Caso queira nos enviar elogios, sugestões ou críticas, por favor, preencha o formulário abaixo.*
             </p>
-            <MudForm Style="width: 850px;" @ref="_form">
+            <MudForm Style="width: 850px; margin-top: 20px;" @ref="_form">
                 <MudTextField T="string" Label="Nome" Required="true" RequiredError="Por favor, insira seu nome." @bind-Value="_nome" />
                 <MudTextField T="string" Label="E-mail" Required="true" RequiredError="Por favor, insira um e-mail válido." @bind-Value="_email" /><br />
                 <MudTextField T="string" Label="Mensagem" Placeholder="Deixe seu elogio, sugestão ou crítica" InputType="InputType.Text" Variant="Variant.Outlined" Lines="3" Required="true" RequiredError="A mensagem não pode estar vazia." Style="height: 80px;" @bind-Value="_mensagem" /><br />
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 50px; height: 30px;" OnClick="SubmitForm">Enviar</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 100px; height: 40px; margin-top: 10px;" OnClick="SubmitForm">Enviar</MudButton>
             </MudForm>
         </MudExpansionPanel>
 
-        <MudExpansionPanel Text="Funcionalidades">
-            <p><b>Avaliação de Pontuação:</b> Insira suas notas do ENEM e obtenha a realação de cursos por notas e pesos.</p><br />
+        <MudExpansionPanel Text="Funcionalidades"
+                           Style="background-color: #f7f7f7; color: #3a3a3a; border: 1px solid #d1d1d1; border-radius: 8px; margin-bottom: 10px;">
+            <p><b>Avaliação de Pontuação:</b> Insira suas notas do ENEM e obtenha a relação de cursos por notas e pesos.</p><br />
             <ul>
                 <li>Inserção de Notas do ENEM. Análise de pontos com notas de corte e pesos por área.</li>
                 <li>Sugestões de melhorias com base nas funcionalidades.</li>
@@ -45,8 +48,10 @@
 
             <p><b>Busca de Cursos:</b> Descubra quais cursos são ideais para a sua pontuação e explore detalhes dos pesos sobre cada opção.</p>
             <ul>
-                <li>Campo de Pesquisa inteligente com filtros por localidade, notas de corte e tipo de universidade.
-                Detalhes sobre cada curso: pesos nas diversas áreas dos cursos.</li>
+                <li>
+                    Campo de Pesquisa inteligente com filtros por localidade, notas de corte e tipo de universidade.
+                    Detalhes sobre cada curso: pesos nas diversas áreas dos cursos.
+                </li>
                 <li>Histórico de notas de corte dos cursos.</li>
             </ul><br>
 
@@ -57,38 +62,48 @@
                 <li>Feedback detalhado com pontuação simulada.</li>
             </ul><br>
 
-            <p><b>Interface Amigável:</b> Navegue facilmente por uma interface moderna e responsiva, 
-                projetada para tornar a experiência do usuário o mais agradável possível.</p>
+            <p>
+                <b>Interface Amigável:</b> Navegue facilmente por uma interface moderna e responsiva,
+                projetada para tornar a experiência do usuário o mais agradável possível.
+            </p>
             <ul>
-                <li>Design responsivo para computadores.
-                    Painel de controle personalizado para acesso rápido a notas, cursos e redações.</li>
+                <li>
+                    Design responsivo para computadores.
+                    Painel de controle personalizado para acesso rápido a notas, cursos e redações.
+                </li>
                 <li>Navegação intuitiva com ícones e menus simples.</li>
             </ul><br>
 
             <p><b>Feedback do Usuário:</b> Avalie sua experiência e ajude a melhorar o sistema.</p>
             <ul>
-                <li>Sistema de avaliação com reações: Não Gostei, Razoável e Gostei .</li>
+                <li>Sistema de avaliação com reações: Não Gostei, Razoável e Gostei.</li>
                 <li>Formulário de feedback para sugestões e melhorias.</li>
             </ul>
         </MudExpansionPanel>
 
-        <MudExpansionPanel Text="Desenvolvedores">
+        <MudExpansionPanel Text="Desenvolvedores"
+                           Style="background-color: #fcfcfc; color: #3a3a3a; border: 1px solid #d1d1d1; border-radius: 8px; margin-bottom: 10px;">
             O ENEMScore é um projeto do grupo do 4° período de ADS da UNINASSAU. <br>A equipe de desenvolvimento é composta por:<br><br>
             Anderson Fernandes - 16025285<br>
             Klaudio Eduardo – 16025224<br>
             Lucas Silva - 16025215<br>
             Miguel Conceição - 16030084<br>
             Islaynne Souza - 16029870
-            <br><br>            
+            <br><br>
             Com o uso de tecnologias de ponta como Blazor e Tailwind CSS, os desenvolvedores garantem que o ENEMScore não só ofereça um desempenho robusto, mas também uma experiência visual agradável e moderna.
         </MudExpansionPanel>
 
-        <MudExpansionPanel Text="Visão">
+        <MudExpansionPanel Text="Visão"
+                           Style="background-color: #f7f7f7; color: #3a3a3a; border: 1px solid #d1d1d1; border-radius: 8px; margin-bottom: 10px;">
             Nosso objetivo é continuar aprimorando o ENEMScore com novas funcionalidades e atualizações, mantendo a aplicação alinhada às necessidades dos estudantes e às mudanças no exame.<br>
-            Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br>            
+            Acreditamos que o ENEMScore será uma ferramenta indispensável para aqueles que buscam entender melhor seu desempenho e tomar decisões informadas sobre seu futuro acadêmico.<br>
         </MudExpansionPanel>
-        
+
     </MudExpansionPanels>
+
+
+
+
 </div>
 
 <!--MudPopover-->

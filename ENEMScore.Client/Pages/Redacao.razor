@@ -81,17 +81,17 @@
         <h2>Preencha seus dados:</h2>
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex items-center">
-        <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Filled" Error="@isNomeAlunoError" />
+        <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Placeholder="Digite seu Nome" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Filled" Error="@isNomeAlunoError" />
         @if (isNomeAlunoError)
         {
             <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
-        <MudSelect @bind-Value="ano" Label="Ano" T="int" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Filled">
-            <MudSelectItem Value="1">1ª Ano Ensino Médio</MudSelectItem>
-            <MudSelectItem Value="2">2ª Ano Ensino Médio</MudSelectItem>
-            <MudSelectItem Value="3">3ª Ano Ensino Médio</MudSelectItem>
+        <MudSelect @bind-Value="ano" Label="Ano" Placeholder="Selecione o Ano" T="int?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Filled">
+            <MudSelectItem T="int?" Value="1">1ª Ano Ensino Médio</MudSelectItem>
+            <MudSelectItem T="int?" Value="2">2ª Ano Ensino Médio</MudSelectItem>
+            <MudSelectItem T="int?" Value="3">3ª Ano Ensino Médio</MudSelectItem>
         </MudSelect>
         @if (isAnoError)
         {
@@ -99,11 +99,11 @@
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
-        <MudSelect @bind-Value="turma" Label="Turma" T="int" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Filled">
-            <MudSelectItem Value="1">Turma A</MudSelectItem>
-            <MudSelectItem Value="2">Turma B</MudSelectItem>
-            <MudSelectItem Value="3">Turma C</MudSelectItem>
-            <MudSelectItem Value="4">Turma D</MudSelectItem>
+        <MudSelect @bind-Value="turma" Label="Turma" T="int?" Placeholder="Selecione a Turma" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Filled">
+           <MudSelectItem T="int?" Value="1">Turma A</MudSelectItem>
+            <MudSelectItem T="int?" Value="2">Turma B</MudSelectItem>
+            <MudSelectItem T="int?" Value="3">Turma C</MudSelectItem>
+            <MudSelectItem T="int?" Value="4">Turma D</MudSelectItem>
         </MudSelect>
         @if (isTurmaError)
         {
@@ -111,6 +111,7 @@
         }
     </MudItem>
 </MudGrid>
+
 
 <br>
 
@@ -286,8 +287,8 @@
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string nomeAluno;
-    private int ano;
-    private int turma;
+    private int? ano; // Alterado para nullable int
+    private int? turma; // Alterado para nullable int
     private bool isNomeAlunoError;
     private bool isAnoError;
     private bool isTurmaError;    
@@ -409,8 +410,8 @@
     {
         // Validação dos campos obrigatórios
         isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
-        isAnoError = ano == 0; // Supondo que 'ano' seja um int e 0 represente um valor não selecionado
-        isTurmaError = turma == 0; // Supondo que 'turma' seja um int e 0 represente um valor não selecionado
+        isAnoError = ano == null; // Verifica se 'ano' é nulo
+        isTurmaError = turma == null; // Verifica se 'turma' é nulo
 
         // Verificar se algum campo obrigatório não está preenchido
         if (isNomeAlunoError || isAnoError || isTurmaError)

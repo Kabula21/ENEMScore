@@ -42,22 +42,22 @@
             }
         </MudSelect>
 
-        <MudField Label="Nota de Corte/2022"
-                  Value="@GetPontuacao(selectedTurno, 2022)"
+        <MudField Label="Nota de Corte/2023"
+                  Value="@GetPontuacao(selectedTurno, 2023)"
                   Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Adornment.End : Adornment.None)"
                   AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Icons.Material.Filled.CheckCircle : null)"
                   AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Color.Success : Color.Transparent)"
                   FullWidth="true">
-            @GetPontuacao(selectedTurno, 2022)
+            @GetPontuacao(selectedTurno, 2023)
         </MudField>
 
-        <MudField Label="Nota de Corte/2023"
-                  Value="@GetPontuacao(selectedTurno, 2023)"
+        <MudField Label="Nota de Corte/2024"
+                  Value="@GetPontuacao(selectedTurno, 2024)"
                   Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Adornment.End : Adornment.None)"
                   AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Icons.Material.Filled.CheckCircle : null)"
                   AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Color.Success : Color.Transparent)"
                   FullWidth="true">
-            @GetPontuacao(selectedTurno, 2023)
+            @GetPontuacao(selectedTurno, 2024)
         </MudField>
 
         <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
@@ -188,43 +188,43 @@
     {
         public string Nome { get; set; }
         public string Turno { get; set; }
-        public string Pontuacao2022 { get; set; }
         public string Pontuacao2023 { get; set; }
+        public string Pontuacao2024 { get; set; }
     }
 
     // Lista de cursos
     private List<Curso> cursos = new List<Curso>
     {
-        new Curso { Nome = "Direito", Turno = "Manhã", Pontuacao2022 = "500", Pontuacao2023 = "400" },
-        new Curso { Nome = "Direito", Turno = "Tarde", Pontuacao2022 = "200", Pontuacao2023 = "100" },
-        new Curso { Nome = "Direito", Turno = "Noite", Pontuacao2022 = "800", Pontuacao2023 = "900" },
+        new Curso { Nome = "Direito", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
+        new Curso { Nome = "Direito", Turno = "Tarde", Pontuacao2023 = "200", Pontuacao2024 = "100" },
+        new Curso { Nome = "Direito", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
 
-        new Curso { Nome = "Medicina", Turno = "Manhã", Pontuacao2022 = "400", Pontuacao2023 = "300" },
-        new Curso { Nome = "Medicina", Turno = "Tarde", Pontuacao2022 = "500", Pontuacao2023 = "600" },
-        new Curso { Nome = "Medicina", Turno = "Noite", Pontuacao2022 = "800", Pontuacao2023 = "900" },
+        new Curso { Nome = "Medicina", Turno = "Manhã", Pontuacao2023 = "400", Pontuacao2024 = "300" },
+        new Curso { Nome = "Medicina", Turno = "Tarde", Pontuacao2023 = "500", Pontuacao2024 = "600" },
+        new Curso { Nome = "Medicina", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
 
-        new Curso { Nome = "Jornalismo", Turno = "Manhã", Pontuacao2022 = "500", Pontuacao2023 = "400" },
-        new Curso { Nome = "Jornalismo", Turno = "Tarde", Pontuacao2022 = "300", Pontuacao2023 = "400" },
-        new Curso { Nome = "Jornalismo", Turno = "Noite", Pontuacao2022 = "800", Pontuacao2023 = "600" },
+        new Curso { Nome = "Jornalismo", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
+        new Curso { Nome = "Jornalismo", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
+        new Curso { Nome = "Jornalismo", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "600" },
 
-        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2022 = "200", Pontuacao2023 = "150" },
-        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2022 = "400", Pontuacao2023 = "550" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2022 = "800", Pontuacao2023 = "750" },
+        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "200", Pontuacao2024 = "150" },
+        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "400", Pontuacao2024 = "550" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "750" },
 
-        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2022 = "100", Pontuacao2023 = "800" },
-        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2022 = "700", Pontuacao2023 = "860" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2022 = "100", Pontuacao2023 = "500" },
+        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "100", Pontuacao2024 = "800" },
+        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "700", Pontuacao2024 = "860" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "500" },
 
-        new Curso { Nome = "Design", Turno = "Manhã", Pontuacao2022 = "800", Pontuacao2023 = "600" },
-        new Curso { Nome = "Design", Turno = "Tarde", Pontuacao2022 = "300", Pontuacao2023 = "400" },
-        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2022 = "600", Pontuacao2023 = "700" }
+        new Curso { Nome = "Design", Turno = "Manhã", Pontuacao2023 = "800", Pontuacao2024 = "600" },
+        new Curso { Nome = "Design", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
+        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "600", Pontuacao2024 = "700" }
 
     };
 
     private string selectedCurso { get; set; }
     private string selectedTurno { get; set; }
-    private string selectedPontuacao2022 { get; set; }
     private string selectedPontuacao2023 { get; set; }
+    private string selectedPontuacao2024 { get; set; }
 
     private void UpdateData()
     {
@@ -232,13 +232,13 @@
 
         if (cursoSelecionado != null)
         {
-            selectedPontuacao2022 = cursoSelecionado.Pontuacao2022;
             selectedPontuacao2023 = cursoSelecionado.Pontuacao2023;
+            selectedPontuacao2024 = cursoSelecionado.Pontuacao2024;
         }
         else
         {
-            selectedPontuacao2022 = string.Empty;
             selectedPontuacao2023 = string.Empty;
+            selectedPontuacao2024 = string.Empty;
         }
     }
 
@@ -247,7 +247,7 @@
         var cursoSelecionado = cursos.FirstOrDefault(c => c.Turno == turno);
 
         return cursoSelecionado != null
-            ? (ano == 2022 ? cursoSelecionado.Pontuacao2022 : cursoSelecionado.Pontuacao2023)
+            ? (ano == 2023 ? cursoSelecionado.Pontuacao2023 : cursoSelecionado.Pontuacao2024)
             : string.Empty;
     }
 
