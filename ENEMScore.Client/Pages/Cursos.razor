@@ -42,6 +42,13 @@
             }
         </MudSelect>
 
+        <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var item in GetTipos())
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
         <MudField Label="Nota de Corte/2023"
                   Value="@GetPontuacao(selectedTurno, 2023)"
                   Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Adornment.End : Adornment.None)"
@@ -188,6 +195,7 @@
     {
         public string Nome { get; set; }
         public string Turno { get; set; }
+        public string Tipo { get; set; }
         public string Pontuacao2023 { get; set; }
         public string Pontuacao2024 { get; set; }
     }
@@ -223,8 +231,37 @@
 
     private string selectedCurso { get; set; }
     private string selectedTurno { get; set; }
+    private string selectedTipo { get; set; }
     private string selectedPontuacao2023 { get; set; }
     private string selectedPontuacao2024 { get; set; }
+
+    private IEnumerable<string> GetTipos()
+    {
+        var tipos = new List<string>
+    {
+        
+        "Ampla Concorrência",
+        "Cota Escola Pública",
+        "Cota Portador de Necessidades Especiais",
+        "Cota Racial"
+    };
+
+        // Se selectedTipo não está vazio, filtra os tipos de acordo com a lógica correta
+        if (!string.IsNullOrEmpty(selectedTipo))
+        {
+            var tiposFiltrados = cursos
+                .Where(c => c.Nome == selectedTipo) // Filtra os cursos com base no nome selecionado
+                .Select(c => c.Turno) // Seleciona o turno
+                .Distinct(); // Remove duplicatas
+
+            tipos.AddRange(tiposFiltrados); // Adiciona os turnos filtrados à lista de tipos
+        }
+
+        return tipos.Distinct(); // Retorna a lista final de tipos
+    }
+
+
+   
 
     private void UpdateData()
     {

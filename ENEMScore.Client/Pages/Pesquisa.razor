@@ -20,81 +20,83 @@
 
 <MudText Typo="Typo.h5" Class="mb-4">
     <MudIcon Icon="@Icons.Material.Outlined.LocationSearching" Class="mr-2" />
-            Pesquisar por Pontos
-        </MudText>
+    Pesquisar por Pontos
+</MudText>
 
 <br />
 
 <MudFocusTrap>
     <MudTextField @bind-Value="searchString" Variant="Variant.Text" Placeholder="Digite seus Pontos"
-                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search" 
-                  IconSize="Size.Medium"
+                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search"
+                  IconSize="Size.Medium" 
                   Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
 </MudFocusTrap>
 
-@if (filteredRows.Any())
-{
-    <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="!filteredRows.Any()">
-        @foreach (var curso in distinctCursos)
+<MudGrid >
+    <MudItem xs="12" sm="6" >
+        @if (filteredRows.Any())
         {
-            <MudSelectItem Value="@curso">@curso</MudSelectItem>
-        }
-    </MudSelect>
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="!filteredRows.Any()" >
+                @foreach (var curso in distinctCursos)
+                {
+                    <MudSelectItem Value="@curso">@curso</MudSelectItem>
+                }
+            </MudSelect>
 
-    <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="!filteredRows.Any()">
-        @foreach (var turno in distinctTurnos)
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="!filteredRows.Any()">
+                @foreach (var turno in distinctTurnos)
+                {
+                    <MudSelectItem Value="@turno">@turno</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="!filteredRows.Any()">
+                @foreach (var universidade in distinctUniversidades)
+                {
+                    <MudSelectItem Value="@universidade">@universidade</MudSelectItem>
+                }
+            </MudField>
+
+            <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="!filteredRows.Any()">
+                @foreach (var local in distinctLocais)
+                {
+                    <MudSelectItem Value="@local">@local</MudSelectItem>
+                }
+            </MudField>
+        }
+        else
         {
-            <MudSelectItem Value="@turno">@turno</MudSelectItem>
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="true" >
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="true">
+                <!-- Campos desativados -->
+            </MudField>
+
+            <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="true">
+                <!-- Campos desativados -->
+            </MudField>
         }
-    </MudSelect>
+    </MudItem>
 
-    <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="!filteredRows.Any()">
-        @foreach (var universidade in distinctUniversidades)
-        {
-            <MudSelectItem Value="@universidade">@universidade</MudSelectItem>
-        }
-    </MudField>
+    <MudItem xs="12" sm="6">
+        <MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2"  />
+            Localização
+        </MudText>
 
-    <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="!filteredRows.Any()">
-        @foreach (var local in distinctLocais)
-        {
-            <MudSelectItem Value="@local">@local</MudSelectItem>
-        }
-    </MudField>
-}
-else
-{
-    // Renderize campos desativados aqui, se necessário
-    <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="true">
-        <!-- Campos desativados -->
-    </MudSelect>
+        <MudPaper class="max-w-md w-10 rounded-lg" Elevation="4">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d14216.66766192764!2d-37.11080792839875!3d-10.923455642986067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x71ab2423713aed3%3A0xdc26874c8378592c!2zUm9zYSBFbHplLCBTw6NvIENyaXN0w7N2w6NvIC0gU0UsIDQ5MTAwLTAwMA!3m2!1d-10.9263351!2d-37.103066399999996!5e0!3m2!1spt-BR!2sbr!4v1725316551912!5m2!1spt-BR!2sbr"
+                    style="height: 300px; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 
-    <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
-        <!-- Campos desativados -->
-    </MudSelect>
-
-    <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="true">
-        <!-- Campos desativados -->
-    </MudField>
-
-    <MudField T="string" @bind-Value="selectedLocal" Label="Local" Disabled="true">
-        <!-- Campos desativados -->
-    </MudField>
-}
-
-<br /><br />
-
-<!--MAPS-->
-
-<MudText Typo="Typo.h5" Class="mb-4">
-    <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2" />
-    Localização
-</MudText>
-
-<MudCard class="max-w-md w-10 rounded-lg shadow-lg" Outlined="true">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d14216.66766192764!2d-37.11080792839875!3d-10.923455642986067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x71ab2423713aed3%3A0xdc26874c8378592c!2zUm9zYSBFbHplLCBTw6NvIENyaXN0w7N2w6NvIC0gU0UsIDQ5MTAwLTAwMA!3m2!1d-10.9263351!2d-37.103066399999996!5e0!3m2!1spt-BR!2sbr!4v1725316551912!5m2!1spt-BR!2sbr"
-            style="height: 300px; width: auto" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</MudCard>
 
 @*CODE C#*@
 @code {
