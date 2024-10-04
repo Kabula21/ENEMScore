@@ -81,14 +81,14 @@
         <h2>Preencha seus dados:</h2>
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex items-center">
-        <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Placeholder="Digite seu Nome" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Filled" Error="@isNomeAlunoError" />
+        <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Placeholder="Digite seu Nome" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Outlined" Error="@isNomeAlunoError" />
         @if (isNomeAlunoError)
         {
             <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
-        <MudSelect @bind-Value="ano" Label="Ano" Placeholder="Selecione o Ano" T="int?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Filled">
+        <MudSelect @bind-Value="ano" Label="Ano" Placeholder="Selecione o Ano" T="int?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Outlined">
             <MudSelectItem T="int?" Value="1">1ª Ano Ensino Médio</MudSelectItem>
             <MudSelectItem T="int?" Value="2">2ª Ano Ensino Médio</MudSelectItem>
             <MudSelectItem T="int?" Value="3">3ª Ano Ensino Médio</MudSelectItem>
@@ -99,7 +99,7 @@
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
-        <MudSelect @bind-Value="turma" Label="Turma" T="int?" Placeholder="Selecione a Turma" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Filled">
+        <MudSelect @bind-Value="turma" Label="Turma" T="int?" Placeholder="Selecione a Turma" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Outlined">
            <MudSelectItem T="int?" Value="1">Turma A</MudSelectItem>
             <MudSelectItem T="int?" Value="2">Turma B</MudSelectItem>
             <MudSelectItem T="int?" Value="3">Turma C</MudSelectItem>

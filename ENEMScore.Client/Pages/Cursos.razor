@@ -2,7 +2,6 @@
 
 <PageTitle>Cursos e Pontuações</PageTitle>
 
-<!--FORMS-->
 
 <MudItem xs="12" md="8" class="items-left">
     <h1>
@@ -16,9 +15,11 @@
 
 <br />
 
+<!--FORMS-->
+
 <MudGrid>
     <!-- Seção à esquerda com os campos de seleção e notas -->
-    <MudItem xs="12" md="6">
+    <MudItem xs="12" md="6" mb="auto" >
 
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
@@ -67,9 +68,11 @@
             @GetPontuacao(selectedTurno, 2024)
         </MudField>
 
-        <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
-            Confira os Pesos
-        </MudButton>
+        <MudTooltip Text="Ocultar Pesos">
+            <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
+                Confira os Pesos
+            </MudButton>
+        </MudTooltip>
 
         <!-- Seção de Pesos -->
         <MudCollapse Expanded="_expanded">
@@ -176,10 +179,13 @@
     </MudItem>
 </MudGrid>
 
+
+
+
 <!--CODE C#-->
 
 @code {
-    bool _expanded = false;
+    bool _expanded = true;
     private void ToggleCollapse()
     {
         _expanded = !_expanded;
@@ -206,26 +212,32 @@
         new Curso { Nome = "Direito", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
         new Curso { Nome = "Direito", Turno = "Tarde", Pontuacao2023 = "200", Pontuacao2024 = "100" },
         new Curso { Nome = "Direito", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
+        new Curso { Nome = "Direito", Turno = "Integral", Pontuacao2023 = "400", Pontuacao2024 = "600" },
 
         new Curso { Nome = "Medicina", Turno = "Manhã", Pontuacao2023 = "400", Pontuacao2024 = "300" },
         new Curso { Nome = "Medicina", Turno = "Tarde", Pontuacao2023 = "500", Pontuacao2024 = "600" },
         new Curso { Nome = "Medicina", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
+        new Curso { Nome = "Medicina", Turno = "Integral", Pontuacao2023 = "200", Pontuacao2024 = "400" },
 
         new Curso { Nome = "Jornalismo", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
         new Curso { Nome = "Jornalismo", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
         new Curso { Nome = "Jornalismo", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "600" },
+        new Curso { Nome = "Jornalismo", Turno = "Integral", Pontuacao2023 = "600", Pontuacao2024 = "400" },
 
         new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "200", Pontuacao2024 = "150" },
         new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "400", Pontuacao2024 = "550" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "750" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "700" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "500", Pontuacao2024 = "200" },
 
         new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "100", Pontuacao2024 = "800" },
         new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "700", Pontuacao2024 = "860" },
         new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "500" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "200", Pontuacao2024 = "600" },
 
         new Curso { Nome = "Design", Turno = "Manhã", Pontuacao2023 = "800", Pontuacao2024 = "600" },
         new Curso { Nome = "Design", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
-        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "600", Pontuacao2024 = "700" }
+        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "600", Pontuacao2024 = "700" },
+        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "300" }
 
     };
 
@@ -243,7 +255,7 @@
         "Ampla Concorrência",
         "Cota Escola Pública",
         "Cota Portador de Necessidades Especiais",
-        "Cota Racial"
+        "Candidatos autodeclarados pretos, pardos ou indígenas"
     };
 
         // Se selectedTipo não está vazio, filtra os tipos de acordo com a lógica correta
@@ -300,7 +312,5 @@
         // Fórmula exemplo, adapte conforme necessário
         FinalScore = (MathScore + LanguageScore + NatureSciencesScore + HumanSciencesScore + EssayScore) / 5;
     }
-
-
-   
+       
 }

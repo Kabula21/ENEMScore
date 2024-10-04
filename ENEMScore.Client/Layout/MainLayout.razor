@@ -1,6 +1,10 @@
 ﻿@inherits LayoutComponentBase
 @inject IDarkModeService DarkModeService
 
+<div style="@(DarkModeService.isDarkMode ? "background-image: url('/img/background-loaddark.png');" : 
+"background-image: url('/img/background-loadd.png');") background-size: cover; background-position: center; 
+    background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh;" >
+
 <MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -8,8 +12,8 @@
 
 @if (isLoading)
 {
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-image: url('/img/background-load.png'); background-size: cover; background-position: center; width: 100vw;">
-        <img src="/img/logo-enemscoreloading.png" alt="Loading" style="width: 500px; height: auto; margin-bottom: 20px" />
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-image: url('/img/background-load2.png'); background-size: cover; background-position: center; width: 100vw;">
+        <img src="/img/logo-enemscore.png" alt="Loading" style="width: 500px; height: auto; margin-bottom: 20px" />
         <MudProgressLinear Color="Color.Primary" Class="my-7" Style="width: 200px;" Rounded="true" Size="Size.Small" Value="@Value" />
     </div>
 
@@ -42,6 +46,7 @@ else
     </MudLayout>
 }
 
+</div>
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
