@@ -50,6 +50,13 @@
                 }
             </MudSelect>
 
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="!filteredRows.Any()">
+                @foreach (var tipo in GetTipos())
+                {
+                    <MudSelectItem Value="@tipo">@tipo</MudSelectItem>
+                }
+            </MudSelect>
+
             <MudField T="string" @bind-Value="selectedUniversidade" Label="Universidade" Disabled="!filteredRows.Any()">
                 @foreach (var universidade in distinctUniversidades)
                 {
@@ -71,6 +78,10 @@
             </MudSelect>
 
             <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="true">
                 <!-- Campos desativados -->
             </MudSelect>
 
@@ -104,6 +115,7 @@
     private string searchString = "";
     private string selectedCurso;
     private string selectedTurno;
+    private string selectedTipo;
     private string selectedUniversidade;
     private string selectedLocal;
 
@@ -113,38 +125,31 @@
     private IEnumerable<string> distinctTurnos => filteredRows.Select(x => x.Split()[2]).Distinct();
     private IEnumerable<string> distinctUniversidades => filteredRows.Select(x => x.Split()[3]).Distinct();
     private IEnumerable<string> distinctLocais => filteredRows.Select(x => x.Split()[4]).Distinct();
+  
 
     private string[] rows = {
     // Lista de itens conforme sua necessidade
-    @"1 Direito Manhã UFS Aracaju 500 Manhã",
-    @"1 Direito Tarde UFS Aracaju 500 Tarde",
-    @"1 Direito Noite UFS Aracaju 500 Noite",
-    @"2 Medicina Manhã UFS Lagarto 400 Manhã",
-    @"2 Medicina Tarde UFS Lagarto 400 Tarde",
-    @"2 Medicina Noite UFS Lagarto 400 Noite",
-    @"3 Jornalismo Manhã UFS Itabaiana 500 Manhã",
-    @"3 Jornalismo Tarde UFS Itabaiana 500 Tarde",
-    @"3 Jornalismo Noite UFS Itabaiana 500 Noite",
-    @"4 Enfermagem Manhã UFS Socorro 200 Manhã",
-    @"4 Enfermagem Tarde UFS Socorro 200 Tarde",
-    @"4 Enfermagem Noite UFS Socorro 200 Noite",
-    @"5 Enfermagem Manhã UFS Socorro 100 Manhã",
-    @"5 Enfermagem Tarde UFS Socorro 100 Tarde",
-    @"5 Enfermagem Noite UFS Socorro 100 Noite",
-    @"6 Design Manhã UFS Socorro 800 Manhã",
-    @"6 Design Tarde UFS Socorro 800 Tarde",
-    @"6 Design Noite UFS Socorro 800 Noite",
-    @"1 Direito Integral UFS Aracaju 400 Integral",
-    @"1 Direito Integral UFS Aracaju 600 Integral",
-    @"1 Direito Integral UFS Aracaju 400 Integral",
-    @"2 Medicina Integral UFS Lagarto 300 Integral",
-    @"2 Medicina Integral UFS Lagarto 600 Integral",
-    @"2 Medicina Integral UFS Lagarto 700 Integral",
-    @"3 Jornalismo Integral UFS Itabaiana 900 Integral",
-    @"3 Jornalismo Integral UFS Itabaiana 300 Integral",
-    @"3 Jornalismo Integral UFS Itabaiana 600 Integral",
-    @"4 Enfermagem Integral UFS Socorro 400 Integral",
-    @"4 Enfermagem Integral UFS Socorro 600 Integral",    
+    @"1 Direito Manhã UFS Aracaju 500",
+    @"2 Direito Tarde UFS Aracaju 600",
+    @"3 Direito Noite UFS Aracaju 550",
+    @"4 Administração Manhã UFS Aracaju 350",
+    @"5 Administração Tarde UFS Aracaju 400",
+    @"6 Administração Noite UFS Aracaju 450",
+    @"7 Engenharia Civil Manhã UFS Aracaju 700",
+    @"8 Engenharia Civil Tarde UFS Aracaju 650",
+    @"9 Engenharia Civil Noite UFS Aracaju 750",
+    @"10 Medicina Manhã UFS Aracaju 900",
+    @"11 Medicina Tarde UFS Aracaju 850",
+    @"12 Medicina Noite UFS Aracaju 950",
+    @"13 Psicologia Manhã UFS Aracaju 450",
+    @"14 Psicologia Tarde UFS Aracaju 500",
+    @"15 Psicologia Noite UFS Aracaju 550",
+    @"16 Odontologia Manhã UFS Aracaju 700",
+    @"17 Odontologia Tarde UFS Aracaju 650",
+    @"18 Odontologia Noite UFS Aracaju 600",
+    @"19 Arquitetura Manhã UFS Aracaju 550",
+    @"20 Arquitetura Tarde UFS Aracaju 600",
+    @"21 Arquitetura Noite UFS Aracaju 650",        
     };
 
     private IEnumerable<string> FilterFunc()
@@ -154,6 +159,17 @@
 
         var lowerSearchString = searchString.ToLower();
         return rows.Where(x => x.ToLower().Contains(lowerSearchString));
+    }
+
+    private IEnumerable<string> GetTipos()
+    {
+        return new List<string>
+    {
+        "Ampla Concorrência",
+        "Cota Escola Pública",
+        "Cota Portador de Necessidades Especiais",
+        "Candidatos autodeclarados pretos, pardos ou indígenas"
+    };
     }
 }
 
