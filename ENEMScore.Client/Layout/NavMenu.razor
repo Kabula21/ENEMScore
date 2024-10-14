@@ -1,25 +1,22 @@
 ﻿@inject NavigationManager NavigationManager
 
-<!--Folha de Estilos-->
 
+<!-- Folha de Estilos -->
 
-<!--NAV MENU-->
+<!-- NAV MENU -->
 
 <MudNavMenu Style="display: flex; flex-direction: column; height: 100vh;">
 
-    <MudNavLink Href="/"></MudNavLink>
-
     <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">INÍCIO</MudNavLink><br>
-    
 
     <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Cursos e Pontuações" Expanded="false">
 
         <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Universidade Federal" Expanded="false">
-        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Aracaju</MudNavLink>
-        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Itabaiana</MudNavLink>
-        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Nsa Sra. Glória</MudNavLink>
-        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Laranjeiras</MudNavLink>
-        <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Lagarto</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Aracaju</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Itabaiana</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Nsa Sra. Glória</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Laranjeiras</MudNavLink>
+            <MudNavLink Href="Cursos" Icon="@Icons.Material.Filled.ArrowRight">UFS Lagarto</MudNavLink>
         </MudNavGroup>
 
         <MudNavGroup Icon="@Icons.Material.Outlined.Label" Title="Instituto Federal" Expanded="false">
@@ -67,9 +64,8 @@
     <br>
    
     <MudNavLink Href="Sobre" Icon="@Icons.Material.Filled.Info" Color="Color.Default">SOBRE ENEMScore</MudNavLink>
-    <br>    
+    <br>
    
-
     <div Style="margin-top: auto; padding: 1rem; text-align: center;">
         <MudText Color="Color.Default">Avalie-nos!</MudText>
         <div class="icon-container">
@@ -87,13 +83,13 @@
         <MudText Color="Color.Default">ENEMScore Copyright 2024</MudText>
     </div>
 
-
 </MudNavMenu>
 
 
 <!--AVALIE POPUP -->
 
-    <MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover1Open" Style="margin-left: 5px; height: 400px; width: 300px;">
+<MudOverlay @bind-Visible="popover1Open" OnClick="() => ClosePopover(1)" />
+<MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover1Open" Style="margin-left: 5px; height: 400px; width: 300px;">
     <MudGrid>
         <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
             <MudText>
@@ -113,49 +109,49 @@
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="() => ClosePopover(1)">Fechar</MudButton>
         </MudItem>
     </MudGrid>
-    </MudPopover>
+</MudPopover>
 
-    <MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover2Open" Style="margin-left: 5px; height: 400px; width: 300px;">
-            <MudGrid>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudText>
-                        <h3>Agradecemos seu feedback! <br />No que podemos melhorar? </h3>
-                    </MudText>
-                </MudItem>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudIcon Icon="@Icons.Material.Outlined.SentimentNeutral" Style="font-size: 100px;"></MudIcon>
-                </MudItem>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudText>
-                    Entre em contato com o suporte se precisar de ajuda.
-                    </MudText>
-                </MudItem>
-                <MudItem xs="12" Style="display: flex; justify-content: center;">
+<MudOverlay @bind-Visible="popover2Open" OnClick="() => ClosePopover(2)" />
+<MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover2Open" Style="margin-left: 5px; height: 400px; width: 300px;">
+    <MudGrid>
+        <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
+            <MudText>
+                <h3>Agradecemos seu feedback! <br />No que podemos melhorar? </h3>
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
+            <MudIcon Icon="@Icons.Material.Outlined.SentimentNeutral" Style="font-size: 100px;"></MudIcon>
+        </MudItem>
+        <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
+            <MudText>
+                Entre em contato com o suporte se precisar de ajuda.
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" Style="display: flex; justify-content: center;">
             <MudButton Variant="Variant.Filled" Color="Color.Secondary" Size="Size.Small" OnClick="OpenSupport" Style="margin-right: 8px;">Suporte</MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="() => ClosePopover(2)">Fechar</MudButton>
-                </MudItem>
-            </MudGrid>
-        </MudPopover>
+        </MudItem>
+    </MudGrid>
+</MudPopover>
 
-    <MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover3Open" Style="margin-left: 5px; height: 400px; width: 300px;">
-            <MudGrid>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudText>
-                        <h3>Agradecemos por sua avaliação positiva! <br />Se precisar de ajuda, em contato com o suporte.</h3>
-                    </MudText>
-                </MudItem>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
-                    <MudIcon Icon="@Icons.Material.Outlined.SentimentSatisfied" Style="font-size: 100px;"></MudIcon>
-                </MudItem>
-                <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">                   
-                </MudItem>
-                <MudItem xs="12" Style="display: flex; justify-content: center;">
+<MudOverlay @bind-Visible="popover3Open" OnClick="() => ClosePopover(3)" />
+<MudPopover AnchorOrigin="Origin.CenterRight" TransformOrigin="Origin.TopLeft" Open="@popover3Open"  Style="margin-left: 5px; height: 400px; width: 300px;">
+    <MudGrid>
+        <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
+            <MudText>
+                <h3>Agradecemos por sua avaliação positiva! <br />Se precisar de ajuda, entre em contato com o suporte.</h3>
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" Style="text-align: center; margin-bottom: 16px;">
+            <MudIcon Icon="@Icons.Material.Outlined.SentimentSatisfied" Style="font-size: 100px;"></MudIcon>
+        </MudItem>
+        <MudItem xs="12" Style="display: flex; justify-content: center;">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="() => ClosePopover(3)">Fechar</MudButton>
-                </MudItem>
-            </MudGrid>
-        </MudPopover>
+        </MudItem>
+    </MudGrid>
+</MudPopover>
 
-<!--CODE C#-->
+<!-- CODE C# -->
 
 @code {
     private bool popover1Open;
@@ -185,12 +181,6 @@
         popover2Open = false;
        
     }
+
+   
 }
-
-
-
-
-
-
-
-
