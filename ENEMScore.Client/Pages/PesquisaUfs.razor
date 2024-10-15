@@ -1,0 +1,193 @@
+﻿@page "/PesquisaUfs"
+
+<PageTitle>Pesquisa de Cursos</PageTitle>
+
+<!--FORM-->
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.FindInPage" />
+        Pesquise pela sua Pontuação!
+    </h1>
+
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos pela sua pontuação!</i>
+    </p>
+</MudItem>
+
+<br>
+<br>
+
+<MudText Typo="Typo.h5" Class="mb-4">
+    <MudIcon Icon="@Icons.Material.Outlined.LocationSearching" Class="mr-2" />
+    UNIVERSIDADE FEDERAL: (UFS)
+</MudText>
+
+<br />
+
+<MudFocusTrap>
+    <MudTextField @bind-Value="searchString" Variant="Variant.Text" Placeholder="Digite seus Pontos"
+                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search"
+                  IconSize="Size.Medium"
+                  Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
+</MudFocusTrap>
+
+<MudGrid>
+    <MudItem xs="12" sm="6">
+        @if (filteredRows.Any())
+        {
+
+            <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Disabled="!filteredRows.Any()">
+                @foreach (var campus in GetCampus())
+                {
+                    <MudSelectItem Value="@campus">@campus</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="!filteredRows.Any()">
+                @foreach (var curso in distinctCursos)
+                {
+                    <MudSelectItem Value="@curso">@curso</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="!filteredRows.Any()">
+                @foreach (var turno in distinctTurnos)
+                {
+                    <MudSelectItem Value="@turno">@turno</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="!filteredRows.Any()">
+                @foreach (var tipo in GetTipos())
+                {
+                    <MudSelectItem Value="@tipo">@tipo</MudSelectItem>
+                }
+            </MudSelect>
+
+        }
+        else
+        {
+            <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+        }
+    </MudItem>
+
+    <MudItem xs="12" sm="6" Style="border: 1px solid #ccc; border-radius: 12px; padding: 16px; background-image: url('/img/maps.png'); background-size: contain; background-position: center; background-repeat: no-repeat;">
+        <MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2" />
+            Localização
+        </MudText>
+
+        <MudPaper class="max-w-md w-10 rounded-lg" Elevation="4">
+            @if (!string.IsNullOrEmpty(currentIframeUrl))
+            {
+                <iframe src="@currentIframeUrl"
+                        style="height: 400px; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            }
+        </MudPaper>
+    </MudItem>
+
+</MudGrid>
+
+@*CODE C#*@
+
+@code {
+
+    private string searchString = "";
+    private string selectedCampus;
+    private string selectedCurso;
+    private string selectedTurno;
+    private string selectedTipo;
+
+    private Dictionary<string, string> campusMapUrls = new Dictionary<string, string>()
+    {
+        { "UFS Aracaju", "https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d14216.66766192764!2d-37.11080792839875!3d-10.923455642986067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x71ab2423713aed3%3A0xdc26874c8378592c!2zUm9zYSBFbHplLCBTw6NvIENyaXN0w7N2w6NvIC0gU0UsIDQ5MTAwLTAwMA!3m2!1d-10.9263351!2d-37.103066399999996!5e0!3m2!1spt-BR!2sbr!4v1725316551912!5m2!1spt-BR!2sbr" },
+        { "UFS Itabaiana", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31365.455665475307!2d-37.45105866171502!3d-10.681775899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70ffa833420217d%3A0xa0b15971b80f4151!2sUniversidade%20Federal%20de%20Sergipe%20-%20Campus%20Itabaiana!5e0!3m2!1spt-BR!2sbr!4v1728995536702!5m2!1spt-BR!2sbr" },
+        { "UFS Nsa Sra. Glória", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d502019.10471980966!2d-37.6043520065059!3d-10.577274718586423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70f78e927de7bb5%3A0x8f3c5de9925add4b!2sUFS%20-%20CAMPUS%20SERT%C3%83O!5e0!3m2!1spt-BR!2sbr!4v1728996681820!5m2!1spt-BR!2sbr" },
+        { "UFS Laranjeiras", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38252.50689779259!2d-37.17691561713124!3d-10.819679346798322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705523304a25b91%3A0xad763be06da93c61!2sUniversidade%20Federal%20de%20Sergipe%2C%20Campus%20de%20Laranjeiras!5e0!3m2!1spt-BR!2sbr!4v1728997244829!5m2!1spt-BR!2sbr" },
+        { "UFS Lagarto", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1778.955838125104!2d-37.67263165008939!3d-10.928391920520111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71022dcd70b1079%3A0xbcfddacc00c53492!2sUniversidade%20Federal%20De%20Sergipe%2C%20Campus%20Lagarto!5e0!3m2!1spt-BR!2sbr!4v1728997380349!5m2!1spt-BR!2sbr" }
+        // Adicione mais campi e URLs conforme necessário
+    };
+
+    private string currentIframeUrl =>
+    !string.IsNullOrEmpty(selectedCampus) && campusMapUrls.ContainsKey(selectedCampus)
+        ? campusMapUrls[selectedCampus]
+        : string.Empty;
+
+
+    private IEnumerable<string> filteredRows => FilterFunc();
+
+    private IEnumerable<string> distinctCursos => filteredRows.Select(x => x.Split()[1]).Distinct();
+    private IEnumerable<string> distinctTurnos => filteredRows.Select(x => x.Split()[2]).Distinct();
+
+    private string[] rows = {
+    @"1 Direito Manhã UFS Aracaju 500",
+    @"2 Direito Tarde UFS Aracaju 600",
+    @"3 Direito Noite UFS Aracaju 550",
+    @"4 Administração Manhã UFS Aracaju 350",
+    @"5 Administração Tarde UFS Aracaju 400",
+    @"6 Administração Noite UFS Aracaju 450",
+    @"7 Engenharia Civil Manhã UFS Aracaju 700",
+    @"8 Engenharia Civil Tarde UFS Aracaju 650",
+    @"9 Engenharia Civil Noite UFS Aracaju 750",
+    @"10 Medicina Manhã UFS Aracaju 900",
+    @"11 Medicina Tarde UFS Aracaju 850",
+    @"12 Medicina Noite UFS Aracaju 950",
+    @"13 Psicologia Manhã UFS Aracaju 450",
+    @"14 Psicologia Tarde UFS Aracaju 500",
+    @"15 Psicologia Noite UFS Aracaju 550",
+    @"16 Odontologia Manhã UFS Aracaju 700",
+    @"17 Odontologia Tarde UFS Aracaju 650",
+    @"18 Odontologia Noite UFS Aracaju 600",
+    @"19 Arquitetura Manhã UFS Aracaju 550",
+    @"20 Arquitetura Tarde UFS Aracaju 600",
+    @"21 Arquitetura Noite UFS Aracaju 650",
+    };
+
+    private IEnumerable<string> FilterFunc()
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return Enumerable.Empty<string>();
+
+        var lowerSearchString = searchString.ToLower();
+        return rows.Where(x => x.ToLower().Contains(lowerSearchString));
+    }
+
+    private IEnumerable<string> GetTipos()
+    {
+        return new List<string>
+        {
+            "Ampla Concorrência",
+            "Cota Escola Pública",
+            "Cota Portador de Necessidades Especiais",
+            "Candidatos autodeclarados pretos, pardos ou indígenas"
+        };
+    }
+
+    private IEnumerable<string> GetCampus()
+    {
+        return new List<string>
+        {
+            "UFS Aracaju",
+            "UFS Itabaiana",
+            "UFS Nsa Sra. Glória",
+            "UFS Laranjeiras",
+            "UFS Lagarto"
+        };
+    }
+}

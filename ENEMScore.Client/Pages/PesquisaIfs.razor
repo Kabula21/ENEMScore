@@ -1,0 +1,208 @@
+﻿@page "/PesquisaIfs"
+
+<PageTitle>Pesquisa de Cursos</PageTitle>
+
+<!--FORM-->
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.FindInPage" />
+        Pesquise pela sua Pontuação!
+    </h1>
+
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos pela sua pontuação!</i>
+    </p>
+</MudItem>
+
+<br>
+<br>
+
+<MudText Typo="Typo.h5" Class="mb-4">
+    <MudIcon Icon="@Icons.Material.Outlined.LocationSearching" Class="mr-2" />
+    INSTITUTO FEDERAL: (IFS)
+</MudText>
+
+<br />
+
+<MudFocusTrap>
+    <MudTextField @bind-Value="searchString" Variant="Variant.Text" Placeholder="Digite seus Pontos"
+                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search"
+                  IconSize="Size.Medium" 
+                  Style="width: 100%; max-width: 200px; margin-left: 0; margin-right: auto;" />
+</MudFocusTrap>
+
+<MudGrid >
+    <MudItem xs="12" sm="6" >
+        @if (filteredRows.Any())
+        {
+
+            <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Disabled="!filteredRows.Any()">
+                @foreach (var campus in GetCampus())
+                {
+                    <MudSelectItem Value="@campus">@campus</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="!filteredRows.Any()" >
+                @foreach (var curso in distinctCursos)
+                {
+                    <MudSelectItem Value="@curso">@curso</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="!filteredRows.Any()">
+                @foreach (var turno in distinctTurnos)
+                {
+                    <MudSelectItem Value="@turno">@turno</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="!filteredRows.Any()">
+                @foreach (var tipo in GetTipos())
+                {
+                    <MudSelectItem Value="@tipo">@tipo</MudSelectItem>
+                }
+            </MudSelect>
+
+            
+        }
+        else
+        {
+            <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Disabled="true" >
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+
+            <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Disabled="true">
+                <!-- Campos desativados -->
+            </MudSelect>
+            
+        }
+    </MudItem>
+
+    <MudItem xs="12" sm="6" Style="border: 1px solid #ccc; border-radius: 12px; padding: 16px; background-image: url('/img/maps.png'); background-size: contain; background-position: center; background-repeat: no-repeat;">
+
+        <MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Outlined.LocationOn" Class="mr-2" />
+            Localização
+        </MudText>
+
+        <MudPaper class="max-w-md w-10 rounded-lg" Elevation="4">
+            @if (!string.IsNullOrEmpty(currentIframeUrl))
+            {
+                <iframe src="@currentIframeUrl"
+                        style="height: 400px; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            }
+        </MudPaper>
+    </MudItem>
+
+</MudGrid>
+
+
+@*CODE C#*@
+@code {
+
+    private string searchString = "";
+    private string selectedCampus;
+    private string selectedCurso;
+    private string selectedTurno;
+    private string selectedTipo;
+
+    private Dictionary<string, string> campusMapUrls = new Dictionary<string, string>()
+    {
+        { "IFS Aracaju", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46608.17685241881!2d-37.09485259954385!3d-10.915877440572677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71ab30a5bcd126b%3A0xd4f4944197901389!2sInstituto%20Federal%20de%20Sergipe!5e0!3m2!1spt-BR!2sbr!4v1728998227577!5m2!1spt-BR!2sbr" },
+        { "IFS Estância", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125226.9539559906!2d-37.50489238600577!3d-11.23620967530161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7107106236b38c7%3A0x1fb55d6cb751e794!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%20-%20Campus%20Est%C3%A2ncia!5e0!3m2!1spt-BR!2sbr!4v1728998344584!5m2!1spt-BR!2sbr" },
+        { "IFS Nsa Sra. Glória", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7870.521234962713!2d-37.44934929989833!3d-10.192793272487243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70f785ee8f670fd%3A0x9c819290d130b558!2sInstituto%20Federal%20de%20Sergipe%20-%20Campus%20Gl%C3%B3ria!5e0!3m2!1spt-BR!2sbr!4v1728998404966!5m2!1spt-BR!2sbr" },
+        { "IFS Itabaiana", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1966.5790976145076!2d-37.40710616618876!3d-10.691491113055529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70ffa62555555555%3A0x289810642e4e6213!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%20-%20Campus%20Itabaiana!5e0!3m2!1spt-BR!2sbr!4v1728998479351!5m2!1spt-BR!2sbr" },
+        { "IFS Propriá", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1087.7107252628125!2d-36.855527895974696!3d-10.242599235392376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705a445c609c453%3A0x8d6b7e03ea48ab33!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%2C%20Campus%20Propri%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1728998534750!5m2!1spt-BR!2sbr" },
+        { "IFS Poço Redondo", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23433.583921932986!2d-37.676865159371054!3d-9.852208162599103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70f3f0067a61af1%3A0x5c8580411218cbaa!2sInstituto%20Federal%20de%20Sergipe%20Campus%20Po%C3%A7o%20Redondo!5e0!3m2!1spt-BR!2sbr!4v1728998595046!5m2!1spt-BR!2sbr" },
+        { "IFS São Critovão", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d598.7874511132118!2d-37.18503236867713!3d-10.913399877251624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71aac2044b4fddb%3A0xeccbcc4889206c13!2sInstituto%20Federal%20de%20Sergipe%20-%20Campus%20S%C3%A3o%20Crist%C3%B3v%C3%A3o!5e0!3m2!1spt-BR!2sbr!4v1728998697062!5m2!1spt-BR!2sbr" },
+        { "IFS Socorro", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1777.5043291715083!2d-37.07437202798545!3d-10.852920203996012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7054ce56e3fb4f9%3A0xd37118bace9d0721!2sInstituto%20Federal%20de%20Sergipe%20-%20Campus%20Socorro!5e0!3m2!1spt-BR!2sbr!4v1728998766933!5m2!1spt-BR!2sbr" },
+        { "IFS Tobias Barreto", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2916.7819681821343!2d-37.98311239336043!3d-11.164239268285664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x711b2ef8389b869%3A0xf53700297625cf8f!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%2C%20Campus%20Tobias%20Barreto!5e0!3m2!1spt-BR!2sbr!4v1728998846202!5m2!1spt-BR!2sbr" }
+        // Adicione mais campi e URLs conforme necessário
+    };
+
+    private string currentIframeUrl =>
+    !string.IsNullOrEmpty(selectedCampus) && campusMapUrls.ContainsKey(selectedCampus)
+        ? campusMapUrls[selectedCampus]
+        : string.Empty;
+
+    
+
+    private IEnumerable<string> filteredRows => FilterFunc();
+
+    private IEnumerable<string> distinctCursos => filteredRows.Select(x => x.Split()[1]).Distinct();
+    private IEnumerable<string> distinctTurnos => filteredRows.Select(x => x.Split()[2]).Distinct();
+   
+  
+
+    private string[] rows = {
+    // Lista de itens conforme sua necessidade
+    @"1 Direito Manhã UFS Aracaju 500",
+    @"2 Direito Tarde UFS Aracaju 600",
+    @"3 Direito Noite UFS Aracaju 550",
+    @"4 Administração Manhã UFS Aracaju 350",
+    @"5 Administração Tarde UFS Aracaju 400",
+    @"6 Administração Noite UFS Aracaju 450",
+    @"7 Engenharia Civil Manhã UFS Aracaju 700",
+    @"8 Engenharia Civil Tarde UFS Aracaju 650",
+    @"9 Engenharia Civil Noite UFS Aracaju 750",
+    @"10 Medicina Manhã UFS Aracaju 900",
+    @"11 Medicina Tarde UFS Aracaju 850",
+    @"12 Medicina Noite UFS Aracaju 950",
+    @"13 Psicologia Manhã UFS Aracaju 450",
+    @"14 Psicologia Tarde UFS Aracaju 500",
+    @"15 Psicologia Noite UFS Aracaju 550",
+    @"16 Odontologia Manhã UFS Aracaju 700",
+    @"17 Odontologia Tarde UFS Aracaju 650",
+    @"18 Odontologia Noite UFS Aracaju 600",
+    @"19 Arquitetura Manhã UFS Aracaju 550",
+    @"20 Arquitetura Tarde UFS Aracaju 600",
+    @"21 Arquitetura Noite UFS Aracaju 650",        
+    };
+
+    private IEnumerable<string> FilterFunc()
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return Enumerable.Empty<string>();
+
+        var lowerSearchString = searchString.ToLower();
+        return rows.Where(x => x.ToLower().Contains(lowerSearchString));
+    }
+
+    private IEnumerable<string> GetTipos()
+    {
+        return new List<string>
+    {
+        "Ampla Concorrência",
+        "Cota Escola Pública",
+        "Cota Portador de Necessidades Especiais",
+        "Candidatos autodeclarados pretos, pardos ou indígenas"
+    };
+    }
+
+    private IEnumerable<string> GetCampus()
+    {
+        return new List<string>
+    {
+        "IFS Aracaju",
+        "IFS Estância",
+        "IFS Nsa Sra. Glória",
+        "IFS Itabaiana",
+        "IFS Propriá",
+        "IFS Poço Redondo",
+        "IFS São Critovão",
+        "IFS Socorro",
+        "IFS Tobias Barreto"
+    };
+    }
+}
+

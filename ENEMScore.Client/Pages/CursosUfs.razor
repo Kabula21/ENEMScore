@@ -1,0 +1,335 @@
+﻿@page "/CursosUfs"
+
+<PageTitle>Cursos e Pontuações</PageTitle>
+
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
+        Cursos e Pontuações!
+    </h1>
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos e suas pontuações!</i>
+    </p>
+</MudItem>
+
+<br />
+
+<!--FORMS-->
+
+<MudGrid>
+    <!-- Seção à esquerda com os campos de seleção e notas -->
+    <MudItem xs="12" md="6" mb="auto" >
+
+        <MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
+            UNIVERSIDADE FEDERAL: (UFS)
+        </MudText>
+
+
+        <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var item in GetCampus())
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
+
+        <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var curso in cursos.Select(c => c.Nome).Distinct())
+            {
+                <MudSelectItem Value="@curso">@curso</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @if (!string.IsNullOrEmpty(selectedCurso))
+            {
+                @foreach (var turno in cursos.Where(c => c.Nome == selectedCurso).Select(c => c.Turno).Distinct())
+                {
+                    <MudSelectItem Value="@turno">@turno</MudSelectItem>
+                }
+            }
+        </MudSelect>
+
+        <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var item in GetTipos())
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudField Label="Nota de Corte/2023"
+                  Value="@GetPontuacao(selectedTurno, 2023)"
+                  Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Adornment.End : Adornment.None)"
+                  AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Icons.Material.Filled.CheckCircle : null)"
+                  AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Color.Success : Color.Transparent)"
+                  FullWidth="true">
+            @GetPontuacao(selectedTurno, 2023)
+        </MudField>
+
+        <MudField Label="Nota de Corte/2024"
+                  Value="@GetPontuacao(selectedTurno, 2024)"
+                  Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Adornment.End : Adornment.None)"
+                  AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Icons.Material.Filled.CheckCircle : null)"
+                  AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Color.Success : Color.Transparent)"
+                  FullWidth="true">
+            @GetPontuacao(selectedTurno, 2024)
+        </MudField>
+
+        <MudTooltip Text="Ocultar Pesos">
+            <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
+                Confira os Pesos
+            </MudButton>
+        </MudTooltip>
+
+        <!-- Seção de Pesos -->
+        <MudCollapse Expanded="_expanded">
+            <MudText Typo="Typo.h6" Align="Align.Left" Class="ml-8">
+                Pesos ENEM: Curso de Direito em Aracaju
+            </MudText>
+            <MudDivider />
+            <ul class="mud-list" style="list-style-type: none; padding-left: 1.5rem; margin: 0;">
+                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.Code" />
+                    <MudText Class="ml-2">Linguagens, Códigos e suas Tecnologias: <strong>30%</strong></MudText>
+                </li>
+                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.Calculate" />
+                    <MudText Class="ml-2">Matemática e suas Tecnologias: <strong>20%</strong></MudText>
+                </li>
+                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.Nature" />
+                    <MudText Class="ml-2">Ciências da Natureza e suas Tecnologias: <strong>10%</strong></MudText>
+                </li>
+                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.Book" />
+                    <MudText Class="ml-2">Ciências Humanas e suas Tecnologias: <strong>40%</strong></MudText>
+                </li>
+            </ul>
+        </MudCollapse>
+    </MudItem>
+
+    <!-- CALCULADORA Seção à direita com Tabs -->
+    <MudItem xs="12" md="6">
+        <MudText Typo="Typo.h5" Class="mb-4">
+            <MudIcon Icon="@Icons.Material.Outlined.Calculate" Class="me-2" /> CALCULADORA
+        </MudText>
+        <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Primary">
+            <MudTabPanel Text="Por Notas">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.h5"></MudText>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Matemática" @bind-Value="MathScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Linguagens" @bind-Value="LanguageScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Ciências da Natureza" @bind-Value="NatureSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Ciências Humanas" @bind-Value="HumanSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" Class="mb-3">
+                                <MudTextField Label="Nota da Redação" @bind-Value="EssayScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" Class="mb-3">
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CalculateScore">Calcular</MudButton>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6">Nota Final: @FinalScore</MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Por Peso">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.h5"></MudText>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="12" md="6" Class="mb-3">
+                                <MudTextField @bind-Value="MathScore" Label="Nota de Matemática" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
+                            </MudItem>
+                            <MudItem xs="12" md="6" Class="mb-3">
+                                <MudTextField @bind-Value="LanguageScore" Label="Nota de Linguagens" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
+                            </MudItem>
+                            <MudItem xs="12" md="6" Class="mb-3">
+                                <MudTextField @bind-Value="NatureSciencesScore" Label="Nota de Ciências da Natureza" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
+                            </MudItem>
+                            <MudItem xs="12" md="6" Class="mb-3">
+                                <MudTextField @bind-Value="HumanSciencesScore" Label="Nota de Ciências Humanas" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
+                            </MudItem>
+                            <MudItem xs="12" Class="mb-3">
+                                <MudTextField @bind-Value="EssayScore" Label="Nota da Redação" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
+                            </MudItem>
+                            <MudItem xs="12" Class="mb-3">
+                                <MudButton OnClick="CalculateScore" Variant="Variant.Filled" Color="Color.Primary">Calcular</MudButton>
+                            </MudItem>
+                            @if (FinalScore >= 0)
+                            {
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.h6">Pontuação Final: @FinalScore</MudText>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudTabPanel>
+        </MudTabs>
+    </MudItem>
+</MudGrid>
+
+
+
+
+<!--CODE C#-->
+
+@code {
+    bool _expanded = true;
+    private void ToggleCollapse()
+    {
+        _expanded = !_expanded;
+    }
+
+    private void OnExpandCollapseClick()
+    {
+        _expanded = !_expanded;
+    }    
+
+    // Classe para representar os dados de um curso
+    public class Curso
+    {
+        public string Campus { get; set; }
+        public string Nome { get; set; }
+        public string Turno { get; set; }
+        public string Tipo { get; set; }
+        public string Pontuacao2023 { get; set; }
+        public string Pontuacao2024 { get; set; }
+    }
+
+    // Lista de cursos
+    private List<Curso> cursos = new List<Curso>
+    {
+        new Curso { Nome = "Direito", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
+        new Curso { Nome = "Direito", Turno = "Tarde", Pontuacao2023 = "200", Pontuacao2024 = "100" },
+        new Curso { Nome = "Direito", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
+        new Curso { Nome = "Direito", Turno = "Integral", Pontuacao2023 = "400", Pontuacao2024 = "600" },
+
+        new Curso { Nome = "Medicina", Turno = "Manhã", Pontuacao2023 = "400", Pontuacao2024 = "300" },
+        new Curso { Nome = "Medicina", Turno = "Tarde", Pontuacao2023 = "500", Pontuacao2024 = "600" },
+        new Curso { Nome = "Medicina", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
+        new Curso { Nome = "Medicina", Turno = "Integral", Pontuacao2023 = "200", Pontuacao2024 = "400" },
+
+        new Curso { Nome = "Jornalismo", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
+        new Curso { Nome = "Jornalismo", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
+        new Curso { Nome = "Jornalismo", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "600" },
+        new Curso { Nome = "Jornalismo", Turno = "Integral", Pontuacao2023 = "600", Pontuacao2024 = "400" },
+
+        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "200", Pontuacao2024 = "150" },
+        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "400", Pontuacao2024 = "550" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "700" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "500", Pontuacao2024 = "200" },
+
+        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "100", Pontuacao2024 = "800" },
+        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "700", Pontuacao2024 = "860" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "500" },
+        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "200", Pontuacao2024 = "600" },
+
+        new Curso { Nome = "Design", Turno = "Manhã", Pontuacao2023 = "800", Pontuacao2024 = "600" },
+        new Curso { Nome = "Design", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
+        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "600", Pontuacao2024 = "700" },
+        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "300" }
+
+    };
+    private string selectedCampus { get; set; }
+    private string selectedCurso { get; set; }
+    private string selectedTurno { get; set; }
+    private string selectedTipo { get; set; }
+    private string selectedPontuacao2023 { get; set; }
+    private string selectedPontuacao2024 { get; set; }
+
+
+    private IEnumerable<string> GetCampus()
+    {
+        return new List<string>
+        {
+            "UFS Aracaju",
+            "UFS Itabaiana",
+            "UFS Nsa Sra. Glória",
+            "UFS Laranjeiras",
+            "UFS Lagarto"
+        };
+    }
+
+    private IEnumerable<string> GetTipos()
+    {
+        var tipos = new List<string>
+    {
+        
+        "Ampla Concorrência",
+        "Cota Escola Pública",
+        "Cota Portador de Necessidades Especiais",
+        "Candidatos autodeclarados pretos, pardos ou indígenas"
+    };    
+        // Se selectedTipo não está vazio, filtra os tipos de acordo com a lógica correta
+        if (!string.IsNullOrEmpty(selectedTipo))
+        {
+            var tiposFiltrados = cursos
+                .Where(c => c.Nome == selectedTipo) // Filtra os cursos com base no nome selecionado
+                .Select(c => c.Turno) // Seleciona o turno
+                .Distinct(); // Remove duplicatas
+
+            tipos.AddRange(tiposFiltrados); // Adiciona os turnos filtrados à lista de tipos
+        }
+
+        return tipos.Distinct(); // Retorna a lista final de tipos
+    }
+
+    private void UpdateData()
+    {
+        var cursoSelecionado = cursos.FirstOrDefault(c => c.Nome == selectedCurso && c.Turno == selectedTurno);
+
+        if (cursoSelecionado != null)
+        {
+            selectedPontuacao2023 = cursoSelecionado.Pontuacao2023;
+            selectedPontuacao2024 = cursoSelecionado.Pontuacao2024;
+        }
+        else
+        {
+            selectedPontuacao2023 = string.Empty;
+            selectedPontuacao2024 = string.Empty;
+        }
+    }
+
+    private string GetPontuacao(string turno, int ano)
+    {
+        var cursoSelecionado = cursos.FirstOrDefault(c => c.Turno == turno);
+
+        return cursoSelecionado != null
+            ? (ano == 2023 ? cursoSelecionado.Pontuacao2023 : cursoSelecionado.Pontuacao2024)
+            : string.Empty;
+    }
+
+    private double MathScore { get; set; }
+    private double LanguageScore { get; set; }
+    private double NatureSciencesScore { get; set; }
+    private double HumanSciencesScore { get; set; }
+    private double EssayScore { get; set; }
+    private double FinalScore { get; set; }
+
+    private void CalculateScore()
+    {
+        // Fórmula exemplo, adapte conforme necessário
+        FinalScore = (MathScore + LanguageScore + NatureSciencesScore + HumanSciencesScore + EssayScore) / 5;
+    }
+       
+}

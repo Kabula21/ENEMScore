@@ -1,4 +1,4 @@
-﻿@page "/Cursos"
+﻿@page "/CursosIfs"
 
 <PageTitle>Cursos e Pontuações</PageTitle>
 
@@ -23,8 +23,17 @@
 
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
-            UFS: CAMPUS ARACAJU
+            INSTITUTO FEDERAL: (IFS)
         </MudText>
+
+
+        <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var item in GetCampus())
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+
 
         <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Class="mb-2" @onchange="UpdateData" FullWidth="true">
             @foreach (var curso in cursos.Select(c => c.Nome).Distinct())
@@ -199,6 +208,7 @@
     // Classe para representar os dados de um curso
     public class Curso
     {
+        public string Campus { get; set; }
         public string Nome { get; set; }
         public string Turno { get; set; }
         public string Tipo { get; set; }
@@ -240,12 +250,29 @@
         new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "300" }
 
     };
-
+    private string selectedCampus { get; set; }
     private string selectedCurso { get; set; }
     private string selectedTurno { get; set; }
     private string selectedTipo { get; set; }
     private string selectedPontuacao2023 { get; set; }
     private string selectedPontuacao2024 { get; set; }
+
+
+    private IEnumerable<string> GetCampus()
+    {
+        return new List<string>
+        {
+            "IFS Aracaju",
+            "IFS Estância",
+            "IFS Nsa Sra. Glória",
+            "IFS Itabaiana",
+            "IFS Propriá",
+            "IFS Poço Redondo",
+            "IFS São Critovão",
+            "IFS Socorro",
+            "IFS Tobias Barreto"
+        };
+    }
 
     private IEnumerable<string> GetTipos()
     {
@@ -256,8 +283,7 @@
         "Cota Escola Pública",
         "Cota Portador de Necessidades Especiais",
         "Candidatos autodeclarados pretos, pardos ou indígenas"
-    };
-
+    };    
         // Se selectedTipo não está vazio, filtra os tipos de acordo com a lógica correta
         if (!string.IsNullOrEmpty(selectedTipo))
         {
@@ -271,9 +297,6 @@
 
         return tipos.Distinct(); // Retorna a lista final de tipos
     }
-
-
-   
 
     private void UpdateData()
     {
