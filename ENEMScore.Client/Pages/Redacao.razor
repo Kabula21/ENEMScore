@@ -45,7 +45,7 @@
     </h1>
 
     <p class="font-normal text-left ml-8">
-        <i>*ATENÇÃO! Antes de começar leia as REGRAS!</i>
+        <i>*ATENÇÃO! Antes de começar leia as REGRAS! --> </i>
         <MudTooltip Text="Veja as Regras">
             <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Info" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
         </MudTooltip>
@@ -236,9 +236,9 @@
 <!--BOTAO DE ENVIAR-->
 
 <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
-    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Secondary" OnClick="@StartProgress"
+    <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Warning" OnClick="@StartProgress"
         class="h-10" style="max-width: 100px;">Enviar</MudButton>
-    <MudProgressLinear Color="Color.Primary" Value="@Value" style="flex-grow: 1; max-width: 900px;" Striped="true" Size="Size.Large" />
+    <MudProgressLinear Color="Color.Warning" Value="@Value" style="flex-grow: 1; max-width: 900px;" Striped="true" Size="Size.Large" />
 </div>
 
 <!--POPUP-->
