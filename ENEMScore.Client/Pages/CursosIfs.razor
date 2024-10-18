@@ -115,7 +115,7 @@
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Outlined.Calculate" Class="me-2" /> CALCULADORA
         </MudText>
-        <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Primary">
+        <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Secondary">
             <MudTabPanel Text="Por Notas">
                 <MudCard>
                     <MudCardHeader>
@@ -139,7 +139,7 @@
                                 <MudTextField Label="Nota da Redação" @bind-Value="EssayScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
                             </MudItem>
                             <MudItem xs="12" Class="mb-3">
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CalculateScore">Calcular</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="CalculateScore">Calcular</MudButton>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudText Typo="Typo.h6">Nota Final: @FinalScore</MudText>
@@ -172,7 +172,7 @@
                                 <MudTextField @bind-Value="EssayScore" Label="Nota da Redação" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
                             </MudItem>
                             <MudItem xs="12" Class="mb-3">
-                                <MudButton OnClick="CalculateScore" Variant="Variant.Filled" Color="Color.Primary">Calcular</MudButton>
+                                <MudButton OnClick="CalculateScore" Variant="Variant.Filled" Color="Color.Secondary">Calcular</MudButton>
                             </MudItem>
                             @if (FinalScore >= 0)
                             {
