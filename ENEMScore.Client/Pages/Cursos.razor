@@ -1,7 +1,8 @@
-﻿@page "/CursosIfs"
+﻿@page "/Cursos"
+@using ENEMScore.Client
+@inject HttpClient Http
 
 <PageTitle>Cursos e Pontuações</PageTitle>
-
 
 <MudItem xs="12" md="8" class="items-left">
     <h1>
@@ -16,77 +17,77 @@
 <br />
 
 <!--FORMS-->
-
 <MudGrid>
-    <!-- Seção à esquerda com os campos de seleção e notas -->
-    <MudItem xs="12" md="6" mb="auto" >
-
+    <MudItem xs="12" md="6" mb="auto">
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
-            INSTITUTO FEDERAL: (IFS)
+            UNIVERSIDADE FEDERAL: (UFS) / INSTITUTO FEDERAL: (IFS)
         </MudText>
 
-
-        <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Class="mb-2" @onchange="UpdateData" FullWidth="true">
-            @foreach (var item in GetCampus())
+        <MudSelect T="string" @bind-Value="selectedUniversidade" Label="Universidade" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var uni in GetUniversidade())
             {
-                <MudSelectItem Value="@item">@item</MudSelectItem>
+                <MudSelectItem Value="@uni">@uni</MudSelectItem>
             }
         </MudSelect>
 
+        <MudSelect T="int" @bind-Value="selectedAno" Label="Ano" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var ano in GetAno())
+            {
+                <MudSelectItem Value="@ano">@ano</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="string" @bind-Value="selectedCampus" Label="Campus" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+            @foreach (var campus in GetCampus())
+            {
+                <MudSelectItem Value="@campus">@campus</MudSelectItem>
+            }
+        </MudSelect>
 
         <MudSelect T="string" @bind-Value="selectedCurso" Label="Curso" Class="mb-2" @onchange="UpdateData" FullWidth="true">
-            @foreach (var curso in cursos.Select(c => c.Nome).Distinct())
+            @foreach (var curso in GetCursos())
             {
                 <MudSelectItem Value="@curso">@curso</MudSelectItem>
             }
         </MudSelect>
 
-        <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Class="mb-2" @onchange="UpdateData" FullWidth="true">
+        <MudSelect T="string" @bind-Value="selectedTurno" Label="Turno" Class="mb-2" FullWidth="true">
             @if (!string.IsNullOrEmpty(selectedCurso))
             {
-                @foreach (var turno in cursos.Where(c => c.Nome == selectedCurso).Select(c => c.Turno).Distinct())
+                @foreach (var turno in GetTurnos())
                 {
                     <MudSelectItem Value="@turno">@turno</MudSelectItem>
                 }
             }
         </MudSelect>
 
-        <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Class="mb-2" @onchange="UpdateData" FullWidth="true">
-            @foreach (var item in GetTipos())
+        <MudSelect T="string" @bind-Value="selectedTipo" Label="Tipo" Class="mb-2" FullWidth="true">
+            @foreach (var tipo in GetTipos())
             {
-                <MudSelectItem Value="@item">@item</MudSelectItem>
+                <MudSelectItem Value="@tipo">@tipo</MudSelectItem>
             }
         </MudSelect>
 
-        <MudField Label="Nota de Corte/2023"
-                  Value="@GetPontuacao(selectedTurno, 2023)"
-                  Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Adornment.End : Adornment.None)"
-                  AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Icons.Material.Filled.CheckCircle : null)"
-                  AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2022)) ? Color.Success : Color.Transparent)"
-                  FullWidth="true">
-            @GetPontuacao(selectedTurno, 2023)
-        </MudField>
+       <MudTextField T="decimal" @bind-Value="selectedNotaDeCorte" ReadOnly="true" Label="Nota de Corte" Class="mb-2" FullWidth="true">
+            @foreach (var notaDeCorte in GetNotasDeCorte())
+            {
+                <MudSelectItem Value="@notaDeCorte">@notaDeCorte.ToString()</MudSelectItem>
+            }
+        </MudTextField>
 
-        <MudField Label="Nota de Corte/2024"
-                  Value="@GetPontuacao(selectedTurno, 2024)"
-                  Adornment="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Adornment.End : Adornment.None)"
-                  AdornmentIcon="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Icons.Material.Filled.CheckCircle : null)"
-                  AdornmentColor="@(!string.IsNullOrEmpty(GetPontuacao(selectedTurno, 2023)) ? Color.Success : Color.Transparent)"
-                  FullWidth="true">
-            @GetPontuacao(selectedTurno, 2024)
-        </MudField>
 
-        <MudTooltip Text="Ocultar Pesos">
+
+    <!-- Seção de Pesos -->
+        <MudTooltip Text="Expandir Pesos">
             <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
                 Confira os Pesos
             </MudButton>
         </MudTooltip>
 
-        <!-- Seção de Pesos -->
         <MudCollapse Expanded="_expanded">
             <MudText Typo="Typo.h6" Align="Align.Left" Class="ml-8">
-                Pesos ENEM: Curso de Direito em Aracaju
+                Pesos ENEM: @selectedCurso
             </MudText>
             <MudDivider />
             <ul class="mud-list" style="list-style-type: none; padding-left: 1.5rem; margin: 0;">
@@ -115,7 +116,7 @@
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Outlined.Calculate" Class="me-2" /> CALCULADORA
         </MudText>
-        <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Secondary">
+        <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Primary">
             <MudTabPanel Text="Por Notas">
                 <MudCard>
                     <MudCardHeader>
@@ -139,7 +140,7 @@
                                 <MudTextField Label="Nota da Redação" @bind-Value="EssayScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
                             </MudItem>
                             <MudItem xs="12" Class="mb-3">
-                                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="CalculateScore">Calcular</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CalculateScore">Calcular</MudButton>
                             </MudItem>
                             <MudItem xs="12">
                                 <MudText Typo="Typo.h6">Nota Final: @FinalScore</MudText>
@@ -172,7 +173,7 @@
                                 <MudTextField @bind-Value="EssayScore" Label="Nota da Redação" Variant="Variant.Filled" Margin="Margin.Dense" Type="number" FullWidth="true" />
                             </MudItem>
                             <MudItem xs="12" Class="mb-3">
-                                <MudButton OnClick="CalculateScore" Variant="Variant.Filled" Color="Color.Secondary">Calcular</MudButton>
+                                <MudButton OnClick="CalculateScore" Variant="Variant.Filled" Color="Color.Primary">Calcular</MudButton>
                             </MudItem>
                             @if (FinalScore >= 0)
                             {
@@ -189,140 +190,134 @@
 </MudGrid>
 
 
-
-
-<!--CODE C#-->
-
 @code {
-    bool _expanded = true;
-    private void ToggleCollapse()
-    {
-        _expanded = !_expanded;
-    }
 
-    private void OnExpandCollapseClick()
+        bool _expanded = false;
+
+        private void ToggleCollapse()
+        {
+            _expanded = !_expanded;
+        }
+
+        private void OnExpandCollapseClick()
+        {
+            _expanded = !_expanded;
+        }
+
+// Variáveis e classes
+private List<CursoInfo> cursos = new List<CursoInfo>();
+    private string selectedUniversidade;
+    private int selectedAno;
+    private string selectedCampus;
+    private string selectedCurso;
+    private string selectedTurno;
+    private string selectedTipo;
+    private decimal selectedNotaDeCorte;
+
+    protected override async Task OnInitializedAsync()
     {
-        _expanded = !_expanded;
-    }    
+        // Carrega os cursos da lista JSON
+        cursos = await Http.GetFromJsonAsync<List<CursoInfo>>("Data/lista.json");
+        selectedNotaDeCorte = 0; // Inicializando para evitar null
+    }
 
     // Classe para representar os dados de um curso
-    public class Curso
+    public class CursoInfo
     {
+        public string Universidade { get; set; }
+        public int Ano { get; set; }  // Alterado para int
         public string Campus { get; set; }
-        public string Nome { get; set; }
+        public string Curso { get; set; }
         public string Turno { get; set; }
         public string Tipo { get; set; }
-        public string Pontuacao2023 { get; set; }
-        public string Pontuacao2024 { get; set; }
+        public string NotaDeCorte { get; set; }
     }
 
-    // Lista de cursos
-    private List<Curso> cursos = new List<Curso>
+    // Métodos para filtrar as opções com base na seleção anterior
+    private IEnumerable<string> GetUniversidade()
     {
-        new Curso { Nome = "Direito", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
-        new Curso { Nome = "Direito", Turno = "Tarde", Pontuacao2023 = "200", Pontuacao2024 = "100" },
-        new Curso { Nome = "Direito", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
-        new Curso { Nome = "Direito", Turno = "Integral", Pontuacao2023 = "400", Pontuacao2024 = "600" },
+        return cursos.Select(c => c.Universidade).Distinct();
+    }
 
-        new Curso { Nome = "Medicina", Turno = "Manhã", Pontuacao2023 = "400", Pontuacao2024 = "300" },
-        new Curso { Nome = "Medicina", Turno = "Tarde", Pontuacao2023 = "500", Pontuacao2024 = "600" },
-        new Curso { Nome = "Medicina", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "900" },
-        new Curso { Nome = "Medicina", Turno = "Integral", Pontuacao2023 = "200", Pontuacao2024 = "400" },
-
-        new Curso { Nome = "Jornalismo", Turno = "Manhã", Pontuacao2023 = "500", Pontuacao2024 = "400" },
-        new Curso { Nome = "Jornalismo", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
-        new Curso { Nome = "Jornalismo", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "600" },
-        new Curso { Nome = "Jornalismo", Turno = "Integral", Pontuacao2023 = "600", Pontuacao2024 = "400" },
-
-        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "200", Pontuacao2024 = "150" },
-        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "400", Pontuacao2024 = "550" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "800", Pontuacao2024 = "700" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "500", Pontuacao2024 = "200" },
-
-        new Curso { Nome = "Enfermagem", Turno = "Manhã", Pontuacao2023 = "100", Pontuacao2024 = "800" },
-        new Curso { Nome = "Enfermagem", Turno = "Tarde", Pontuacao2023 = "700", Pontuacao2024 = "860" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "500" },
-        new Curso { Nome = "Enfermagem", Turno = "Noite", Pontuacao2023 = "200", Pontuacao2024 = "600" },
-
-        new Curso { Nome = "Design", Turno = "Manhã", Pontuacao2023 = "800", Pontuacao2024 = "600" },
-        new Curso { Nome = "Design", Turno = "Tarde", Pontuacao2023 = "300", Pontuacao2024 = "400" },
-        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "600", Pontuacao2024 = "700" },
-        new Curso { Nome = "Design", Turno = "Noite", Pontuacao2023 = "100", Pontuacao2024 = "300" }
-
-    };
-    private string selectedCampus { get; set; }
-    private string selectedCurso { get; set; }
-    private string selectedTurno { get; set; }
-    private string selectedTipo { get; set; }
-    private string selectedPontuacao2023 { get; set; }
-    private string selectedPontuacao2024 { get; set; }
-
+    private IEnumerable<int> GetAno()
+    {
+        return cursos
+            .Where(c => c.Universidade == selectedUniversidade)
+            .Select(c => c.Ano)  // Retorna os anos como int
+            .Distinct();
+    }
 
     private IEnumerable<string> GetCampus()
     {
-        return new List<string>
-        {
-            "IFS Aracaju",
-            "IFS Estância",
-            "IFS Nsa Sra. Glória",
-            "IFS Itabaiana",
-            "IFS Propriá",
-            "IFS Poço Redondo",
-            "IFS São Critovão",
-            "IFS Socorro",
-            "IFS Tobias Barreto"
-        };
+        return cursos
+            .Where(c => c.Universidade == selectedUniversidade && c.Ano == selectedAno)
+            .Select(c => c.Campus)
+            .Distinct();
+    }
+
+    private IEnumerable<string> GetCursos()
+    {
+        return cursos
+            .Where(c => c.Universidade == selectedUniversidade && c.Ano == selectedAno && c.Campus == selectedCampus)
+            .Select(c => c.Curso)
+            .Distinct();
+    }
+
+    private IEnumerable<string> GetTurnos()
+    {
+        return cursos
+            .Where(c => c.Curso == selectedCurso && c.Campus == selectedCampus && c.Ano == selectedAno)
+            .Select(c => c.Turno)
+            .Distinct();
     }
 
     private IEnumerable<string> GetTipos()
     {
-        var tipos = new List<string>
+        return cursos
+            .Where(c => c.Curso == selectedCurso && c.Campus == selectedCampus && c.Ano == selectedAno)
+            .Select(c => c.Tipo)
+            .Distinct();
+    }
+
+    
+    private IEnumerable<decimal> GetNotasDeCorte()
     {
-        
-        "Ampla Concorrência",
-        "Cota Escola Pública",
-        "Cota Portador de Necessidades Especiais",
-        "Candidatos autodeclarados pretos, pardos ou indígenas"
-    };    
-        // Se selectedTipo não está vazio, filtra os tipos de acordo com a lógica correta
-        if (!string.IsNullOrEmpty(selectedTipo))
-        {
-            var tiposFiltrados = cursos
-                .Where(c => c.Nome == selectedTipo) // Filtra os cursos com base no nome selecionado
-                .Select(c => c.Turno) // Seleciona o turno
-                .Distinct(); // Remove duplicatas
-
-            tipos.AddRange(tiposFiltrados); // Adiciona os turnos filtrados à lista de tipos
-        }
-
-        return tipos.Distinct(); // Retorna a lista final de tipos
+        return cursos
+            .Where(c => c.Universidade == selectedUniversidade && c.Ano == selectedAno && c.Campus == selectedCampus && c.Curso == selectedCurso && c.Turno == selectedTurno && c.Tipo == selectedTipo)
+            .Select(c => decimal.TryParse(c.NotaDeCorte, out var notaDeCorte) ? notaDeCorte : 0)
+            .Distinct();
     }
 
     private void UpdateData()
     {
-        var cursoSelecionado = cursos.FirstOrDefault(c => c.Nome == selectedCurso && c.Turno == selectedTurno);
+        Console.WriteLine($"Turno: {selectedTurno}, Curso: {selectedCurso}, Ano: {selectedAno}, Tipo: {selectedTipo}");
 
-        if (cursoSelecionado != null)
-        {
-            selectedPontuacao2023 = cursoSelecionado.Pontuacao2023;
-            selectedPontuacao2024 = cursoSelecionado.Pontuacao2024;
-        }
-        else
-        {
-            selectedPontuacao2023 = string.Empty;
-            selectedPontuacao2024 = string.Empty;
-        }
+        // Chame GetNotaDeCorte e verifique o retorno
+        selectedNotaDeCorte = GetNotaDeCorte(selectedTurno, selectedCurso, selectedAno, selectedTipo);
+        Console.WriteLine($"Nota de Corte retornada: {selectedNotaDeCorte}");
     }
 
-    private string GetPontuacao(string turno, int ano)
+    private decimal GetNotaDeCorte(string turno, string curso, int ano, string tipo)
     {
-        var cursoSelecionado = cursos.FirstOrDefault(c => c.Turno == turno);
+        if (string.IsNullOrEmpty(turno) || string.IsNullOrEmpty(curso) || string.IsNullOrEmpty(tipo))
+            return 0m; // Retorna 0 se algum parâmetro for inválido
 
-        return cursoSelecionado != null
-            ? (ano == 2023 ? cursoSelecionado.Pontuacao2023 : cursoSelecionado.Pontuacao2024)
-            : string.Empty;
+        var cursoSelecionado = cursos.FirstOrDefault(c =>
+            c.Turno == turno &&
+            c.Curso == curso &&
+            c.Campus == selectedCampus &&
+            c.Ano == ano &&
+            c.Tipo == tipo);
+
+        if (cursoSelecionado != null && decimal.TryParse(cursoSelecionado.NotaDeCorte, out decimal notaDeCorte))
+        {
+            return notaDeCorte;
+        }
+
+        return 0m; // Retorna 0 se não encontrou ou se a conversão falhar
     }
 
+    // Variáveis para calculadora
     private double MathScore { get; set; }
     private double LanguageScore { get; set; }
     private double NatureSciencesScore { get; set; }
@@ -335,5 +330,4 @@
         // Fórmula exemplo, adapte conforme necessário
         FinalScore = (MathScore + LanguageScore + NatureSciencesScore + HumanSciencesScore + EssayScore) / 5;
     }
-       
 }
