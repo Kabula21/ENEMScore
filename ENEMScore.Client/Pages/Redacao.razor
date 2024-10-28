@@ -36,6 +36,16 @@
         /* Ensure the text field doesn't overlap with the line numbers */
         box-sizing: border-box;
     }
+
+    .line-numbers.light {
+        color: black;
+    }
+
+    .line-numbers.dark {
+        color: white;
+    }
+
+
 </style>
 
 <MudItem xs="12" md="8" class="items-left">
@@ -120,7 +130,7 @@
         <i>Clique e escolha um tema!</i> <MudIcon Icon="@Icons.Material.Filled.ArrowDownward"></MudIcon>
     </p>
 
-    <MudButton StartIcon="@Icons.Material.Rounded.Refresh" OnClick="@RefreshPage" Variant="Variant.Outlined" Color="Color.Primary">
+    <MudButton StartIcon="@Icons.Material.Rounded.Refresh" OnClick="@RefreshPage" Variant="Variant.Outlined" Color="Color.Default">
         Atualize os Temas
     </MudButton>
 
@@ -215,19 +225,16 @@
 <!--EDITOR DE TEXTO ANTIGO-->
 
 <div class="text-field-container" style="display: flex; justify-content: center; width: 100%; padding: 15px;">
-    <!-- Contêiner centralizado com largura fixa -->
     <div style="display: flex; align-items: flex-start; margin-left: 2%; width: 1000px;">
-        <!-- Números de linhas -->
-        <div class="line-numbers" style="padding-right: 10px; padding-top: 2px; text-align: right; user-select: none; font-family: monospace; background: white;">
+        <div class="line-numbers @(isDarkTheme ? "dark" : "light")" style="padding-right: 10px; padding-top: 2px; text-align: right; user-select: none; font-family: monospace; background: white;">
             @for (int i = 1; i <= 35; i++)
             {
                 <div style="height: 20px; line-height: 20px;">@i</div>
             }
         </div>
 
-        <!-- Caixa de texto com linhas -->
         <MudTextField T="string" @bind-Value="sampleText" Variant="Variant.Text" @oninput="OnTextChanged" Lines="35"
-            Style="width: calc(100% - 40px); height: calc(35 * 20px); background-image: repeating-linear-gradient(white, white 19px, #444 20px);
+                      Style="width: calc(100% - 40px); height: calc(35 * 20px); background-image: repeating-linear-gradient(white, white 19px, #444 20px);
                     background-size: 100% 20px; line-height: 20px; padding: 10px 10px 10px 30px; font-family: monospace; overflow: hidden;
                     box-shadow: 10px 4px 15px rgba(8, 10, 15, 0.2); border: 2px solid #ddd; border-radius: 4px;" />
     </div>
@@ -284,6 +291,7 @@
 
 <!--LOGICA C#-->
 @code {
+    private bool isDarkTheme = false; // Defina para true para tema escuro, ou configure dinamicamente
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string nomeAluno;

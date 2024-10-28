@@ -59,6 +59,14 @@
         width: 180px;
     }
 
+    .line-numbers.light {
+        color: black;
+    }
+
+    .line-numbers.dark {
+        color: white;
+    }
+
 </style>
 
 
@@ -85,7 +93,7 @@
 
         <div class="filters">
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Universidade:
                     <select value="@selectedUniversidade" @onchange="HandleUniversidadeChange">
                         <option value="">Selecione uma Universidade</option>
@@ -98,7 +106,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Ano:
                     <select value="@selectedAno" @onchange="HandleAnoChange">
                         <option value="">Selecione um Ano</option>
@@ -111,7 +119,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Curso:
                     <select value="@selectedCurso" @onchange="HandleCursoChange">
                         <option value="">Selecione um Curso</option>
@@ -127,20 +135,20 @@
             {
                 <div class="field" style="font-size:large">
                     <h4>Pesos do Curso Selecionado</h4><br />
-                    <p><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: @selectedCursoInfo.Linguagens</p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: @selectedCursoInfo.Matematica</p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: @selectedCursoInfo.CienciasDaNatureza</p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: @selectedCursoInfo.CienciasHumanas</p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: <strong>@selectedCursoInfo.Linguagens</strong></p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: <strong>@selectedCursoInfo.Matematica</strong></p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: <strong>@selectedCursoInfo.CienciasDaNatureza</strong></p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: <strong>@selectedCursoInfo.CienciasHumanas</strong></p>
                 </div>
             }
             else
             {
                 <div class="field" style="font-size:large">
                     <h4>Pesos do Curso Selecionado</h4><br />
-                    <p><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: </p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: </p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: </p>
-                    <p><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: </p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: </p>
+                    <p class ="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: </p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: </p>
+                    <p class="line-numbers @(isDarkTheme ? "dark" : "light")"><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: </p>
                 </div>
             }
             
@@ -232,6 +240,7 @@
 </MudGrid>
 
 @code {
+    private bool isDarkTheme = false; // Defina para true para tema escuro, ou configure dinamicamente
     public void ToggleCollapse() => _expanded = !_expanded;
     public bool _expanded = false;
 

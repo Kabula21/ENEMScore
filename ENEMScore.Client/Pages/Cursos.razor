@@ -61,7 +61,13 @@
         width: 250px;
     }
 
+    .line-numbers.light {
+        color: black;
+    }
 
+    .line-numbers.dark {
+        color: white;
+    }
     
 </style>
 
@@ -91,7 +97,7 @@
     
         <div class="filters">
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Universidade:
                     <select value="@selectedUniversidade" @onchange="HandleUniversidadeChange">
                         <option value="">Selecione uma Universidade</option>
@@ -104,7 +110,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Campus:
                     <select value="@selectedCampus" @onchange="HandleCampusChange">
                         <option value="">Selecione um Campus</option>
@@ -117,7 +123,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Ano:
                     <select value="@selectedAno" @onchange="HandleAnoChange">
                         <option value="">Selecione um Ano</option>
@@ -130,7 +136,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class ="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Curso:
                     <select value="@selectedCurso" @onchange="HandleCursoChange">
                         <option value="">Selecione um Curso</option>
@@ -143,7 +149,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Turno:
                     <select value="@selectedTurno" @onchange="HandleTurnoChange">
                         <option value="">Selecione um Turno</option>
@@ -156,7 +162,7 @@
             </div>
 
             <div class="field">
-                <label>
+                <label class="line-numbers @(isDarkTheme ? "dark" : "light")">
                     Tipo:
                     <select value="@selectedTipo" @onchange="HandleTipoChange">
                         <option value="">Selecione um Tipo</option>
@@ -170,14 +176,14 @@
 
             @if (notaDeCorte.HasValue)
             {
-                <div class="nota-de-corte">
+                <div class="nota-de-corte line-numbers @(isDarkTheme ? "dark" : "light")">
                     <MudIcon Icon="@Icons.Material.Filled.BarChart" style="margin-right: 8px;" />
-                    Nota de Corte: @notaDeCorte.Value.ToString("N2")
+                    Nota de Corte: <strong> @notaDeCorte.Value.ToString("N2")</strong>
                 </div>
             }
             else
             {
-                <div class="nota-de-corte">
+                <div class="nota-de-corte line-numbers @(isDarkTheme ? "dark" : "light")">
                     <MudIcon Icon="@Icons.Material.Filled.BarChart" style="margin-right: 8px;" />
                     Nota de Corte:
                 </div>
@@ -272,6 +278,8 @@
 </MudGrid>
 
 @code {
+
+    private bool isDarkTheme = false; // Defina para true para tema escuro, ou configure dinamicamente
     public void ToggleCollapse() => _expanded = !_expanded;
     public bool _expanded = false;
    
