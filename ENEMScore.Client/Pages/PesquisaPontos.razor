@@ -1,0 +1,336 @@
+﻿@page "/PesquisaPontos"
+@inject HttpClient Http
+@using ENEMScore.Client.Data
+
+<PageTitle>Pesquisa de Cursos</PageTitle>
+
+<style>
+    .filters {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Alinha todos os elementos filhos ao centro */
+        gap: 15px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Alinha os rótulos e campos no início */
+        width: 100%; /* Garante que o campo ocupe toda a largura do contêiner */
+    }
+
+        .field label {
+            width: 100%; /* Garante que o label ocupe toda a largura */
+        }
+
+    .filters select {
+        width: 100%; /* Define um tamanho consistente para todos os selects */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s, background-color 0.3s;
+    }
+
+        .filters select:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            outline: none;
+        }
+
+    h4 {
+        margin-top: 20px;
+        color: #333;
+    }
+
+    .nota-de-corte {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 3px;
+        background-color: #e6e6e6;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        font-size: 14px;
+        width: 250px;
+    }
+</style>
+
+<!--FORM-->
+
+<MudItem xs="12" md="8" class="items-left">
+    <h1>
+        <MudIcon Icon="@Icons.Material.Outlined.FindInPage" />
+        Pesquise pela sua Pontuação!
+    </h1>
+
+    <p class="font-normal text-left ml-8">
+        <i>Pesquise os cursos pela sua pontuação!</i>
+    </p>
+</MudItem>
+<br />
+
+<MudText Typo="Typo.h5" Class="mb-4">
+    <MudIcon Icon="@Icons.Material.Outlined.LocationSearching" Class="mr-2" />
+    UNIVERSIDADE FEDERAL: (UFS) / INSTITUTO FEDERAL: (IFS)
+</MudText>
+
+
+
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <div class="filters">
+            <div class="field">
+            <label>
+                Universidade:
+                <select value="@selectedUniversidade" @onchange="HandleUniversidadeChange">
+                    <option value="">Selecione uma Universidade</option>
+                    @foreach (var universidade in universidades)
+                    {
+                        <option value="@universidade">@universidade</option>
+                    }
+                </select>
+            </label>
+
+                <label>
+                    Pontuação:
+                    <input type="number" @bind="selectedScore" @oninput="HandleScoreChange" style="border: 1px solid black" class="field" />
+                </label>
+
+
+            <label>
+                Campus:
+                <select value="@selectedCampus" @onchange="HandleCampusChange">
+                    <option value="">Selecione um Campus</option>
+                    @foreach (var campus in campi)
+                    {
+                        <option value="@campus">@campus</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Curso:
+                <select value="@selectedCurso" @onchange="HandleCursoChange">
+                    <option value="">Selecione um Curso</option>
+                    @foreach (var curso in cursosFiltrados)
+                    {
+                        <option value="@curso.Curso">@curso.Curso</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Turno:
+                <select value="@selectedTurno" @onchange="HandleTurnoChange">
+                    <option value="">Selecione um Turno</option>
+                    @foreach (var turno in turnos)
+                    {
+                        <option value="@turno">@turno</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Tipo:
+                <select value="@selectedTipo" @onchange="HandleTipoChange">
+                    <option value="">Selecione um Tipo</option>
+                    @foreach (var tipo in tipos)
+                    {
+                        <option value="@tipo">@tipo</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+            @if (!string.IsNullOrEmpty(selectedUniversidade) && selectedScore.HasValue && !string.IsNullOrEmpty(selectedCampus) && !string.IsNullOrEmpty(selectedCurso) && !string.IsNullOrEmpty(selectedTurno) && !string.IsNullOrEmpty(selectedTipo))
+            {
+                <div class="confirmation field" style="margin-top: 0px;">
+                    <h4>Confirmação da Seleção:</h4>
+                    <ul>
+                        <li>Universidade: @selectedUniversidade</li>
+                        <li>Pontuação Mínima: @selectedScore</li>
+                        <li>Campus: @selectedCampus</li>
+                        <li>Curso: @selectedCurso</li>
+                        <li>Turno: @selectedTurno</li>
+                        <li>Tipo: @selectedTipo</li>
+                    </ul>
+                    <p style="color: green; font-size: 20px;"><strong>Parabéns! Com sua pontuação, você tem grandes oportunidades neste curso. Continue explorando suas opções e sucesso nos estudos!</strong></p>
+                </div>
+            }
+            else
+            {
+                <div class="confirmation field" style="margin-top: 0px;">
+                    <h4>Confirmação da Seleção:</h4>
+                    <ul>
+                        <li>Universidade:</li>
+                        <li>Pontuação Mínima:</li>
+                        <li>Campus:</li>
+                        <li>Curso:</li>
+                        <li>Turno:</li>
+                        <li>Tipo:</li>
+                    </ul>                 
+                </div>
+            }
+    </div>
+
+    </MudItem>
+
+    <MudItem xs="12" md="6">
+        <MudPaper class="max-w-md w-10 rounded-lg" Elevation="4" Style="height: 100%; padding: 16px; background: url('img/maps.png') no-repeat center center; background-size: auto;">
+            @if (!string.IsNullOrEmpty(currentIframeUrl))
+            {
+                <iframe src="@currentIframeUrl"
+                        style="height: 500px; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private List<CursoInfo> cursos = new List<CursoInfo>();
+    private List<CursoInfo> cursosFiltrados = new List<CursoInfo>();
+    private string selectedUniversidade = string.Empty;
+    private double? selectedScore;
+    private string selectedCampus = string.Empty;
+    private string selectedCurso = string.Empty;
+    private string selectedTurno = string.Empty;
+    private string selectedTipo = string.Empty;
+    private string currentIframeUrl = string.Empty;
+
+    private List<string> universidades = new List<string>();
+    private List<string> campi = new List<string>();
+    private List<string> turnos = new List<string>();
+    private List<string> tipos = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        cursos = await Http.GetFromJsonAsync<List<CursoInfo>>("Data/lista.json");
+        universidades = cursos.Select(c => c.Universidade).Distinct().ToList();
+    }
+
+    private void HandleUniversidadeChange(ChangeEventArgs e)
+    {
+        selectedUniversidade = e.Value.ToString();
+        ResetFilters();
+        if (!string.IsNullOrEmpty(selectedUniversidade))
+        {
+            campi = cursos.Where(c => c.Universidade == selectedUniversidade)
+                          .Select(c => c.Campus).Distinct().ToList();
+        }
+    }
+
+    private void HandleScoreChange(ChangeEventArgs e)
+    {
+        selectedScore = double.TryParse(e.Value.ToString(), out double score) ? (double?)score : null;
+        FilterCampi();
+    }
+
+    private void FilterCampi()
+    {
+        if (selectedScore.HasValue)
+        {
+            campi = cursos.Where(c => c.Universidade == selectedUniversidade && c.NotaDeCorte >= selectedScore.Value)
+                          .Select(c => c.Campus).Distinct().ToList();
+        }
+        else
+        {
+            campi.Clear();
+        }
+        selectedCampus = null;
+        cursosFiltrados.Clear();
+        selectedCurso = null;
+        selectedTurno = null;
+        selectedTipo = null;
+    }
+
+    private void HandleCampusChange(ChangeEventArgs e)
+    {
+        selectedCampus = e.Value.ToString();
+
+        if (!string.IsNullOrEmpty(selectedCampus))
+        {
+            cursosFiltrados = cursos.Where(c => c.Universidade == selectedUniversidade && c.Campus == selectedCampus && (selectedScore == null || c.NotaDeCorte >= selectedScore.Value)).ToList();
+
+            // Verificação direta dos nomes da universidade
+            string campusKey;
+            if (selectedUniversidade.ToLower() == "instituto federal de educação ciência e tecnologia de sergipe")
+            {
+                campusKey = $"ifs-{selectedCampus.ToLower()}";
+            }
+            else if (selectedUniversidade.ToLower() == "universidade federal de sergipe")
+            {
+                campusKey = $"ufs-{selectedCampus.ToLower()}";
+            }
+            else
+            {
+                campusKey = string.Empty; // Caso não corresponda a nenhuma das duas universidades
+            }
+
+            currentIframeUrl = !string.IsNullOrEmpty(campusKey) && campusMapUrls.ContainsKey(campusKey) ? campusMapUrls[campusKey] : string.Empty;
+
+            selectedCurso = null;
+            selectedTurno = null;
+            selectedTipo = null;
+        }
+    }
+
+
+
+    private void HandleCursoChange(ChangeEventArgs e)
+    {
+        selectedCurso = e.Value.ToString();
+        turnos = cursosFiltrados.Where(c => c.Curso == selectedCurso)
+                                .Select(c => c.Turno).Distinct().ToList();
+        selectedTurno = null;
+        selectedTipo = null;
+    }
+
+    private void HandleTurnoChange(ChangeEventArgs e)
+    {
+        selectedTurno = e.Value.ToString();
+        tipos = cursosFiltrados.Where(c => c.Turno == selectedTurno && c.Curso == selectedCurso)
+                                .Select(c => c.Tipo).Distinct().ToList();
+        selectedTipo = null;
+    }
+
+    private void HandleTipoChange(ChangeEventArgs e)
+    {
+        selectedTipo = e.Value.ToString();
+    }
+
+    private void ResetFilters()
+    {
+        campi.Clear();
+        cursosFiltrados.Clear();
+        selectedScore = null;
+        selectedCampus = null;
+        selectedCurso = null;
+        selectedTurno = null;
+        selectedTipo = null;
+        currentIframeUrl = string.Empty; // Reset iframe URL ao reiniciar os filtros
+    }
+
+    private Dictionary<string, string> campusMapUrls = new Dictionary<string, string>()
+    {
+        // Mapas da UFS
+        { "ufs-aracaju", "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d4322.6454148001985!2d-37.10190755533786!3d-10.924330792972539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1730127367538!5m2!1spt-BR!2sbr" },
+        { "ufs-são cristóvão", "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d4322.6454148001985!2d-37.10190755533786!3d-10.924330792972539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1730127367538!5m2!1spt-BR!2sbr" },
+        { "ufs-itabaiana", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3920.681958321006!2d-37.43830558867286!3d-10.681775889417382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70ffa833420217d%3A0xa0b15971b80f4151!2sUniversidade%20Federal%20de%20Sergipe%20-%20Campus%20Itabaiana!5e0!3m2!1spt-BR!2sbr!4v1730127518983!5m2!1spt-BR!2sbr" },
+        { "ufs-nossa senhora da glória", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3926.6603619897787!2d-37.41109948867831!3d-10.20821198986602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70f78e927de7bb5%3A0x8f3c5de9925add4b!2sUFS%20-%20CAMPUS%20SERT%C3%83O!5e0!3m2!1spt-BR!2sbr!4v1730127556879!5m2!1spt-BR!2sbr" },
+        { "ufs-laranjeiras", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1084061616!2d-37.16922798867119!3d-10.803008589302916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705523304a25b91%3A0xad763be06da93c61!2sUniversidade%20Federal%20de%20Sergipe%2C%20Campus%20de%20Laranjeiras!5e0!3m2!1spt-BR!2sbr!4v1730127638493!5m2!1spt-BR!2sbr" },
+        { "ufs-lagarto", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.457678376764!2d-37.67434288866979!3d-10.928758889184435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71022dcd70b1079%3A0xbcfddacc00c53492!2sUniversidade%20Federal%20De%20Sergipe%2C%20Campus%20Lagarto!5e0!3m2!1spt-BR!2sbr!4v1730128702464!5m2!1spt-BR!2sbr" },
+
+        // Mapas do IFS
+        { "ifs-aracaju", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d250769.62563042174!2d-37.53451288632043!3d-10.86664558125558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71ab30a5bcd126b%3A0xd4f4944197901389!2sInstituto%20Federal%20de%20Sergipe!5e0!3m2!1spt-BR!2sbr!4v1730127739700!5m2!1spt-BR!2sbr" },
+        { "ifs-estância", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25713.571893817025!2d-37.43702671923556!3d-11.234734280286133!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7107106236b38c7%3A0x1fb55d6cb751e794!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%20-%20Campus%20Est%C3%A2ncia!5e0!3m2!1spt-BR!2sbr!4v1730128356201!5m2!1spt-BR!2sbr" },
+        { "ifs-nossa senhora da glória", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1963.4247189108123!2d-37.444938659985674!3d-10.192879898595269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70f785ee8f670fd%3A0x9c819290d130b558!2sInstituto%20Federal%20de%20Sergipe%20-%20Campus%20Gl%C3%B3ria!5e0!3m2!1spt-BR!2sbr!4v1730128491109!5m2!1spt-BR!2sbr" },
+        { "ifs-lagarto", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15669.64910202986!2d-37.67422849788461!3d-10.932197426898723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x71022dcd70b1079%3A0xbcfddacc00c53492!2sUniversidade%20Federal%20De%20Sergipe%2C%20Campus%20Lagarto!5e0!3m2!1spt-BR!2sbr!4v1730127850290!5m2!1spt-BR!2sbr" },
+        { "ifs-itabaiana", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21135.6621673517!2d-37.44584328064625!3d-10.69289157937239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x70ffa62555555555%3A0x289810642e4e6213!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%20-%20Campus%20Itabaiana!5e0!3m2!1spt-BR!2sbr!4v1730127912510!5m2!1spt-BR!2sbr" },
+        { "ifs-propriá", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d501912.28408479714!2d-37.59422823633692!3d-10.642364708494403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705a445c609c453%3A0x8d6b7e03ea48ab33!2sIFS%20-%20Instituto%20Federal%20de%20Sergipe%2C%20Campus%20Propri%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1730127942400!5m2!1spt-BR!2sbr" }
+    };
+}

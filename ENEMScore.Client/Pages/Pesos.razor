@@ -4,7 +4,6 @@
 @using System.Text.Json.Serialization;
 @using System.Net.Http.Json
 
-
 <style>
     .filters {
         display: flex;
@@ -12,7 +11,6 @@
         align-items: center; /* Alinha todos os elementos filhos ao centro */
         gap: 15px;
         padding: 20px;
-       
         border-radius: 10px;
         background-color: #f7f7f7;
     }
@@ -53,7 +51,7 @@
         flex-direction: column;
         align-items: flex-start;
         padding: 10px;
-        margin: 5px 0;        
+        margin: 5px 0;
         border-radius: 3px;
         background-color: #e6e6e6;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -61,33 +59,30 @@
         width: 180px;
     }
 
-    
 </style>
 
 
-
-<PageTitle>Cursos e Pontuações</PageTitle>
+<PageTitle>Cursos e Pesos</PageTitle>
 
 <MudItem xs="12" md="8" class="items-left">
     <h1>
         <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
-        Cursos e Pontuações!
+        Cursos e Pesos!
     </h1>
     <p class="font-normal text-left ml-8">
-        <i>Pesquise os cursos e suas pontuações!</i>
+        <i>Pesquise os cursos e seus pesos!</i>
     </p>
 </MudItem>
 
 <br />
 
-<!--FORMS-->
 <MudGrid>
     <MudItem xs="12" md="6" mb="auto">
         <MudText Typo="Typo.h5" Class="mb-4">
             <MudIcon Icon="@Icons.Material.Filled.LocationOn" Class="mr-2" />
             UNIVERSIDADE FEDERAL: (UFS) / INSTITUTO FEDERAL: (IFS)
         </MudText>
-    
+
         <div class="filters">
             <div class="field">
                 <label>
@@ -97,19 +92,6 @@
                         @foreach (var universidade in universidades)
                         {
                             <option value="@universidade">@universidade</option>
-                        }
-                    </select>
-                </label>
-            </div>
-
-            <div class="field">
-                <label>
-                    Campus:
-                    <select value="@selectedCampus" @onchange="HandleCampusChange">
-                        <option value="">Selecione um Campus</option>
-                        @foreach (var campus in campi)
-                        {
-                            <option value="@campus">@campus</option>
                         }
                     </select>
                 </label>
@@ -141,81 +123,33 @@
                 </label>
             </div>
 
-            <div class="field">
-                <label>
-                    Turno:
-                    <select value="@selectedTurno" @onchange="HandleTurnoChange">
-                        <option value="">Selecione um Turno</option>
-                        @foreach (var turno in turnos)
-                        {
-                            <option value="@turno">@turno</option>
-                        }
-                    </select>
-                </label>
-            </div>
-
-            <div class="field">
-                <label>
-                    Tipo:
-                    <select value="@selectedTipo" @onchange="HandleTipoChange">
-                        <option value="">Selecione um Tipo</option>
-                        @foreach (var tipo in tipos)
-                        {
-                            <option value="@tipo" title="@tipo">@GetShortDescription(tipo)</option>
-                        }
-                    </select>
-                </label>
-            </div>
-
-            @if (notaDeCorte.HasValue)
+            @if (selectedCursoInfo != null)
             {
-                <h4 class="nota-de-corte">Nota de Corte: @notaDeCorte.Value.ToString("N2")</h4>
+                <div class="field" style="font-size:large">
+                    <h4>Pesos do Curso Selecionado</h4><br />
+                    <p><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: @selectedCursoInfo.Linguagens</p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: @selectedCursoInfo.Matematica</p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: @selectedCursoInfo.CienciasDaNatureza</p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: @selectedCursoInfo.CienciasHumanas</p>
+                </div>
             }
             else
             {
-                <h4 class="nota-de-corte">Nota de Corte: </h4>
+                <div class="field" style="font-size:large">
+                    <h4>Pesos do Curso Selecionado</h4><br />
+                    <p><MudIcon Icon="@Icons.Material.Filled.Chat" /> Linguagens: </p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Calculate" /> Matemática: </p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Science" /> Ciências da Natureza: </p>
+                    <p><MudIcon Icon="@Icons.Material.Filled.Public" /> Ciências Humanas: </p>
+                </div>
             }
+            
         </div>
-
-           
-
-        <!-- Seção de Pesos 
-        <MudTooltip Text="Expandir Pesos">
-            <MudButton StartIcon="@Icons.Material.Filled.Info" IconColor="Color.Info" Size="Size.Medium" @onclick="ToggleCollapse">
-                Confira os Pesos
-            </MudButton>
-        </MudTooltip>
-
-        <MudCollapse Expanded="_expanded">
-            <MudText Typo="Typo.h6" Align="Align.Left" Class="ml-8">
-                Pesos ENEM: @Filter_selectedCurso
-            </MudText>
-            <MudDivider />
-            <ul class="mud-list" style="list-style-type: none; padding-left: 1.5rem; margin: 0;">
-                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
-                    <MudIcon Icon="@Icons.Material.Outlined.Code" />
-                    <MudText Class="ml-2">Linguagens, Códigos e suas Tecnologias: <strong>@(Filter_selectedCursoInfo?.Linguagens)</strong></MudText>
-                </li>
-                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
-                    <MudIcon Icon="@Icons.Material.Outlined.Calculate" />
-                    <MudText Class="ml-2">Matemática e suas Tecnologias: <strong>@(Filter_selectedCursoInfo?.Matematica)</strong></MudText>
-                </li>
-                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
-                    <MudIcon Icon="@Icons.Material.Outlined.Nature" />
-                    <MudText Class="ml-2">Ciências da Natureza e suas Tecnologias: <strong>@(Filter_selectedCursoInfo?.CienciasDaNatureza)</strong></MudText>
-                </li>
-                <li class="mud-list-item" style="padding: 8px; display: flex; align-items: center;">
-                    <MudIcon Icon="@Icons.Material.Outlined.Book" />
-                    <MudText Class="ml-2">Ciências Humanas e suas Tecnologias: <strong>@(Filter_selectedCursoInfo?.CienciasHumanas)</strong></MudText>
-                </li>
-            </ul>
-        </MudCollapse>
-        
-        -->
-
     </MudItem>
 
-    <!-- CALCULADORA Seção à direita com Tabs -->
+
+    <!--Calculadora-->
+
 
     <MudItem xs="12" md="6">
         <MudText Typo="Typo.h5" Class="mb-4">
@@ -295,94 +229,77 @@
             </MudTabPanel>
         </MudTabs>
     </MudItem>
-
 </MudGrid>
 
 @code {
     public void ToggleCollapse() => _expanded = !_expanded;
     public bool _expanded = false;
-   
-    // Variáveis para as notas
+
+    // Variáveis para as notas e pesos
     public double MathScore { get; set; }
     public double LanguageScore { get; set; }
     public double NatureSciencesScore { get; set; }
     public double HumanSciencesScore { get; set; }
     public double EssayScore { get; set; }
-    public double FinalScore { get; set; }  // Inicializa com -1 para verificação de exibição
-    public double WeightedScore { get; set; }  // Pontuação com pesos
+    public double FinalScore { get; set; }
+    public double WeightedScore { get; set; }
 
-    // Método para calcular a média simples das notas
+    // Métodos para calcular média simples e pontuação ponderada
     public void CalculateAverageScore()
     {
         FinalScore = (MathScore + LanguageScore + NatureSciencesScore + HumanSciencesScore + EssayScore) / 5;
     }
 
-    // Método para calcular a pontuação com base nos pesos
     public void CalculateWeightedScore()
     {
-        // Definindo os pesos
+        // Definindo pesos
         double mathWeight = 3.0;
         double languageWeight = 2.0;
         double natureSciencesWeight = 2.5;
         double humanSciencesWeight = 2.0;
         double essayWeight = 2.5;
 
-        // Calculando a pontuação com pesos
+        // Calculando pontuação ponderada
         WeightedScore = (MathScore * mathWeight) +
                         (LanguageScore * languageWeight) +
                         (NatureSciencesScore * natureSciencesWeight) +
                         (HumanSciencesScore * humanSciencesWeight) +
                         (EssayScore * essayWeight);
 
-        // Dividindo pelo total dos pesos para normalizar
+        // Normalizando com a soma dos pesos
         double totalWeight = mathWeight + languageWeight + natureSciencesWeight + humanSciencesWeight + essayWeight;
         WeightedScore /= totalWeight;
     }
 
-    // Filtragem dos Campos de Pesquisa
+    // Seleção de filtros e informações do curso
     private List<CursoInfo> cursos = new List<CursoInfo>();
     private string selectedUniversidade = string.Empty;
-    private string selectedCampus = string.Empty;
     private int? selectedAno;
     private string selectedCurso = string.Empty;
-    private string selectedTurno = string.Empty;
-    private string selectedTipo = string.Empty;
-    private double? notaDeCorte;
+    private CursoInfo selectedCursoInfo;
 
     private List<string> universidades = new List<string>();
-    private List<string> campi = new List<string>();
     private List<int> anos = new List<int>();
     private List<string> cursosDisponiveis = new List<string>();
-    private List<string> turnos = new List<string>();
-    private List<string> tipos = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
         cursos = await Http.GetFromJsonAsync<List<CursoInfo>>("Data/lista.json");
         universidades = cursos.Select(c => c.Universidade).Distinct().ToList();
-        // Inicialmente, todos os demais dropdowns estão vazios até que uma escolha seja feita
     }
 
     private async Task HandleUniversidadeChange(ChangeEventArgs e)
     {
         selectedUniversidade = e.Value.ToString();
-        campi = cursos.Where(c => c.Universidade == selectedUniversidade)
-                      .Select(c => c.Campus).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Universidade");
-    }
-
-    private async Task HandleCampusChange(ChangeEventArgs e)
-    {
-        selectedCampus = e.Value.ToString();
-        anos = cursos.Where(c => c.Campus == selectedCampus)
+        anos = cursos.Where(c => c.Universidade == selectedUniversidade)
                      .Select(c => c.Ano).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Campus");
+        ResetLowerFilters(fromLevel: "Universidade");
     }
 
     private async Task HandleAnoChange(ChangeEventArgs e)
     {
         selectedAno = int.Parse(e.Value.ToString());
-        cursosDisponiveis = cursos.Where(c => c.Campus == selectedCampus && c.Ano == selectedAno)
+        cursosDisponiveis = cursos.Where(c => c.Universidade == selectedUniversidade && c.Ano == selectedAno)
                                   .Select(c => c.Curso).Distinct().ToList();
         ResetLowerFilters(fromLevel: "Ano");
     }
@@ -390,33 +307,9 @@
     private async Task HandleCursoChange(ChangeEventArgs e)
     {
         selectedCurso = e.Value.ToString();
-        turnos = cursos.Where(c => c.Curso == selectedCurso)
-                       .Select(c => c.Turno).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Curso");
-    }
-
-    private async Task HandleTurnoChange(ChangeEventArgs e)
-    {
-        selectedTurno = e.Value.ToString();
-        tipos = cursos.Where(c => c.Turno == selectedTurno && c.Curso == selectedCurso)
-                      .Select(c => c.Tipo).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Turno");
-    }
-
-    private async Task HandleTipoChange(ChangeEventArgs e)
-    {
-        selectedTipo = e.Value.ToString();
-        UpdateNotaDeCorte();
-    }
-
-    private void UpdateNotaDeCorte()
-    {
-        notaDeCorte = cursos.FirstOrDefault(c => c.Universidade == selectedUniversidade &&
-                                                 c.Campus == selectedCampus &&
-                                                 c.Ano == selectedAno &&
-                                                 c.Curso == selectedCurso &&
-                                                 c.Turno == selectedTurno &&
-                                                 c.Tipo == selectedTipo)?.NotaDeCorte;
+        selectedCursoInfo = cursos.FirstOrDefault(c => c.Universidade == selectedUniversidade &&
+                                                       c.Ano == selectedAno &&
+                                                       c.Curso == selectedCurso);
     }
 
     private void ResetLowerFilters(string fromLevel)
@@ -424,46 +317,14 @@
         switch (fromLevel)
         {
             case "Universidade":
-                selectedCampus = null;
-                anos.Clear();
-                cursosDisponiveis.Clear();
-                turnos.Clear();
-                tipos.Clear();
-                break;
-            case "Campus":
                 selectedAno = null;
                 cursosDisponiveis.Clear();
-                turnos.Clear();
-                tipos.Clear();
                 break;
             case "Ano":
                 selectedCurso = null;
-                turnos.Clear();
-                tipos.Clear();
-                break;
-            case "Curso":
-                selectedTurno = null;
-                tipos.Clear();
-                break;
-            case "Turno":
-                selectedTipo = null;
+                selectedCursoInfo = null;
                 break;
         }
-        notaDeCorte = null; // Reset the score when changing any filter above
-        StateHasChanged(); // Force re-rendering to update the UI
-    }
-
-
-    private string GetShortDescription(string fullDescription)
-    {
-        // Truncates the description if it is too long for the dropdown display
-        if (fullDescription.Length > 90)
-        {
-            return fullDescription.Substring(0, 70) + "...";
-        }
-        return fullDescription;
+        StateHasChanged();
     }
 }
-
-
-
