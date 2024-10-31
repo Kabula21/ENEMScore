@@ -10,7 +10,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using System.Text.RegularExpressions
 
-<PageTitle>Teste Sua RedaÁ„o</PageTitle>
+<PageTitle>Teste Sua Reda√ß√£o</PageTitle>
 
 <style>
     .text-field-container {
@@ -28,7 +28,7 @@
     }
 
         .line-numbers div {
-            height: 20px; /* Ajuste conforme necess·rio */
+            height: 20px; /* Ajuste conforme necess√°rio */
             line-height: 20px;
         }
 
@@ -51,11 +51,11 @@
 <MudItem xs="12" md="8" class="items-left">
     <h1>
         <MudIcon Icon="@Icons.Material.Outlined.ListAlt" />
-        Editor de RedaÁ„o!
+        Editor de Reda√ß√£o!
     </h1>
 
     <p class="font-normal text-left ml-8">
-        <i>*ATEN«√O! Antes de comeÁar leia as REGRAS! --> </i>
+        <i>*ATEN√á√ÉO! Antes de come√ßar leia as REGRAS! --> </i>
         <MudTooltip Text="Veja as Regras">
             <MudToggleIconButton @bind-Toggled="@_open" Icon="@Icons.Material.Filled.Info" Color="@Color.Info" ToggledIcon="@Icons.Material.Filled.FullscreenExit" ToggledColor="@Color.Secondary" />
         </MudTooltip>
@@ -64,17 +64,17 @@
             <div class="d-flex flex-column">
                 <MudText>
                     <h3>Sobre o Texto</h3>
-                    ï DomÌnio da escrita formal em lÌngua portuguesa.<br>
-                    ï Compreens„o do tema e aplicaÁ„o das ·reas de conhecimento.<br>
-                    ï Capacidade de interpretaÁ„o das informaÁıes e organizaÁ„o dos argumentos.<br>
-                    ï DomÌnio dos mecanismos linguÌsticos de argumentaÁ„o.
+                    ‚Ä¢ Dom√≠nio da escrita formal em l√≠ngua portuguesa.<br>
+                    ‚Ä¢ Compreens√£o do tema e aplica√ß√£o das √°reas de conhecimento.<br>
+                    ‚Ä¢ Capacidade de interpreta√ß√£o das informa√ß√µes e organiza√ß√£o dos argumentos.<br>
+                    ‚Ä¢ Dom√≠nio dos mecanismos lingu√≠sticos de argumenta√ß√£o.
                     <br><br />
-                    <h3>C·lculo da Nota</h3>
+                    <h3>C√°lculo da Nota</h3>
                     <h3> O seu texto deve ter entre <strong>7</strong> e <strong>30</strong> linhas.</h3>
-                    <i>Valores menores ou maiores sua nota ser· comprometida.</i><br /><br />
-                    A nota final È a soma das notas de cada competÍncia. 
-                    Cada competÍncia È avaliada em <br />uma escala de <strong>0</strong> a <strong>200</strong> pontos,
-                    e a soma das notas das <strong>cinco</strong> competÍncias resulta na<br /> nota final da redaÁ„o, 
+                    <i>Valores menores ou maiores sua nota ser√° comprometida.</i><br /><br />
+                    A nota final √© a soma das notas de cada compet√™ncia. 
+                    Cada compet√™ncia √© avaliada em <br />uma escala de <strong>0</strong> a <strong>200</strong> pontos,
+                    e a soma das notas das <strong>cinco</strong> compet√™ncias resulta na<br /> nota final da reda√ß√£o, 
                     que pode variar de <strong>0</strong> a <strong>1000</strong> pontos.<br><br>
                 </MudText>
 
@@ -94,18 +94,18 @@
         <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Placeholder="Digite seu Nome" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Outlined" Error="@isNomeAlunoError" />
         @if (isNomeAlunoError)
         {
-            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatÛrio</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigat√≥rio</MudText>
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
         <MudSelect @bind-Value="ano" Label="Ano" Placeholder="Selecione o Ano" T="int?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Outlined">
-            <MudSelectItem T="int?" Value="1">1™ Ano Ensino MÈdio</MudSelectItem>
-            <MudSelectItem T="int?" Value="2">2™ Ano Ensino MÈdio</MudSelectItem>
-            <MudSelectItem T="int?" Value="3">3™ Ano Ensino MÈdio</MudSelectItem>
+            <MudSelectItem T="int?" Value="1">1¬™ Ano Ensino M√©dio</MudSelectItem>
+            <MudSelectItem T="int?" Value="2">2¬™ Ano Ensino M√©dio</MudSelectItem>
+            <MudSelectItem T="int?" Value="3">3¬™ Ano Ensino M√©dio</MudSelectItem>
         </MudSelect>
         @if (isAnoError)
         {
-            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatÛrio</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigat√≥rio</MudText>
         }
     </MudItem>
     <MudItem xs="12" sm="3" Class="flex-shrink-0">
@@ -117,7 +117,7 @@
         </MudSelect>
         @if (isTurmaError)
         {
-            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatÛrio</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigat√≥rio</MudText>
         }
     </MudItem>
 </MudGrid>
@@ -212,7 +212,7 @@
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
         @if (string.IsNullOrEmpty(sampleTitle))
         {
-            <span style="color: bisque;">Folha de RedaÁ„o</span>
+            <span style="color: bisque;">Folha de Reda√ß√£o</span>
         }
         else
         {
@@ -254,13 +254,13 @@
             Style="position: fixed; top: 0%; margin-left: 30%; width: 90vw; max-width: 600px; height: 690vw; max-height: 690px; padding: 16px; box-sizing: border-box;"
             OnOpen="EmitirNota">
     <MudText>
-        <h2>RedaÁ„o Enviada com Sucesso!</h2>
+        <h2>Reda√ß√£o Enviada com Sucesso!</h2>
         <br />
         <p>@GetSelectedData()</p>
         <br /><!-- Exibindo os dados selecionados -->
         <p>
-            Sua redaÁ„o tambÈm foi enviada p/ sua professora p/ correÁ„o.
-            Em breve, vocÍ receber· um feedback detalhado com sugestıes de melhorias.<br><br>
+            Sua reda√ß√£o tamb√©m foi enviada p/ sua professora p/ corre√ß√£o.
+            Em breve, voc√™ receber√° um feedback detalhado com sugest√µes de melhorias.<br><br>
             Acompanhe a sua nota parcial.
         </p>
     </MudText>
@@ -269,15 +269,15 @@
     <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-0">
         <MudCard>
             <MudCardContent>
-                <MudText Typo="Typo.h6" GutterBottom>Nota Simulada de RedaÁ„o do ENEM</MudText>
+                <MudText Typo="Typo.h6" GutterBottom>Nota Simulada de Reda√ß√£o do ENEM</MudText>
                 <MudForm @ref="form">
-                    <MudTextField @bind-Value="criterios[0]" Label="DomÌnio da escrita" Variant="Variant.Filled" InputType="InputType.Number"
+                    <MudTextField @bind-Value="criterios[0]" Label="Dom√≠nio da escrita" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
-                    <MudTextField @bind-Value="criterios[1]" Label="Compreens„o do tema" Variant="Variant.Filled" InputType="InputType.Number"
+                    <MudTextField @bind-Value="criterios[1]" Label="Compreens√£o do tema" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
-                    <MudTextField @bind-Value="criterios[2]" Label="InterpretaÁ„o das informaÁıes" Variant="Variant.Filled" InputType="InputType.Number"
+                    <MudTextField @bind-Value="criterios[2]" Label="Interpreta√ß√£o das informa√ß√µes" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
-                    <MudTextField @bind-Value="criterios[3]" Label="Conhecimento dos mecanismos linguÌsticos" Variant="Variant.Filled" InputType="InputType.Number"
+                    <MudTextField @bind-Value="criterios[3]" Label="Conhecimento dos mecanismos lingu√≠sticos" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
                     <MudTextField @bind-Value="criterios[4]" Label="Respeito aos direitos humanos" Variant="Variant.Filled" InputType="InputType.Number"
                                   Min="0" Max="200" Immediate="true" ReadOnly="true" Adornment="Adornment.End" AdornmentText="/ 200" />
@@ -315,65 +315,65 @@
     {
 
         "Desigualdade Social no Brasil",
-        "ViolÍncia Urbana e SeguranÁa P˙blica",
-        "EducaÁ„o e Tecnologia na Era Digital",
-        "Impactos das MÌdias Sociais na ComunicaÁ„o",
-        "A Crise HÌdrica e o Futuro da ¡gua no Brasil",
-        "PolÌticas P˙blicas de Sa˙de e Acesso ‡ Sa˙de",
-        "Mobilidade Urbana e Transporte P˙blico",
+        "Viol√™ncia Urbana e Seguran√ßa P√∫blica",
+        "Educa√ß√£o e Tecnologia na Era Digital",
+        "Impactos das M√≠dias Sociais na Comunica√ß√£o",
+        "A Crise H√≠drica e o Futuro da √Ågua no Brasil",
+        "Pol√≠ticas P√∫blicas de Sa√∫de e Acesso √† Sa√∫de",
+        "Mobilidade Urbana e Transporte P√∫blico",
         "Sustentabilidade e Consumo Consciente",
         "Juventude e Desemprego",
-        "Direitos Humanos e Igualdade de GÍnero",
-        "A InfluÍncia da Publicidade nas Decisıes de Consumo",
-        "Desafios do Sistema Penitenci·rio Brasileiro",
-        "Inclus„o e Diversidade nas Escolas",
-        "A Cultura do Cancelamento e a Liberdade de Express„o",
-        "Questıes Ambientais e MudanÁas Clim·ticas",
-        "O Papel da FamÌlia na FormaÁ„o do Car·ter dos Jovens",
+        "Direitos Humanos e Igualdade de G√™nero",
+        "A Influ√™ncia da Publicidade nas Decis√µes de Consumo",
+        "Desafios do Sistema Penitenci√°rio Brasileiro",
+        "Inclus√£o e Diversidade nas Escolas",
+        "A Cultura do Cancelamento e a Liberdade de Express√£o",
+        "Quest√µes Ambientais e Mudan√ßas Clim√°ticas",
+        "O Papel da Fam√≠lia na Forma√ß√£o do Car√°ter dos Jovens",
         "Tecnologia e Privacidade: Limites e Possibilidades",
-        "A Relev‚ncia das Atividades Extracurriculares na EducaÁ„o",
-        "Preconceito e DiscriminaÁ„o no Mercado de Trabalho",
+        "A Relev√¢ncia das Atividades Extracurriculares na Educa√ß√£o",
+        "Preconceito e Discrimina√ß√£o no Mercado de Trabalho",
         "O Impacto do Teletrabalho na Vida Profissional e Pessoal",
-        "Envelhecimento da PopulaÁ„o e PolÌticas P˙blicas",
-        "A Import‚ncia da Leitura na FormaÁ„o do Cidad„o",
-        "O Papel das ONGs na AssistÍncia Social",
-        "A InfluÍncia dos Influenciadores Digitais nas Novas GeraÁıes",
-        "GlobalizaÁ„o e Suas ConsequÍncias Locais",
-        "SeguranÁa Alimentar e Agricultura Sustent·vel",
-        "O Desafio da Mobilidade Sustent·vel nas Cidades",
-        "Sa˙de Mental e o Estigma em RelaÁ„o ‡s DoenÁas PsÌquicas",
-        "A Problem·tica do Lixo e Reciclagem nas ¡reas Urbanas",
-        "Empreendedorismo Jovem e InovaÁ„o",
+        "Envelhecimento da Popula√ß√£o e Pol√≠ticas P√∫blicas",
+        "A Import√¢ncia da Leitura na Forma√ß√£o do Cidad√£o",
+        "O Papel das ONGs na Assist√™ncia Social",
+        "A Influ√™ncia dos Influenciadores Digitais nas Novas Gera√ß√µes",
+        "Globaliza√ß√£o e Suas Consequ√™ncias Locais",
+        "Seguran√ßa Alimentar e Agricultura Sustent√°vel",
+        "O Desafio da Mobilidade Sustent√°vel nas Cidades",
+        "Sa√∫de Mental e o Estigma em Rela√ß√£o √†s Doen√ßas Ps√≠quicas",
+        "A Problem√°tica do Lixo e Reciclagem nas √Åreas Urbanas",
+        "Empreendedorismo Jovem e Inova√ß√£o",
         "Cultura e Identidade Nacional em um Mundo Globalizado",
-        "A Efic·cia das PolÌticas de SeguranÁa P˙blica",
-        "O Impacto das Novas Tecnologias na EducaÁ„o",
+        "A Efic√°cia das Pol√≠ticas de Seguran√ßa P√∫blica",
+        "O Impacto das Novas Tecnologias na Educa√ß√£o",
         "Direitos dos Animais e Bem-Estar Animal",
-        "A Quest„o da HabitaÁ„o e o Crescimento das Favelas",
-        "A Import‚ncia da …tica na Sociedade Contempor‚nea",
-        "O Papel da Arte na FormaÁ„o da ConsciÍncia Social",
-        "Crise EconÙmica e Desigualdade Social",
+        "A Quest√£o da Habita√ß√£o e o Crescimento das Favelas",
+        "A Import√¢ncia da √âtica na Sociedade Contempor√¢nea",
+        "O Papel da Arte na Forma√ß√£o da Consci√™ncia Social",
+        "Crise Econ√¥mica e Desigualdade Social",
         "O Impacto do Aquecimento Global no Brasil",
-        "A ConvivÍncia Intergeracional e Seus Desafios",
-        "A Cultura da ViolÍncia no Brasil",
-        "A Import‚ncia da ParticipaÁ„o Social e PolÌtica dos Jovens",
-        "O Impacto da Pandemia de COVID-19 na Sa˙de Mental",
-        "Tecnologia e Sa˙de: InovaÁıes e Desafios",
-        "A Import‚ncia do Voluntariado na Sociedade Atual",
-        "O Papel do Estado no Combate ‡ Pobreza",
-        "Direitos IndÌgenas e PreservaÁ„o Cultural",
+        "A Conviv√™ncia Intergeracional e Seus Desafios",
+        "A Cultura da Viol√™ncia no Brasil",
+        "A Import√¢ncia da Participa√ß√£o Social e Pol√≠tica dos Jovens",
+        "O Impacto da Pandemia de COVID-19 na Sa√∫de Mental",
+        "Tecnologia e Sa√∫de: Inova√ß√µes e Desafios",
+        "A Import√¢ncia do Voluntariado na Sociedade Atual",
+        "O Papel do Estado no Combate √† Pobreza",
+        "Direitos Ind√≠genas e Preserva√ß√£o Cultural",
         "O Uso de Drogas e Seus Impactos Sociais",
-        "A Quest„o da Mobilidade Urbana nas Grandes Cidades",
-        "A EficiÍncia EnergÈtica e a Sustentabilidade",
-        "A EvoluÁ„o do Papel da Mulher na Sociedade",
+        "A Quest√£o da Mobilidade Urbana nas Grandes Cidades",
+        "A Efici√™ncia Energ√©tica e a Sustentabilidade",
+        "A Evolu√ß√£o do Papel da Mulher na Sociedade",
         "Cultura Digital e Seus Desafios",
-        "A RelaÁ„o entre CiÍncia e Religi„o na Sociedade Atual",
+        "A Rela√ß√£o entre Ci√™ncia e Religi√£o na Sociedade Atual",
         "Os Desafios do Sistema Educacional Brasileiro",
-        "O Problema da Evas„o Escolar no Brasil",
-        "A PreservaÁ„o dos Biomas Brasileiros",
-        "A ContribuiÁ„o das MÌdias Digitais na EducaÁ„o",
-        "O Futuro do Trabalho na Era da AutomaÁ„o",
-        "O Desafio da Inclus„o Digital no Brasil",
-        "A Import‚ncia do Lazer na Qualidade de Vida"
+        "O Problema da Evas√£o Escolar no Brasil",
+        "A Preserva√ß√£o dos Biomas Brasileiros",
+        "A Contribui√ß√£o das M√≠dias Digitais na Educa√ß√£o",
+        "O Futuro do Trabalho na Era da Automa√ß√£o",
+        "O Desafio da Inclus√£o Digital no Brasil",
+        "A Import√¢ncia do Lazer na Qualidade de Vida"
     };   
 
     protected override void OnInitialized()
@@ -416,16 +416,16 @@
 
     private async Task StartProgress()
     {
-        // ValidaÁ„o dos campos obrigatÛrios
+        // Valida√ß√£o dos campos obrigat√≥rios
         isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
-        isAnoError = ano == null; // Verifica se 'ano' È nulo
-        isTurmaError = turma == null; // Verifica se 'turma' È nulo
+        isAnoError = ano == null; // Verifica se 'ano' √© nulo
+        isTurmaError = turma == null; // Verifica se 'turma' √© nulo
 
-        // Verificar se algum campo obrigatÛrio n„o est· preenchido
+        // Verificar se algum campo obrigat√≥rio n√£o est√° preenchido
         if (isNomeAlunoError || isAnoError || isTurmaError)
         {
-            // Exibir mensagens de erro e parar a execuÁ„o
-            Snackbar.Add("Preencha todos os campos obrigatÛrios.", Severity.Error);
+            // Exibir mensagens de erro e parar a execu√ß√£o
+            Snackbar.Add("Preencha todos os campos obrigat√≥rios.", Severity.Error);
             return;
         }
         // Normalize line endings
@@ -479,17 +479,17 @@
     private void EmitirNota()
     {
         var random = new Random();
-        totalNota = random.Next(0, 1001); // Gera uma nota total aleatÛria entre 0 e 1000
+        totalNota = random.Next(0, 1001); // Gera uma nota total aleat√≥ria entre 0 e 1000
         int remaining = totalNota;
 
         for (int i = 0; i < criterios.Length - 1; i++)
         {
-            // Gere um valor aleatÛrio para o critÈrio, mas garanta que o total n„o ser· ultrapassado
-            criterios[i] = random.Next(0, Math.Min(remaining - (criterios.Length - i - 1) * 0, 201)); // Nota mÌnima È 0, m·xima È 200
+            // Gere um valor aleat√≥rio para o crit√©rio, mas garanta que o total n√£o ser√° ultrapassado
+            criterios[i] = random.Next(0, Math.Min(remaining - (criterios.Length - i - 1) * 0, 201)); // Nota m√≠nima √© 0, m√°xima √© 200
             remaining -= criterios[i];
         }
 
-        // O ˙ltimo critÈrio recebe o restante da nota
+        // O √∫ltimo crit√©rio recebe o restante da nota
         criterios[criterios.Length - 1] = remaining;
     }
 
@@ -497,9 +497,9 @@
     {
         var anoDescricao = ano switch
         {
-            1 => "1™ Ano Ensino MÈdio",
-            2 => "2™ Ano Ensino MÈdio",
-            3 => "3™ Ano Ensino MÈdio",
+            1 => "1¬™ Ano Ensino M√©dio",
+            2 => "2¬™ Ano Ensino M√©dio",
+            3 => "3¬™ Ano Ensino M√©dio",
         };
 
         var turmaDescricao = turma switch
