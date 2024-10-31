@@ -1,10 +1,10 @@
 # Usar a imagem oficial do .NET para construir a aplicação
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 # Usar a imagem do SDK do .NET para compilar a aplicação
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["ENEMScore/ENEMScore.csproj", "ENEMScore/"]
 RUN dotnet restore "ENEMScore/ENEMScore.csproj"
