@@ -22,5 +22,5 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ENEMScore.dll"]
 
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+ENV LANG=pt_BR.UTF-8
+ENV LC_ALL=pt_BR.UTF-8
