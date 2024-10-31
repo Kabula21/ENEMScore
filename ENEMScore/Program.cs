@@ -3,6 +3,10 @@ using ENEMScore.Client.Services.Interfaces;
 using ENEMScore.Client.Services;
 using ENEMScore.Components;
 using MudBlazor.Services;
+using System.Text;
+
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+Console.OutputEncoding = Encoding.UTF8;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,3 +45,4 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(ENEMScore.Client._Imports).Assembly);
 
 app.Run();
+
