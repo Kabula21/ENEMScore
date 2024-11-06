@@ -436,17 +436,6 @@
 
     private async Task StartProgress()
     {
-        // Exibe o progresso e inicia a contagem
-        isProgressVisible = true;
-        for (int i = 0; i <= 100; i++)
-        {
-            Value = i;
-            StateHasChanged(); // Atualiza a interface
-            await Task.Delay(40); // Atraso para simular o progresso
-        }
-        isProgressVisible = false; // Esconde o progresso quando terminar
-
-
         // Validação dos campos obrigatórios
         isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
         isAnoError = ano == null; // Verifica se 'ano' é nulo
@@ -459,6 +448,18 @@
             Snackbar.Add("Preencha todos os campos obrigatórios.", Severity.Error);
             return;
         }
+
+        // Exibe o progresso e inicia a contagem
+        isProgressVisible = true;
+        for (int i = 0; i <= 100; i++)
+        {
+            Value = i;
+            StateHasChanged(); // Atualiza a interface
+            await Task.Delay(40); // Atraso para simular o progresso
+        }
+        isProgressVisible = false; // Esconde o progresso quando terminar
+
+
         // Normalize line endings
         var normalizedText = sampleText.Replace("\r\n", "\n").Replace("\r", "\n");
 
@@ -483,8 +484,6 @@
 
         // If validation passes, continue with progress logic
         await SimulateProgressAsync();
-       
-
     }
 
     public async Task SimulateProgressAsync()
@@ -507,7 +506,7 @@
 
         await Task.Delay(200);
         Value = 0;
-    }    
+    }
 
     private void EmitirNota()
     {
