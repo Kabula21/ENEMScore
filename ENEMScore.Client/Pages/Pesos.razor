@@ -164,40 +164,7 @@
             <MudIcon Icon="@Icons.Material.Outlined.Calculate" Class="me-2" /> CALCULADORA
         </MudText>
         <MudTabs Elevation="4" Rounded="true" Centered="false" Color="@Color.Primary">
-            <MudTabPanel Text="Por Notas">
-                <MudCard>
-                    <MudCardHeader>
-                        <MudText Typo="Typo.h5">Calculadora por Notas</MudText>
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <MudGrid>
-                            <!-- Campos para notas -->
-                            <MudItem xs="12" sm="6" Class="mb-3">
-                                <MudTextField Label="Nota de Matemática" @bind-Value="MathScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
-                            </MudItem>
-                            <MudItem xs="12" sm="6" Class="mb-3">
-                                <MudTextField Label="Nota de Linguagens" @bind-Value="LanguageScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
-                            </MudItem>
-                            <MudItem xs="12" sm="6" Class="mb-3">
-                                <MudTextField Label="Nota de Ciências da Natureza" @bind-Value="NatureSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
-                            </MudItem>
-                            <MudItem xs="12" sm="6" Class="mb-3">
-                                <MudTextField Label="Nota de Ciências Humanas" @bind-Value="HumanSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
-                            </MudItem>
-                            <MudItem xs="12" Class="mb-3">
-                                <MudTextField Label="Nota da Redação" @bind-Value="EssayScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
-                            </MudItem>
-                            <!-- Botão para calcular média -->
-                            <MudItem xs="12" Class="mb-3">
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CalculateAverageScore">Calcular Média</MudButton>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <MudText Typo="Typo.h6">Nota Final: @FinalScore</MudText>
-                            </MudItem>
-                        </MudGrid>
-                    </MudCardContent>
-                </MudCard>
-            </MudTabPanel>
+
             <MudTabPanel Text="Por Peso">
                 <MudCard>
                     <MudCardHeader>
@@ -235,6 +202,42 @@
                     </MudCardContent>
                 </MudCard>
             </MudTabPanel>
+
+            <MudTabPanel Text="Por Notas">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.h5">Calculadora por Notas</MudText>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <!-- Campos para notas -->
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Matemática" @bind-Value="MathScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Linguagens" @bind-Value="LanguageScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Ciências da Natureza" @bind-Value="NatureSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="mb-3">
+                                <MudTextField Label="Nota de Ciências Humanas" @bind-Value="HumanSciencesScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" Class="mb-3">
+                                <MudTextField Label="Nota da Redação" @bind-Value="EssayScore" Type="number" Variant="Variant.Filled" FullWidth="true" Margin="Margin.Dense" />
+                            </MudItem>
+                            <!-- Botão para calcular média -->
+                            <MudItem xs="12" Class="mb-3">
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CalculateAverageScore">Calcular Média</MudButton>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h6">Nota Final: @FinalScore</MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudTabPanel>
+            
         </MudTabs>
     </MudItem>
 </MudGrid>
