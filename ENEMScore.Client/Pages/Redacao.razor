@@ -244,9 +244,28 @@
 
 <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
     <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Warning" OnClick="@StartProgress"
-        class="h-10" style="max-width: 100px;">Enviar</MudButton>
-    <MudProgressLinear Color="Color.Warning" Value="@Value" style="flex-grow: 1; max-width: 900px;" Striped="true" Size="Size.Large" />
+        style="width: 150px;">Enviar</MudButton>
 </div>
+
+<!-- Sombra de tela inteira quando o botão é clicado -->
+@if (isProgressVisible)
+{
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); 
+                display: flex; justify-content: center; align-items: center; z-index: 1000;">
+        <div style="position: relative; text-align: center;">
+            <!-- MudProgressCircular -->
+            <MudProgressCircular Color="Color.Warning" Value="@Value" Striped="true" Size="Size.Large" 
+                Style="width: 120px; height: 120px;" />
+            
+            <!-- Contador de porcentagem no centro -->
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: gold;">
+                @Value%
+            </div>
+        </div>
+    </div>
+}
+
+
 
 <!--POPUP-->
 
@@ -292,6 +311,7 @@
 <!--LOGICA C#-->
 @code {
     private bool isDarkTheme = false; // Defina para true para tema escuro, ou configure dinamicamente
+    private bool isProgressVisible = false;
     private bool _open { get; set; }
     private bool _open2 { get; set; }
     private string nomeAluno;
@@ -394,7 +414,7 @@
 
     private void RefreshPage()
     {
-        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        GenerateRandomThemes();
     }
 
     private void UpdateTextFieldTitle(string cardTitle)
@@ -416,6 +436,17 @@
 
     private async Task StartProgress()
     {
+        // Exibe o progresso e inicia a contagem
+        isProgressVisible = true;
+        for (int i = 0; i <= 100; i++)
+        {
+            Value = i;
+            StateHasChanged(); // Atualiza a interface
+            await Task.Delay(40); // Atraso para simular o progresso
+        }
+        isProgressVisible = false; // Esconde o progresso quando terminar
+
+
         // Validação dos campos obrigatórios
         isNomeAlunoError = string.IsNullOrWhiteSpace(nomeAluno);
         isAnoError = ano == null; // Verifica se 'ano' é nulo
@@ -452,6 +483,8 @@
 
         // If validation passes, continue with progress logic
         await SimulateProgressAsync();
+       
+
     }
 
     public async Task SimulateProgressAsync()
