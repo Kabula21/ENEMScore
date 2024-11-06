@@ -277,12 +277,13 @@
 
 </MudGrid>
 
+
 @code {
 
-    private bool isDarkTheme = false; // Defina para true para tema escuro, ou configure dinamicamente
+    private bool isDarkTheme = false;
     public void ToggleCollapse() => _expanded = !_expanded;
     public bool _expanded = false;
-   
+
     // Variáveis para as notas
     public double MathScore { get; set; }
     public double LanguageScore { get; set; }
@@ -301,21 +302,18 @@
     // Método para calcular a pontuação com base nos pesos
     public void CalculateWeightedScore()
     {
-        // Definindo os pesos
         double mathWeight = 3.0;
         double languageWeight = 2.0;
         double natureSciencesWeight = 2.5;
         double humanSciencesWeight = 2.0;
         double essayWeight = 2.5;
 
-        // Calculando a pontuação com pesos
         WeightedScore = (MathScore * mathWeight) +
                         (LanguageScore * languageWeight) +
                         (NatureSciencesScore * natureSciencesWeight) +
                         (HumanSciencesScore * humanSciencesWeight) +
                         (EssayScore * essayWeight);
 
-        // Dividindo pelo total dos pesos para normalizar
         double totalWeight = mathWeight + languageWeight + natureSciencesWeight + humanSciencesWeight + essayWeight;
         WeightedScore /= totalWeight;
     }
@@ -341,7 +339,6 @@
     {
         cursos = await Http.GetFromJsonAsync<List<CursoInfo>>("Data/lista.json");
         universidades = cursos.Select(c => c.Universidade).Distinct().ToList();
-        // Inicialmente, todos os demais dropdowns estão vazios até que uma escolha seja feita
     }
 
     private async Task HandleUniversidadeChange(ChangeEventArgs e)
@@ -349,39 +346,48 @@
         selectedUniversidade = e.Value.ToString();
         campi = cursos.Where(c => c.Universidade == selectedUniversidade)
                       .Select(c => c.Campus).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Universidade");
+        ResetLowerFilters("Universidade");
     }
 
     private async Task HandleCampusChange(ChangeEventArgs e)
     {
         selectedCampus = e.Value.ToString();
-        anos = cursos.Where(c => c.Campus == selectedCampus)
+        anos = cursos.Where(c => c.Universidade == selectedUniversidade && c.Campus == selectedCampus)
                      .Select(c => c.Ano).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Campus");
+        ResetLowerFilters("Campus");
     }
 
     private async Task HandleAnoChange(ChangeEventArgs e)
     {
         selectedAno = int.Parse(e.Value.ToString());
-        cursosDisponiveis = cursos.Where(c => c.Campus == selectedCampus && c.Ano == selectedAno)
+        cursosDisponiveis = cursos.Where(c => c.Universidade == selectedUniversidade &&
+                                              c.Campus == selectedCampus &&
+                                              c.Ano == selectedAno)
                                   .Select(c => c.Curso).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Ano");
+        ResetLowerFilters("Ano");
     }
 
     private async Task HandleCursoChange(ChangeEventArgs e)
     {
         selectedCurso = e.Value.ToString();
-        turnos = cursos.Where(c => c.Curso == selectedCurso)
+        turnos = cursos.Where(c => c.Universidade == selectedUniversidade &&
+                                    c.Campus == selectedCampus &&
+                                    c.Ano == selectedAno &&
+                                    c.Curso == selectedCurso)
                        .Select(c => c.Turno).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Curso");
+        ResetLowerFilters("Curso");
     }
 
     private async Task HandleTurnoChange(ChangeEventArgs e)
     {
         selectedTurno = e.Value.ToString();
-        tipos = cursos.Where(c => c.Turno == selectedTurno && c.Curso == selectedCurso)
+        tipos = cursos.Where(c => c.Universidade == selectedUniversidade &&
+                                   c.Campus == selectedCampus &&
+                                   c.Ano == selectedAno &&
+                                   c.Curso == selectedCurso &&
+                                   c.Turno == selectedTurno)
                       .Select(c => c.Tipo).Distinct().ToList();
-        ResetLowerFilters(fromLevel: "Turno");
+        ResetLowerFilters("Turno");
     }
 
     private async Task HandleTipoChange(ChangeEventArgs e)
@@ -430,14 +436,12 @@
                 selectedTipo = null;
                 break;
         }
-        notaDeCorte = null; // Reset the score when changing any filter above
-        StateHasChanged(); // Force re-rendering to update the UI
+        notaDeCorte = null;
+        StateHasChanged();
     }
-
 
     private string GetShortDescription(string fullDescription)
     {
-        // Truncates the description if it is too long for the dropdown display
         if (fullDescription.Length > 90)
         {
             return fullDescription.Substring(0, 70) + "...";
@@ -445,6 +449,4 @@
         return fullDescription;
     }
 }
-
-
 
