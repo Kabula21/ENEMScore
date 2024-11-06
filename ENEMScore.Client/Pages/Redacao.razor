@@ -449,17 +449,6 @@
             return;
         }
 
-        // Exibe o progresso e inicia a contagem
-        isProgressVisible = true;
-        for (int i = 0; i <= 100; i++)
-        {
-            Value = i;
-            StateHasChanged(); // Atualiza a interface
-            await Task.Delay(40); // Atraso para simular o progresso
-        }
-        isProgressVisible = false; // Esconde o progresso quando terminar
-
-
         // Normalize line endings
         var normalizedText = sampleText.Replace("\r\n", "\n").Replace("\r", "\n");
 
@@ -481,6 +470,16 @@
             Snackbar.Add("O texto deve ter entre 8 e 30 linhas.", Severity.Error);
             return;
         }
+
+        // Exibe o progresso e inicia a contagem
+        isProgressVisible = true;
+        for (int i = 0; i <= 100; i++)
+        {
+            Value = i;
+            StateHasChanged(); // Atualiza a interface
+            await Task.Delay(40); // Atraso para simular o progresso
+        }
+        isProgressVisible = false; // Esconde o progresso quando terminar
 
         // If validation passes, continue with progress logic
         await SimulateProgressAsync();
