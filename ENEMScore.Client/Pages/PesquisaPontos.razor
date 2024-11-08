@@ -160,12 +160,12 @@
                 <div class="confirmation field" style="margin-top: 0px;">
                     <h4>Confirmação da Seleção:</h4>
                     <ul>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Universidade: @selectedUniversidade</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Pontuação Mínima: @selectedScore</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Campus: @selectedCampus</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Curso: @selectedCurso</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Turno: @selectedTurno</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Tipo: @selectedTipo</li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Universidade:<strong> @selectedUniversidade</strong></li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Pontuação Do Curso:<strong>@selectedScore</strong></li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Campus: <strong>@selectedCampus</strong></li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Curso: <strong>@selectedCurso</strong></li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Turno: <strong>@selectedTurno</strong></li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Tipo: <strong>@selectedTipo</strong></li>
                     </ul>
                     <p style="color: green; font-size: 20px;"><strong>Parabéns! Com sua pontuação, você tem grandes oportunidades neste curso. Continue explorando suas opções e sucesso nos estudos!</strong></p>
                 </div>
@@ -176,7 +176,7 @@
                     <h4>Confirmação da Seleção:</h4>
                     <ul>
                         <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Universidade:</li>
-                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Pontuação Mínima:</li>
+                        <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Pontuação Do Curso:</li>
                         <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Campus:</li>
                         <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Curso:</li>
                         <li class="line-numbers @(isDarkTheme ? "dark" : "light")">Turno:</li>
@@ -248,15 +248,17 @@
     {
         if (selectedScore.HasValue)
         {
-            campi = cursos.Where(c => c.Universidade == selectedUniversidade && c.NotaDeCorte >= selectedScore.Value)
+            campi = cursos.Where(c => c.Universidade == selectedUniversidade && c.NotaDeCorte <= selectedScore.Value)
                           .Select(c => c.Campus).Distinct().ToList();
+            cursosFiltrados = cursos.Where(c => c.Universidade == selectedUniversidade && c.Campus == selectedCampus && c.NotaDeCorte <= selectedScore.Value).ToList();
         }
         else
         {
             campi.Clear();
+            cursosFiltrados.Clear();
         }
+
         selectedCampus = null;
-        cursosFiltrados.Clear();
         selectedCurso = null;
         selectedTurno = null;
         selectedTipo = null;
