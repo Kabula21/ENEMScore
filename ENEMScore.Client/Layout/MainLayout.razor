@@ -32,17 +32,20 @@
 
                 <MudSpacer />
 
-                <span class="ml-3 text-white">
-                    @if (Weather != null && Weather.Main != null)
-                    {
-                        var temperature = Math.Round(Weather.Main.Temp); // Arredonda a temperatura
-                        var city = Weather.Name ?? "Aracaju"; // Define o nome da cidade ou usa "Aracaju" como padrão
-                        var iconUrl = $"https://openweathermap.org/img/wn/{Weather.Weather.FirstOrDefault()?.Icon}@2x.png"; // URL do ícone
-                        <img src="@iconUrl" alt="Weather Icon"
-                             style="width:50px; height:50px; vertical-align: middle;" />
-                        <span>@($"{temperature}°C {city}")</span>
-                    }
-                </span>
+                <MudTooltip Text="@tooltipText">
+                    <span class="ml-3 text-white">
+                        @if (Weather != null && Weather.Main != null)
+                        {
+                            var temperature = Math.Round(Weather.Main.Temp); // Arredonda a temperatura
+                            var city = Weather.Name ?? "Aracaju"; // Define o nome da cidade ou usa "Aracaju" como padrão
+                            var iconUrl = $"https://openweathermap.org/img/wn/{Weather.Weather.FirstOrDefault()?.Icon}@2x.png"; // URL do ícone
+
+                            <img src="@iconUrl" alt="Weather Icon"
+                                 style="width:50px; height:50px; vertical-align: middle;" />
+                            <span>@($"{temperature}°C {city}")</span>
+                        }
+                    </span>
+                </MudTooltip>
 
                 <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode"  />
                 <span>@DarkLightModeButtonText</span>
@@ -64,8 +67,11 @@
     private MudTheme? _theme { get; set; } = null;
     private bool isLoading = true;
     private WeatherResponse Weather { get; set; }
+    private string chuvaText { get; set; }
     public int Value { get; set; } = 0;
     private Timer _timer;
+    private string tooltipText = string.Empty; // Variável para armazenar o texto do tooltip
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,6 +88,17 @@
 
         // Carrega o clima de Aracaju
         await LoadWeather();
+
+        // Definir o texto do tooltip com base nos dados da API
+        if (Weather != null)
+        {
+            // Definir texto para o tooltip
+            var chuva = Weather.Rain?.OneHour > 0 ? $"{Weather.Rain.OneHour} mm" : "Sem chuva";
+            var umidade = Weather.Main.Humidity;
+            var vento = Weather.Wind?.Speed;
+
+            tooltipText = $"Chuva: {chuva} | Umidade: {umidade}% | Vento: {vento} m/s";
+        }
 
         await InvokeAsync(StateHasChanged);
     }
@@ -217,12 +234,14 @@
         public Main Main { get; set; }
         public string Name { get; set; }
         public List<WeatherDetails> Weather { get; set; }
-       
+        public Rain Rain { get; set; }
+        public Wind Wind { get; set; }
     }
 
     public class Main
     {
-        public float Temp { get; set; }        
+        public float Temp { get; set; }
+        public int Humidity { get; set; } // Umidade
     }
 
     public class WeatherDetails
@@ -231,8 +250,13 @@
         public string Icon { get; set; }
     }
 
-    
+    public class Rain
+    {
+        public float OneHour { get; set; } // Quantidade de chuva em 1 hora
+    }
+
+    public class Wind
+    {
+        public float Speed { get; set; } // Velocidade do vento
+    }
 }
-
-
-
