@@ -1,63 +1,70 @@
 ﻿@inherits LayoutComponentBase
 @inject IDarkModeService DarkModeService
+@inject HttpClient Http
 
-<div style="@(DarkModeService.isDarkMode ? "background-image: url('/img/background-loaddark.png');" : 
-"background-image: url('/img/background-loadd.png');") background-size: cover; background-position: center; 
-    background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh;" >
+<div style="@(DarkModeService.isDarkMode ? "background-image: url('/img/background-loaddark.png');" :
+"background-image: url('/img/background-loadd.png');") background-size: cover; background-position: center;
+    background-repeat: no-repeat; background-attachment: fixed; min-height: 100vh;">
 
-<MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+    <MudThemeProvider Theme="@_theme" IsDarkMode="DarkModeService.isDarkMode" />
+    <MudPopoverProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
 
-@if (isLoading)
-{
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-image: url('/img/background-load2.png'); background-size: cover; background-position: center; width: 100vw;">
-        <img src="/img/logo-enemscore.png" alt="Loading" style="width: 500px; height: auto; margin-bottom: 20px" />
-        <MudProgressLinear Color="Color.Primary" Class="my-7" Style="width: 200px;" Rounded="true" Size="Size.Small" Value="@Value" />
-    </div>
+    @if (isLoading)
+    {
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-image: url('/img/background-load2.png'); background-size: cover; background-position: center; width: 100vw;">
+            <img src="/img/logo-enemscore.png" alt="Loading" style="width: 500px; height: auto; margin-bottom: 20px" />
+            <MudProgressLinear Color="Color.Primary" Class="my-7" Style="width: 200px;" Rounded="true" Size="Size.Small" Value="@Value" />
+        </div>
+    }
+    else
+    {
+        <MudLayout>
+            <MudAppBar Color="Color.Primary" Elevation="5" Class="flex items-center h-15">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 
-}
+                <MudText Class="ml-5 h-px items-center">
+                    <a href="/">
+                        <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
+                    </a>
+                </MudText>
 
-else
-{
+                <MudSpacer />
 
-    <MudLayout>
-        <MudAppBar Color="Color.Primary" Elevation="5" Class="flex items-center h-15">
-            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                <span class="ml-3 text-white">
+                    @if (Weather != null && Weather.Main != null)
+                    {
+                        var temperature = Math.Round(Weather.Main.Temp); // Arredonda a temperatura
+                        var city = Weather.Name ?? "Aracaju"; // Define o nome da cidade ou usa "Aracaju" como padrão
+                        var iconUrl = $"https://openweathermap.org/img/wn/{Weather.Weather.FirstOrDefault()?.Icon}@2x.png"; // URL do ícone
+                        <img src="@iconUrl" alt="Weather Icon"
+                             style="width:50px; height:50px; vertical-align: middle;" />
+                        <span>@($"{temperature}°C {city}")</span>
+                    }
+                </span>
 
-            <MudText Class="ml-5 h-px items-center">
-                <a href="/">
-                    <img src="/img/logo-white-horizontal.png" alt="logo horizontal" style="width: 150px; height: auto;" />
-                </a>
-            </MudText>
+                <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode"  />
+                <span>@DarkLightModeButtonText</span>
+            </MudAppBar>
 
-            <MudSpacer />
-            <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeService.ToogleDarkMode" />
-            <span>@DarkLightModeButtonText</span>
-        </MudAppBar>
-
-        <MudDrawer Color="Color.Default" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
-            <NavMenu />
-        </MudDrawer>
-        <MudMainContent Class="mt-16 pa-4">
-            @Body
-        </MudMainContent>
-    </MudLayout>
-}
-
+            <MudDrawer Color="Color.Default" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="3">
+                <NavMenu />
+            </MudDrawer>
+            <MudMainContent Class="mt-16 pa-4">
+                @Body
+            </MudMainContent>
+        </MudLayout>
+    }
 </div>
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+
 
 @code {
     private bool _drawerOpen { get; set; } = false;
     private MudTheme? _theme { get; set; } = null;
     private bool isLoading = true;
-    public int Value { get; set; } = 0; // Valor inicial do progresso
+    private WeatherResponse Weather { get; set; }
+    public int Value { get; set; } = 0;
     private Timer _timer;
 
     protected override async Task OnInitializedAsync()
@@ -73,7 +80,9 @@ else
                 LayoutProperties = new LayoutProperties()
             };
 
-        // Atualiza a tela quando o carregamento termina
+        // Carrega o clima de Aracaju
+        await LoadWeather();
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -83,16 +92,39 @@ else
         {
             if (Value < 100)
             {
-                Value += 10; // Incrementa de 5 em 5
-                await InvokeAsync(StateHasChanged); // Garante que a UI seja atualizada
+                Value += 10;
+                await InvokeAsync(StateHasChanged);
             }
             else
             {
                 _timer.Dispose();
                 isLoading = false;
-                await InvokeAsync(StateHasChanged); // Atualiza a UI para mostrar o conteúdo
+                await InvokeAsync(StateHasChanged);
             }
-        }, null, 0, 200); // Atualiza a cada 200ms
+        }, null, 0, 200);
+    }
+
+    private async Task LoadWeather()
+    {
+        try
+        {
+            var url = $"https://api.openweathermap.org/data/2.5/weather?q=Aracaju,BR&appid=6262c099aff877c5a6988ee8cb91722b&units=metric";
+            var response = await Http.GetFromJsonAsync<WeatherResponse>(url);
+
+            if (response != null)
+            {
+                Weather = response;
+            }
+        }
+        catch (Exception)
+        {
+            Weather = new WeatherResponse
+                {
+                    Main = new Main { Temp = 0 },
+                    Name = "Erro ao carregar clima",
+                    Weather = new List<WeatherDetails> { new WeatherDetails { Icon = "01d" } }
+                };
+        }
     }
 
     public void Dispose()
@@ -124,63 +156,47 @@ else
             Primary = "#0060b8",
             PrimaryDarken = "rgb(62,44,221)",
             PrimaryLighten = "rgb(151,141,236)",
-
             SecondaryDarken = "rgb(255,31,105)",
             SecondaryLighten = "rgb(255,102,153)",
-
             Tertiary = "#ffffff",
             TertiaryDarken = "rgb(25,169,140)",
             TertiaryLighten = "rgb(42,223,187)",
-
             Info = "#4a86ff",
             InfoDarken = "rgb(10,133,255)",
             InfoLighten = "rgb(92,173,255)",
-
             Success = "#3dcb6c",
             SuccessDarken = "rgb(9,154,108)",
             SuccessLighten = "rgb(13,222,156)",
-
             Warning = "#ffb545",
             WarningDarken = "rgb(214,143,0)",
-            WarningLighten = "rgb(255,182,36)",
-
-            Error = "#ff3f5f",
-            ErrorDarken = "rgb(244,47,70)",
-            ErrorLighten = "rgb(248,119,134)",
-
-            Dark = "#1e1e2d",
+            WarningLighten = "rgb(255,196,120)",
+            Error = "#f45151",
+            ErrorDarken = "rgb(192,0,0)",
+            ErrorLighten = "rgb(252,88,88)",
+            Black = "#1e1e2d",
             DarkDarken = "rgb(23,23,28)",
             DarkLighten = "rgb(56,56,67)",
-
             Surface = "#1e1e2d",
             Background = "#1a1a27",
-
             AppbarBackground = "rgba(26,26,39,0.8)",
             AppbarText = "#92929f",
-
             DrawerBackground = "#1a1a27",
             DrawerText = "#d9d9d9",
             DrawerIcon = "#5c5c5e",
-
             ActionDefault = "#74718e",
             ActionDisabled = "#9999994d",
             ActionDisabledBackground = "#605f6d4d",
-
             TextPrimary = "#d9d9d9",
             TextSecondary = "#92929f",
             TextDisabled = "#ffffff",
-
             LinesDefault = "#33323e",
             TableLines = "#33323e",
             Divider = "#292838",
-
             OverlayLight = "rgba(255,255,255,0.4980392156862745)",
             OverlayDark = "rgba(33,33,33,0.4980392156862745)",
-
             HoverOpacity = 0.06,
             RippleOpacity = 0.1,
             RippleOpacitySecondary = 0.2,
-
             GrayDefault = "#9E9E9E",
             GrayLight = "#BDBDBD",
             GrayLighter = "#E0E0E0",
@@ -194,5 +210,29 @@ else
         false => Icons.Material.Outlined.DarkMode,
     };
 
-    public string DarkLightModeButtonText => DarkModeService.isDarkMode ? "" : "";
+    public string DarkLightModeButtonText => DarkModeService.isDarkMode ? "Claro" : "Escuro";
+
+    public class WeatherResponse
+    {
+        public Main Main { get; set; }
+        public string Name { get; set; }
+        public List<WeatherDetails> Weather { get; set; }
+       
+    }
+
+    public class Main
+    {
+        public float Temp { get; set; }        
+    }
+
+    public class WeatherDetails
+    {
+        public string Description { get; set; }
+        public string Icon { get; set; }
+    }
+
+    
 }
+
+
+
