@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IDarkModeService DarkModeService
 @using MudBlazor
+@inherits LayoutComponentBase
 
 <PageTitle>ENEMScore</PageTitle>
 
@@ -16,8 +17,10 @@
         <i>Estamos aqui para ajudar você a alcançar seus objetivos no <strong>ENEM</strong>. <br> Explore nossos recursos e encontre o curso ideal para sua pontuação.</i>
     </p>
     <h3 class="text-3xl mt-6 flex items-center justify-left">
-        Para começar: clique no menu superior esquerdo!
-        <MudIcon Icon="@Icons.Material.Outlined.Menu" Class="ml-2" />
+        Para começar: clique no MENU superior esquerdo!
+
+        <MudIcon Icon="@Icons.Material.Filled.Menu" Class="ml-2" />
+      
     </h3>
 
 </MudItem>
@@ -85,6 +88,7 @@
 <!--CODE C#-->
 
 @code { 
+    
 
     protected override void OnInitialized()
     {
@@ -95,5 +99,6 @@
     {
         DarkModeService.OnChange -= StateHasChanged;
     }
+    
       
 }

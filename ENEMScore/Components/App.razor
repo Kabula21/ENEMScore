@@ -25,7 +25,41 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        new window.VLibras.Widget('https://vlibras.gov.br/app');  
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const weatherIcon = document.getElementById('weatherIcon');
+            const tooltip = document.getElementById('tooltip');
+            const tooltipContent = document.getElementById('tooltip-content');
+
+            weatherIcon.addEventListener('mouseover', function (event) {
+                // Pega os dados do ícone (temperatura, umidade, vento, etc.)
+                const temperature = weatherIcon.getAttribute('data-temperature');
+                const description = weatherIcon.getAttribute('data-description');
+                const humidity = weatherIcon.getAttribute('data-humidity');
+                const wind = weatherIcon.getAttribute('data-wind');
+
+                // Preenche o conteúdo do tooltip
+                tooltipContent.innerHTML = `
+                        <strong>Descrição:</strong> ${description}<br>
+                        <strong>Temperatura:</strong> ${temperature}°C<br>
+                        <strong>Umidade:</strong> ${humidity}%<br>
+                        <strong>Vento:</strong> ${wind} m/s
+                    `;
+
+                // Exibe o tooltip
+                tooltip.style.display = 'block';
+                tooltip.style.left = `${event.pageX + 10}px`; // Ajusta a posição do tooltip
+                tooltip.style.top = `${event.pageY + 10}px`;
+            });
+
+            weatherIcon.addEventListener('mouseout', function () {
+                // Esconde o tooltip quando o mouse sai do ícone
+                tooltip.style.display = 'none';
+            });
+        });
     </script>
 
     <Routes @rendermode="InteractiveWebAssembly" />
