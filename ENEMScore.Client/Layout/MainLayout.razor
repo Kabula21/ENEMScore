@@ -75,7 +75,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        StartLoading();
+        isLoading = true;        
 
         DarkModeService.OnChange += StateHasChanged;
 
@@ -99,7 +99,7 @@
 
             tooltipText = $"Chuva: {chuva} | Umidade: {umidade}% | Vento: {vento} m/s";
         }
-
+        StartLoading();
         await InvokeAsync(StateHasChanged);
     }
 
