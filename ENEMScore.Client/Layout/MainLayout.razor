@@ -72,10 +72,9 @@
     private Timer _timer;
     private string tooltipText = string.Empty; // Variável para armazenar o texto do tooltip
 
-
     protected override async Task OnInitializedAsync()
     {
-        isLoading = true;        
+        isLoading = true;
 
         DarkModeService.OnChange += StateHasChanged;
 
@@ -93,12 +92,16 @@
         if (Weather != null)
         {
             // Definir texto para o tooltip
-            var chuva = Weather.Rain?.OneHour > 0 ? $"{Weather.Rain.OneHour} mm" : "Sem chuva";
+            var chuva = Weather.Rain?.OneHour > 0 ? $"{Weather.Rain.OneHour} mm" : "Sem Chuva";
             var umidade = Weather.Main.Humidity;
-            var vento = Weather.Wind?.Speed;
 
-            tooltipText = $"Chuva: {chuva} | Umidade: {umidade}% | Vento: {vento} m/s";
+            // Verificar se o valor da velocidade do vento não é nulo, converter para km/h, e arredondar
+            var vento = Weather.Wind != null ? Math.Round(Weather.Wind.Speed * 3.6) : (double?)null;
+
+            // Formatar o texto do tooltip com a velocidade inteira em km/h ou uma mensagem padrão se estiver nula
+            tooltipText = $"Chuva: {chuva} | Umidade: {umidade}% | Vento: {(vento.HasValue ? $"{vento} km/h" : "Sem dados de vento")}";
         }
+
         StartLoading();
         await InvokeAsync(StateHasChanged);
     }
@@ -131,6 +134,9 @@
             if (response != null)
             {
                 Weather = response;
+
+                // Verificar se há dados de chuva e definir a mensagem com valor em mm ou "Sem chuva"
+                chuvaText = Weather.Rain?.OneHour > 0 ? $"{Weather.Rain.OneHour} mm" : "Sem Chuva";
             }
         }
         catch (Exception)
@@ -141,6 +147,7 @@
                     Name = "Erro ao carregar clima",
                     Weather = new List<WeatherDetails> { new WeatherDetails { Icon = "01d" } }
                 };
+            chuvaText = "Erro ao carregar dados de chuva";
         }
     }
 
