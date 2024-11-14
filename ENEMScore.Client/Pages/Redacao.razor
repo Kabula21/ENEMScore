@@ -43,8 +43,15 @@
 
     .line-numbers.dark {
         color: white;
+    }    
+
+    .mud-card:hover {
+        transform: scale(1.03); /* Aumenta o tamanho do card em 5% */
     }
 
+    .mud-card:active {
+        filter: brightness(0.7); /* Escurece o card ao ser clicado */
+    }
 
 </style>
 
@@ -90,14 +97,14 @@
     <MudItem class="mt-4">
         <h2>Preencha seus dados:</h2>
     </MudItem>
-    <MudItem xs="12" sm="3" Class="flex items-center">
+    <MudItem xs="12" sm="3" Class="flex">
         <MudTextField @bind-Value="nomeAluno" Label="Nome do Aluno" Placeholder="Digite seu Nome" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" Variant="Variant.Outlined" Error="@isNomeAlunoError" />
         @if (isNomeAlunoError)
         {
             <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
         }
     </MudItem>
-    <MudItem xs="12" sm="3" Class="flex-shrink-0">
+    <MudItem xs="12" sm="3" Class="flex">
         <MudSelect @bind-Value="ano" Label="Ano" Placeholder="Selecione o Ano" T="int?" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.School" Variant="Variant.Outlined">
             <MudSelectItem T="int?" Value="1">1ª Ano Ensino Médio</MudSelectItem>
             <MudSelectItem T="int?" Value="2">2ª Ano Ensino Médio</MudSelectItem>
@@ -108,7 +115,7 @@
             <MudText Typo="Typo.body2" Color="Color.Error">Campo obrigatório</MudText>
         }
     </MudItem>
-    <MudItem xs="12" sm="3" Class="flex-shrink-0">
+    <MudItem xs="12" sm="3" Class="flex">
         <MudSelect @bind-Value="turma" Label="Turma" T="int?" Placeholder="Selecione a Turma" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Group" Variant="Variant.Outlined">
            <MudSelectItem T="int?" Value="1">Turma A</MudSelectItem>
             <MudSelectItem T="int?" Value="2">Turma B</MudSelectItem>
@@ -141,14 +148,17 @@
 <MudGrid>
     <MudItem xs="12" sm="6" md="4" lg="4">
         <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[0])'
-                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #37474F; cursor: pointer;">
+                 style="position: relative; border-radius: 5px; margin: auto; background-color: #164B60; cursor: pointer; transition: transform 0.3s ease-in-out; height: 170px; display: flex; flex-direction: column;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[0]</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary" Style="overflow: hidden; text-overflow: ellipsis;">
+                        @cardTitles[0]
+                    </MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary">
+            <MudCardContent style="flex-grow: 1; overflow: hidden;"></MudCardContent>
+            <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                <MudText Color="Color.Tertiary" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[0])}")" Target="_blank">
@@ -156,40 +166,43 @@
                         </MudLink>
                     </MudTooltip>
                 </MudText>
-            </MudCardContent>
+            </div>
         </MudCard>
     </MudItem>
+
     <MudItem xs="12" sm="6" md="4" lg="4">
         <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[1])'
-                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #4E342E; cursor: pointer;">
+                 style=" position: relative; border-radius: 5px; margin: auto; background-color: #16423C; cursor: pointer; transition: transform 0.3s ease-in-out; height: 170px; display: flex; flex-direction: column;">
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[1]</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary">
+            <MudCardContent style="flex-grow: 1; overflow: hidden;"></MudCardContent>
+                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                <MudText Color="Color.Tertiary" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[1])}")" Target="_blank">
                             <MudIconButton Icon="@Icons.Material.Filled.Web" Color="Color.Tertiary" />
                         </MudLink>
                     </MudTooltip>
-
                 </MudText>
-            </MudCardContent>
+            </div>
         </MudCard>
     </MudItem>
+
     <MudItem xs="12" sm="6" md="4" lg="4">
         <MudCard @onclick='() => UpdateTextFieldTitle(cardTitles[2])'
-                 style="border-radius: 12px; width: 100%; max-width: 500px; margin: auto; background-color: #004D40; cursor: pointer;">
+                 style=" position: relative;border-radius: 5px; margin: auto; background-color: #0D7C66; cursor: pointer; transition: transform 0.3s ease-in-out; height: 170px; display: flex; flex-direction: column;">
             <MudCardHeader>
                 <CardHeaderContent>
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">@cardTitles[2]</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-                <MudText Color="Color.Tertiary">
+            <MudCardContent style="flex-grow: 1; overflow: hidden;"></MudCardContent>
+                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px;">
+                <MudText Color="Color.Tertiary" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     <i>Para textos de apoio clique -></i>
                     <MudTooltip Text="Textos de Apoio">
                         <MudLink Href="@($"https://www.google.com/search?q={Uri.EscapeDataString(cardTitles[2])}")" Target="_blank">
@@ -197,7 +210,7 @@
                         </MudLink>
                     </MudTooltip>
                 </MudText>
-            </MudCardContent>
+            </div>
         </MudCard>
     </MudItem>
 </MudGrid>
@@ -244,7 +257,7 @@
 
 <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
     <MudButton Variant="Variant.Filled" DropShadow="true" Color="Color.Success" OnClick="@StartProgress"
-        style="width: 150px;">Enviar</MudButton>
+        style="width: 150px;">Avaliar</MudButton>
 </div>
 
 <!-- Sombra de tela inteira quando o botão é clicado -->
