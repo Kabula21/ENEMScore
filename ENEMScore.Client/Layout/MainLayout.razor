@@ -43,13 +43,28 @@
                     <span class="ml-3 text-white">
                         @if (Weather != null && Weather.Main != null)
                         {
-                            var temperature = Math.Round(Weather.Main.Temp); // Arredonda a temperatura
-                            var city = Weather.Name ?? "Aracaju"; // Define o nome da cidade ou usa "Aracaju" como padrão
-                            var iconUrl = $"https://openweathermap.org/img/wn/{Weather.Weather.FirstOrDefault()?.Icon}@2x.png"; // URL do ícone
+                            // Arredonda a temperatura
+                            var temperature = Math.Round(Weather.Main.Temp);
 
+                            // Define a cidade ou usa "Aracaju" como padrão
+                            var city = Weather.Name ?? "Aracaju";
+
+                            // Obtém o código do ícone da API
+                            var iconCode = Weather.Weather.FirstOrDefault()?.Icon;
+
+                            // Verifica se o código do ícone está presente; usa um ícone padrão se não estiver
+                            var iconUrl = !string.IsNullOrEmpty(iconCode)
+                            ? $"https://openweathermap.org/img/wn/{iconCode}@2x.png"
+                            : "https://openweathermap.org/img/wn/01d@2x.png";
+
+                            // Exibe o ícone e os dados de temperatura
                             <img src="@iconUrl" alt="Weather Icon"
                                  style="width:50px; height:50px; vertical-align: middle;" />
                             <span>@($"{temperature}°C {city}")</span>
+                        }
+                        else
+                        {
+                            <span>Clima indisponível</span>
                         }
                     </span>
                 </MudTooltip>
@@ -142,21 +157,18 @@
             {
                 Weather = response;
 
-                // Verificar se há dados de chuva e definir a mensagem com valor em mm ou "Sem chuva"
-                chuvaText = Weather.Rain?.OneHour > 0 ? $"{Weather.Rain.OneHour} mm" : "Sem Chuva";
+                // Logs para depuração
+                Console.WriteLine($"Temperatura: {Weather.Main.Temp}");
+                Console.WriteLine($"Icon Code: {Weather.Weather.FirstOrDefault()?.Icon}");
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Weather = new WeatherResponse
-                {
-                    Main = new Main { Temp = 0 },
-                    Name = "Erro ao carregar clima",
-                    Weather = new List<WeatherDetails> { new WeatherDetails { Icon = "01d" } }
-                };
-            chuvaText = "Erro ao carregar dados de chuva";
+            Console.WriteLine("Erro ao carregar dados da API:");
+            Console.WriteLine(ex.Message);
         }
     }
+
 
     public void Dispose()
     {
